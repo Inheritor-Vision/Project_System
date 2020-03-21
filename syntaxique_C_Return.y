@@ -1,0 +1,191 @@
+%{
+	#include <stdio.h>
+	#include <stdlib.h>
+	#include <string.h>
+	#include "symboltable.h"
+	
+	int yydebug = 1;
+	int yyerror(char *s);
+	int yylex();
+	void write_int(int);
+	void write_endl();
+	void writeln_str(char*);
+	void addVarray(char*);
+	void freeAllVarray();
+	char * strdup( const char * source );
+	FILE * f;
+	typedef struct {
+    	char** tab;
+    	int size;
+	} Varray;
+	Varray *RepVars;
+    
+%}
+
+
+%token tInt tMain tReturn tPrintf tConst tVoid tAdd tSub tMul 
+%token tEqu tSC tDiv tOCB tCCB tORB tCRB tComma tCR tVar 
+%token tValInt tDecVal tExpVal
+
+%left tAdd tSub
+%left tMul tDiv
+%start S
+%union
+{
+    int integerValue;
+    char *stringValue;
+};
+%%
+S: Main Body;
+
+
+Main:
+	tMain tORB tVoid tCRB {}
+	| tMain tORB tCRB {};
+
+
+Body: 
+	tOCB Instructions tReturn tValInt tSC tCRB {}
+	| tOCB Instructions tCCB {};
+
+Instructions: 
+	Instruction Instructions {}
+	| {};
+
+Instruction: 
+	Assign {}
+	| Initialize {}
+	| Declare {}
+	| tPrintf tORB tVar tCRB tSC {};
+
+	
+Assign:
+	tVar tEqu Expression tSC {
+		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
+		write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();};
+
+
+RepInitialize:
+	tVar {addVarray($<stringValue>1);}
+	| tVar tComma RepInitialize {addVarray($<stringValue>1);};
+
+Initialize:
+	  tInt RepInitialize tEqu Expression tSC {
+		  for(int i = 0; i < RepVars->size; i++){
+			  fprintf(f,"%%Initialize var:%s\n",RepVars->tab[i]);
+			  write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			}
+			freeAllVarray();
+		}
+	| tInt tConst RepInitialize tEqu Expression tSC {
+		for(int i = 0; i < RepVars->size; i++){
+				fprintf(f,"%%Initialize var:%s\n",RepVars->tab[i]);
+			  	write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+			}
+			freeAllVarray();
+	};
+
+ 
+
+Repdeclare: 
+	  tVar tComma Repdeclare {addVarray($<stringValue>1);}
+	| tVar tSC {addVarray($<stringValue>1);};
+
+Declare:
+	tInt Repdeclare {
+		for(int i = 0; i < RepVars->size; i++){
+			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
+		}
+		freeAllVarray();
+	}
+	| tInt tConst Repdeclare {
+		for(int i = 0; i < RepVars->size; i++){
+			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
+		}
+		freeAllVarray();
+	};
+
+IntegerValue:
+	  tValInt {$<integerValue>$ = $<integerValue>1;}
+	| tDecVal {}
+	| tExpVal {};
+Expression:
+	  IntegerValue {
+		  	fprintf(f,"%%Load value in R0\n");
+ 			write_int(6); write_int(0); write_int($<integerValue>1); write_endl();
+			$<integerValue>$ = 0;
+	  }
+	| tVar {
+			fprintf(f,"%%Recover %s and Load value in R0\n", $<stringValue>1);
+ 			write_int(7); write_int(0); write_int(get_local_var_addr($<stringValue>1)); write_endl();
+			$<integerValue>$ = 1;
+	}
+	| Expression tAdd Expression {}
+	| Expression tSub Expression {}
+	| Expression tMul Expression {}
+	| Expression tDiv Expression {}
+	| tSub Expression %prec tMul {}
+	| tAdd Expression %prec tMul {}
+	| tORB Expression tCRB {};
+
+%%
+void write_int(int a){
+	fprintf(f, "%d ", a);
+}
+
+void writeln_str(char* a){
+	fprintf(f, "%s\n", a);
+}
+
+void write_endl(){
+	fprintf(f,"\n");
+}
+
+void addVarray(char* a){
+    RepVars->size++;
+    RepVars->tab = (char**)realloc(RepVars->tab,RepVars->size * sizeof(char*));
+	
+	RepVars->tab[RepVars->size-1] = strdup(a);
+}
+
+void freeAllVarray(){
+	for(int i = 0; i<RepVars->size; i++){
+		free(RepVars->tab[i]);
+	}
+    free(RepVars->tab);
+    free(RepVars);
+	RepVars = malloc(sizeof(Varray));
+    RepVars->size = 0;
+    RepVars->tab = malloc(sizeof(char**));
+}
+
+
+
+
+
+int yyerror(char *s){
+	printf("%s\n",s);
+	exit(1);
+}
+int main(void){
+	printf("\nDebut de l'analyse syntaxique\n");
+	//init vars locals
+	init();
+	//init RepVars
+	RepVars = (Varray*) malloc(sizeof(Varray));
+    RepVars->size = 0;
+    RepVars->tab = (char**) malloc(sizeof(char*));
+
+	f = fopen("compil.asm","w");
+	if (f == NULL){
+		printf("unable to open file");
+		exit(EXIT_FAILURE);
+	}
+	yyparse();
+	
+	fclose(f);
+
+	printf("\nFin de l'analyse syntaxique\n\n");
+}
+
+

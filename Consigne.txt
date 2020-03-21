@@ -1,0 +1,22 @@
+analyseur lexical -> syntaxique -> sémantique
+lexical : lex
+    |__> declaration/regle/code séparé par "%%"
+    cf p13
+    *(0-nfois)  +(1-nfois) ?(0ou1fois) |(alternatif) ^abc(tous sauf abd)qd entre[] | debut de ligne $(fin de ligne)
+    ""(considérécommetexte: contre les +)
+    
+    tOB /= tCB
+
+
+
+
+lex lexical_C_Return.l
+yacc -d syntaxique_C_Printf.y --verbose ((((( --debug)))))
+gcc y.tab.c lex.yy.c -o compil.exe
+
+https://github.com/NyuB/INSA_Compilateur
+
+
+Initialize:
+	  tInt Assign {printf(" Initialize ");}
+	| tInt tConst Assign {printf(" Initialize ");};
