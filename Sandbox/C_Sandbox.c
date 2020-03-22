@@ -29,28 +29,18 @@ int main(){
     
 
     init();
-
-    
-
-    for (int i = 0; i < 3; i++){
-        //tab[i] = malloc((i+1) * sizeof(char));
-        if (i == 0){
-            printf("%d ???\n", set_var_to_local_int("ptdr",false,false,2));
-        }else if (i == 1)  {
-            printf("%d ???\n", set_var_to_local_int("mot",false,false,2));
-        }else{
-            printf("%d ???\n", set_var_to_local_int("tiki",false,false,2));
-        }
-        printf("%s\n", var->tab[i].varname);
-    }
-    printf("%d ???\n", set_var_to_local_int("lolxD",false,false,2));
-    printf("%s\n", var->tab[3].varname);
-    printf("%d ???\n", set_var_to_local_int("mot",false,false,2));
-    printf("%s\n", var->tab[1].varname);
-    printf("%d ???\n", set_var_to_local_int("abc",false,false,2));
-    printf("%s\n", var->tab[4].varname);
-    printf("%d\n", get_local_var_addr("ptdr"));
-
+    set_var_to_local_int("ptdr",true,true,0);
+    set_var_to_local_int("LOLXd",false,true,1);
+    set_var_to_local_int("TIKI",true,false,1);
+    set_var_to_local_int("mdr",false,false,0);
+    set_var_to_local_int("pilip",true,true,3);
+    set_var_to_local_int("vozion",true,true,0);
+    set_var_to_local_int("ophCourse",false,true,9);
+    printAll();
+    decrementeDepth();
+    printAll();
+    set_var_to_local_int("dieu",true,true,9);
+    printAll();
     /*RepVars = malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(int*));
