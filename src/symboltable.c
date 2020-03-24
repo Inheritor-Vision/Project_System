@@ -2,12 +2,14 @@
 #include <string.h>
 #include <stdio.h>
 #include "symboltable.h"
+extern void initTvartable(void);
 
 
 void init(){
     var = (Array*)malloc(sizeof(Array));
     var->size = 0;
     var->nbvar = 0;
+    initTvartable();
     //var->tab = (lvar*) malloc(sizeof(lvar));
 }
 
@@ -206,7 +208,6 @@ void decrementeDepth(){
         }
     }
     int dels = 0;
-    int temp = 0;
 
     while(index){
         if(del[index-1] != var->size - 1 -  dels){
@@ -232,11 +233,9 @@ void printAll(){
     printf("|     varname     |     address     | cst | init | depth |\n");
     for (int a = 0; a<var->size; a++){
         char str1[18] = {"                 "};
-        char str2[18];
         strncpy(str1, var->tab[a].varname,strlen(var->tab[a].varname));
-        sprintf(str2, "%d             ", var->tab[a].address);
         printf("----------------------------------------------------------\n");
-        printf("|%s|%s|%d    |%d     |%d      |\n",str1,str2,var->tab[a].cst,var->tab[a].init,var->tab[a].depth);
+        printf("|%-17s|%-17d|%d    |%d     |%-7d|\n",str1,var->tab[a].address,var->tab[a].cst,var->tab[a].init,var->tab[a].depth);
         
 
     }

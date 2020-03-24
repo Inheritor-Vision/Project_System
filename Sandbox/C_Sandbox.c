@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../src/symboltable.h"
+#include "../src/tvartable.h"
 
 
 //Varray *RepVars;
@@ -22,6 +23,18 @@ void freeAllVarray(){
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(int*));
 }*/
+FILE *f;
+void write_int(int a){
+	fprintf(f, "%d ", a);
+}
+
+void writeln_str(char* a){
+	fprintf(f, "%s\n", a);
+}
+
+void write_endl(){
+	fprintf(f,"\n");
+}
 
 
 
@@ -29,6 +42,12 @@ int main(){
     
 
     init();
+
+    f = fopen("compil.asm","w");
+	if (f == NULL){
+		printf("unable to open file");
+		exit(EXIT_FAILURE);
+	}
     set_var_to_local_int("ptdr",true,true,0);
     set_var_to_local_int("LOLXd",false,true,1);
     set_var_to_local_int("TIKI",true,false,1);
@@ -41,6 +60,17 @@ int main(){
     printAll();
     set_var_to_local_int("dieu",true,true,9);
     printAll();
+    
+
+
+    addTVarFromVal(10);
+    addTVarFromVal(11);
+    addTVarFromOperation(add,addTVarFromVal(12),addTVarFromVal(13));
+    printAllTvar();
+    delLastVal();
+    printAllTvar();
+    addTVarFromVal(14);
+    printAllTvar();
     /*RepVars = malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(int*));

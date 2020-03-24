@@ -3,6 +3,7 @@
 	#include <stdlib.h>
 	#include <string.h>
 	#include "src/symboltable.h"
+	#include "src/tvartable.h"
 	
 	int yydebug = 1;
 	int yyerror(char *s);
@@ -62,6 +63,7 @@ Instruction:
 Assign:
 	tVar tEqu Expression tSC {
 		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
+		write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
 		write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();};
 
 
@@ -72,14 +74,16 @@ RepInitialize:
 Initialize:
 	  tInt RepInitialize tEqu Expression tSC {
 		  for(int i = 0; i < RepVars->size; i++){
-			  fprintf(f,"%%Initialize var:%s\n",RepVars->tab[i]);
+			  fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
+			  write_int(7);write_int(0);write_int($<integerValue>4);write_endl();
 			  write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 		}
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-				fprintf(f,"%%Initialize var:%s\n",RepVars->tab[i]);
+				fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
+				write_int(7);write_int(0);write_int($<integerValue>5);write_endl();
 			  	write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
@@ -111,22 +115,24 @@ IntegerValue:
 	| tExpVal {};
 Expression:
 	  IntegerValue {
-		  	fprintf(f,"%%Load value in R0\n");
- 			write_int(6); write_int(0); write_int($<integerValue>1); write_endl();
-			$<integerValue>$ = 0;
+		  	$<integerValue>$ = addTVarFromVal($<integerValue>1);
 	  }
 	| tVar {
-			fprintf(f,"%%Recover %s and Load value in R0\n", $<stringValue>1);
- 			write_int(7); write_int(0); write_int(get_local_var_addr($<stringValue>1)); write_endl();
-			$<integerValue>$ = 1;
+
+			$<integerValue>$ = addTVarfromLVar(get_local_var_addr($<stringValue>1));
 	}
-	| Expression tAdd Expression {}
-	| Expression tSub Expression {}
-	| Expression tMul Expression {}
-	| Expression tDiv Expression {}
+	| Expression tAdd Expression {
+		$<integerValue>$ = addTVarFromOperation(add,$<integerValue>1, $<integerValue>3);
+	}
+	| Expression tSub Expression {
+		$<integerValue>$ = addTVarFromOperation(sub,$<integerValue>1, $<integerValue>3);}
+	| Expression tMul Expression {
+		$<integerValue>$ = addTVarFromOperation(mul,$<integerValue>1, $<integerValue>3);}
+	| Expression tDiv Expression {
+		$<integerValue>$ = addTVarFromOperation(divi,$<integerValue>1, $<integerValue>3);}
 	| tSub Expression %prec tMul {}
 	| tAdd Expression %prec tMul {}
-	| tORB Expression tCRB {};
+	| tORB Expression tCRB {$<integerValue>$ = $<integerValue>1;};
 
 %%
 void write_int(int a){
