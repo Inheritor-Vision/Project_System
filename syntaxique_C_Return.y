@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
-	#include "symboltable.h"
+	#include "src/symboltable.h"
 	
 	int yydebug = 1;
 	int yyerror(char *s);
