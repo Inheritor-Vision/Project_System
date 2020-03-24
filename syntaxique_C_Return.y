@@ -64,7 +64,9 @@ Assign:
 	tVar tEqu Expression tSC {
 		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
 		write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
-		write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();};
+		write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();
+		delLastVal();};
+		
 
 
 RepInitialize:
@@ -79,6 +81,7 @@ Initialize:
 			  write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
+			delLastVal();
 		}
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
@@ -87,6 +90,7 @@ Initialize:
 			  	write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
+			delLastVal();
 	};
 
  

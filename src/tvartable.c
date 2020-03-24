@@ -9,7 +9,7 @@ void initTvartable(){
 int addTVarFromVal(int value){
     lvt->size++;
     lvt->tvar = realloc(lvt->tvar, sizeof(int) *  lvt->size);
-    lvt->tvar[lvt->size-1] = lvt->size * 4 + 4000;
+    lvt->tvar[lvt->size-1] = (lvt->size-1) * 4 + 4000;
     fprintf(f,"%%Store value %d dans la tvar %d\n", value, lvt->tvar[lvt->size-1]);
     write_int(6);write_int(0);write_int(value);write_endl();
     write_int(8);write_int(lvt->tvar[lvt->size-1]);write_int(0);write_endl();
@@ -19,7 +19,7 @@ int addTVarFromVal(int value){
 int addTVarfromLVar(int addr){
     lvt->size++;
     lvt->tvar = realloc(lvt->tvar, sizeof(int) *  lvt->size);
-    lvt->tvar[lvt->size-1] = lvt->size * 4 + 4000;
+    lvt->tvar[lvt->size-1] = (lvt->size-1) * 4 + 4000;
     fprintf(f,"%%Store value %d de lvar dans la tvar %d\n", addr, lvt->tvar[lvt->size-1]);
     write_int(7);write_int(0);write_int(addr);write_endl();
     write_int(8);write_int(lvt->tvar[lvt->size-1]);write_int(0);write_endl();
