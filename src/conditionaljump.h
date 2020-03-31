@@ -2,15 +2,23 @@
 #define CONDITIONALJUMP_H_
 
 typedef struct{
-int* liste;
-int size;
-}cjl;
+    char* op;
+    int from;
+    int to;
+    int pos;
+}patchStruct;
 
-cjl *CondJumpList;
+typedef struct{
+patchStruct* liste;
+int size;
+}patch;
+
+patch *CondJumpList;
 
 void initCondJump(void);
-void pushCondJump(int a);
-int popCondJump(void);
+int pushCondJump(char *op,int from,int pos);
+void modifyLast(int index,int to);
+/*void popCondJump(void);*/
 void printAllCondJump(void);
 
 #endif

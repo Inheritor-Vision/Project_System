@@ -3,7 +3,8 @@
 #include <string.h>
 #include "../src/symboltable.h"
 #include "../src/tvartable.h"
-#include "../src/ConditionalJump.h"
+#include "../src/conditionaljump.h"
+#include "../src/write.h"
 
 
 //Varray *RepVars;
@@ -79,17 +80,20 @@ int main(){
     addVarray(7);
     printf("%d\n",RepVars->tab[1]);*/
 
-    pushCondJump(25);
-    pushCondJump(666);
-    pushCondJump(420);
-    pushCondJump(696969);
+    int a = pushCondJump("JMP",10);
+    int b =pushCondJump("JMF",20);
+    int c =pushCondJump("JMP",30);
+    int d =pushCondJump("JMF",40);
     printAllCondJump();
-    printf("RES: %d\n", popCondJump());
+    modifyLast(d,13);
     printAllCondJump();
-    pushCondJump(420);
-    pushCondJump(696969);
-    pushCondJump(696969);
+    int e =pushCondJump("JMP",50);
+    int f =pushCondJump("JMF",60);
+    int g =pushCondJump("JMP",70);
+    modifyLast(g,15);
+    modifyLast(e,17);
     printAllCondJump();
+   
 
 
     

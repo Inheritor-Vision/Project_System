@@ -2,11 +2,7 @@
 #define TVARTABLE_H_
 #include <stdio.h>
 
-extern FILE * f;
-extern void write_int(int);
-extern void writeln_str(char*);
-extern void write_endl();
-extern void write_ligne();
+
 
 typedef enum{ add,sub,mul,divi} op;
 

@@ -6,6 +6,7 @@
 	#include "src/tvartable.h"
 	#include "src/write.h"
 	#include "src/conditionaljump.h"
+	#include "src/operation.h"
 	
 	int yydebug = 1;
 	int yyerror(char *s);
@@ -65,14 +66,25 @@ Instruction:
 	| ConditionnalJump;
 
 ConditionnalJump:
-	tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf {}
-	| tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf tElse InitIf Instructions EndIf{};
+	tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf {
+		modifyLast($<integerValue>7,$<integerValue>9);
+		printAllCondJump();}
+	| tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf InitIf Instructions EndIf{
+		modifyLast($<integerValue>7,$<integerValue>9+1);
+		modifyLast($<integerValue>10,$<integerValue>12);
+		printAllCondJump();};
 
 InitIf:
-	tOCB {printAll();incrementeDepth();printAll();};
+	tOCB {
+		incrementeDepth();
+		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();}
+	| tElse tOCB {
+		incrementeDepth();
+		$<integerValue>$ = pushCondJump(JMP,ligneCom,ligne);write_endl();
+	};
 
 EndIf:
-	tCCB {printAll();decrementeDepth();printAll();};
+	tCCB {decrementeDepth();$<integerValue>$ = ligneCom;};
 
 ComparaisonOperator:
 	tSup
@@ -84,9 +96,9 @@ ComparaisonOperator:
 	
 Assign:
 	tVar tEqu Expression tSC {
-		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
-		write_ligne();write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
-		write_ligne();write_int(8); write_int(assign_var_to_local_int($<stringValue>1)); write_int(0);write_endl();
+		write_str("%%Assignation var: %s\n",$<stringValue>1);
+		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>3);write_endl();
+		write_ligne();write_char(STR); write_int(assign_var_to_local_int($<stringValue>1)); write_int(0);write_endl();
 		delLastVal();};
 		
 
@@ -98,18 +110,18 @@ RepInitialize:
 Initialize:
 	  tInt RepInitialize tEqu Expression tSC {
 		  for(int i = 0; i < RepVars->size; i++){
-			  fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
-			  write_ligne();write_int(7);write_int(0);write_int($<integerValue>4);write_endl();
-			  write_ligne();write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			  write_str("%%Initialize var: %s\n",RepVars->tab[i]);
+			  write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>4);write_endl();
+			  write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
 		}
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-				fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
-				write_ligne();write_int(7);write_int(0);write_int($<integerValue>5);write_endl();
-			  	write_ligne();write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+				write_str("%%Initialize var: %s\n",RepVars->tab[i]);
+				write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
+			  	write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
@@ -205,7 +217,34 @@ int main(void){
 	yyparse();
 	
 	fclose(f);
-
+	f = fopen("compil.asm","r");
+	FILE * ftemp = fopen("temp.tmp","w");
+	if(ftemp == NULL || f == NULL){
+		 printf("\nUnable to open file temp.tmp or compil.asm for patching.\n");
+		 exit(EXIT_FAILURE);
+	}
+	int count = 0;
+	int indexPatch = 0;
+	char* laligne;
+	size_t len = 0;
+	while((getline(&laligne,&len, f)) != -1){
+		if(count == CondJumpList->liste[indexPatch].from){
+			char yo[254];
+			sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
+			fprintf(ftemp,"%s\n",yo);
+			if(indexPatch+1 != CondJumpList->size){
+				indexPatch++;
+			}
+		}else{
+			fprintf(ftemp,"%s",laligne);
+		}
+		
+		count++;
+	}
+	fclose(f);
+	fclose(ftemp);
+	remove("compil.asm");
+	rename("temp.tmp", "compil.asm");
 	printf("\nFin de l'analyse syntaxique\n\n");
 }
 
