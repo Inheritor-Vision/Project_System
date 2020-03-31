@@ -1807,7 +1807,7 @@ void freeAllVarray(){
 
 
 int yyerror(char *s){
-	printf("%s\n",s);
+	printf("Default Error:  \"%s\"\n",s);
 	exit(1);
 }
 int main(void){
