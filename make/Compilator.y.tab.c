@@ -1768,11 +1768,11 @@ yyreturn:
 #line 143 "syntaxique_C_Return.y" /* yacc.c:1906  */
 
 void write_int(int a){
-	fprintf(f, "%d ", a);
+	fprintf(f, "%-9d ", a);
 }
 
 void write_ligne(){
-	fprintf(f, "%d ", ligne);
+	fprintf(f, "%-9d ", ligne);
 	ligne ++;
 }
 
