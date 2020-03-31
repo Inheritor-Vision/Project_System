@@ -38,6 +38,13 @@ return {return(tReturn);}
 printf {return(tPrintf);}
 const {return(tConst);}
 void {return(tVoid);}
+if {return(tIf);}
+else { return(tElse);}
+">=" {return(tSupEqu);}
+"<=" {return(tInfEqu);}
+"==" {return(tEquEqu);}
+">" {return(tSup);}
+"<" {return(tInf);}
 "+" {return(tAdd);}
 "-" {return(tSub);}
 "*" {return(tMul);}
@@ -49,6 +56,7 @@ void {return(tVoid);}
 "(" {return(tORB);}
 ")" {return(tCRB);}
 "," {return(tComma);}
+
 
 \n {} 
 [A-Za-z][A-Za-z0-9_]*  {yylval.stringValue = strdup(yytext);return(tVar);}

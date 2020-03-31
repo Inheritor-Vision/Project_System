@@ -28,7 +28,8 @@
 
 %token tInt tMain tReturn tPrintf tConst tVoid tAdd tSub tMul 
 %token tEqu tSC tDiv tOCB tCCB tORB tCRB tComma tCR tVar 
-%token tValInt tDecVal tExpVal
+%token tValInt tDecVal tExpVal tIf tElse tEquEqu tSupEqu tInfEqu
+%token tSup tInf 
 
 %left tAdd tSub
 %left tMul tDiv
@@ -39,17 +40,19 @@
     char *stringValue;
 };
 %%
-S: Main Body;
+S: Main Body ;
 
 
 Main:
 	tMain tORB tVoid tCRB {}
-	| tMain tORB tCRB {};
+	| tMain tORB tCRB {}
+	| {fprintf(stderr,"Error: No main detected, maybe ( or ) missing\n");exit(3);};
 
 
 Body: 
 	tOCB Instructions tReturn tValInt tSC tCRB {}
-	| tOCB Instructions tCCB {};
+	| tOCB Instructions tCCB {}
+	| {fprintf(stderr,"Error: No body detected, maybe  { or } missing\n");exit(3);};
 
 Instructions: 
 	Instruction Instructions {}
@@ -59,7 +62,19 @@ Instruction:
 	Assign {}
 	| Initialize {}
 	| Declare {}
-	| tPrintf tORB tVar tCRB tSC {};
+	| tPrintf tORB tVar tCRB tSC {}
+	| ConditionnalJump;
+
+ConditionnalJump:
+	tIf tORB Expression ComparaisonOperator Expression tCRB tOCB Instructions tCCB {printf("if\n");}
+	| tIf tORB Expression ComparaisonOperator Expression tCRB tOCB Instructions tCCB tElse tOCB Instructions tCCB{printf("if/else\n");};
+
+ComparaisonOperator:
+	tSup
+	|tInf
+	|tSupEqu
+	|tInfEqu
+	|tEquEqu;
 
 	
 Assign:

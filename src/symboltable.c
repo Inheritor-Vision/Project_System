@@ -117,7 +117,7 @@ int initialize_var_to_local_int(char* a, bool cst, bool init, int depth){
     int res = -1;
     while(!fin && index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
-            printf("ERROR initialize_var_to_local_int1\n");
+            printf("ERROR initialize_var_to_local_int1 de : %s\n", a);
             fin = 1;
         }
         index ++;
