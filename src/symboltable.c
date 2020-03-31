@@ -2,7 +2,9 @@
 #include <string.h>
 #include <stdio.h>
 #include "symboltable.h"
+#include "ConditionalJump.h"
 extern void initTvartable(void);
+extern void initCondJump(void);
 
 
 void init(){
@@ -10,6 +12,7 @@ void init(){
     var->size = 0;
     var->nbvar = 0;
     initTvartable();
+    initCondJump();
     //var->tab = (lvar*) malloc(sizeof(lvar));
 }
 

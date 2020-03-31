@@ -1,13 +1,14 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "ConditionalJump.h"
-void init(){
+void initCondJump(){
     CondJumpList = (cjl*) malloc(sizeof(cjl));
     CondJumpList->size = 0;
 }
 void pushCondJump(int a){
     CondJumpList->size++;
     CondJumpList->liste = (int*) realloc(CondJumpList->liste, sizeof(int)* CondJumpList->size);
-    CondJumpList->liste[CondJumpList->size] = a;
+    CondJumpList->liste[CondJumpList->size-1] = a;
 
 }
 int popCondJump(){
@@ -22,4 +23,14 @@ int popCondJump(){
     
 
     return res;
+}
+
+void printAllCondJump(){
+    printf("-------------------\n");
+    printf("|  index  |  value  |\n");
+    for (int a = 0; a < CondJumpList->size; a++){
+        printf("-------------------\n");
+        printf("|%-9d|%-9d|\n", a, CondJumpList->liste[a]);
+    }
+    printf("-------------------\n");
 }

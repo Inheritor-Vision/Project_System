@@ -3,8 +3,8 @@ all:  Compilator.exe Comprintlator.exe clean
 Comprintlator.exe: Comprintlator.y.tab.c Compilator.lex.yy.c 
 	gcc Comprintlator.y.tab.c Compilator.lex.yy.c -o Comprintlator.exe -std=c11 -Wall -Wextra -g
 
-Compilator.exe: Compilator.y.tab.c Compilator.lex.yy.c 
-	gcc Compilator.y.tab.c Compilator.lex.yy.c src/symboltable.c src/tvartable.c -o Compilator.exe -std=c11 -Wall -Wextra -g
+Compilator.exe: Compilator.y.tab.c Compilator.lex.yy.c src/symboltable.c src/tvartable.c src/ConditionalJump.c src/write.c
+	gcc Compilator.y.tab.c Compilator.lex.yy.c src/symboltable.c src/tvartable.c src/ConditionalJump.c src/write.c -o Compilator.exe -std=c11 -Wall -Wextra -g
 
 Comprintlator.y.tab.c: syntaxique_C_Printf.y 
 	yacc -d syntaxique_C_Printf.y -o Comprintlator.y.tab.c

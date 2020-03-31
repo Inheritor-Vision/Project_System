@@ -8,15 +8,10 @@
 	int yydebug = 1;
 	int yyerror(char *s);
 	int yylex();
-	void write_int(int);
-	void write_endl();
-	void writeln_str(char*);
-	void write_ligne();
 	void addVarray(char*);
 	void freeAllVarray();
-	int ligne;
 	char * strdup( const char * source );
-	FILE * f;
+
 	typedef struct {
     	char** tab;
     	int size;
@@ -156,22 +151,7 @@ Expression:
 	| tORB Expression tCRB {$<integerValue>$ = $<integerValue>1;};
 
 %%
-void write_int(int a){
-	fprintf(f, "%-9d ", a);
-}
 
-void write_ligne(){
-	fprintf(f, "%-9d ", ligne);
-	ligne ++;
-}
-
-void writeln_str(char* a){
-	fprintf(f, "%s\n", a);
-}
-
-void write_endl(){
-	fprintf(f,"\n");
-}
 
 void addVarray(char* a){
     RepVars->size++;
@@ -203,7 +183,6 @@ int main(void){
 
 	printf("\nDebut de l'analyse syntaxique\n");
 
-	ligne = 12000;
 	//init vars locals
 	init();
 	//init RepVars
@@ -212,11 +191,7 @@ int main(void){
     RepVars->tab = (char**) malloc(sizeof(char*));
 
 
-	f = fopen("compil.asm","w");
-	if (f == NULL){
-		printf("unable to open file");
-		exit(EXIT_FAILURE);
-	}
+	
 	yyparse();
 	
 	fclose(f);

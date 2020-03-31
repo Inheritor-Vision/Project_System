@@ -8,8 +8,9 @@ int size;
 
 cjl *CondJumpList;
 
-void init();
+void initCondJump(void);
 void pushCondJump(int a);
-int popCondJump();
+int popCondJump(void);
+void printAllCondJump(void);
 
 #endif

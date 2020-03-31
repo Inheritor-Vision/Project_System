@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../src/symboltable.h"
 #include "../src/tvartable.h"
+#include "../src/ConditionalJump.h"
 
 
 //Varray *RepVars;
@@ -23,18 +24,6 @@ void freeAllVarray(){
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(int*));
 }*/
-FILE *f;
-void write_int(int a){
-	fprintf(f, "%d ", a);
-}
-
-void writeln_str(char* a){
-	fprintf(f, "%s\n", a);
-}
-
-void write_endl(){
-	fprintf(f,"\n");
-}
 
 
 
@@ -43,7 +32,7 @@ int main(){
 
     init();
 
-    f = fopen("compil.asm","w");
+    /*f = fopen("compil.asm","w");
 	if (f == NULL){
 		printf("unable to open file");
 		exit(EXIT_FAILURE);
@@ -70,7 +59,7 @@ int main(){
     delLastVal();
     printAllTvar();
     addTVarFromVal(14);
-    printAllTvar();
+    printAllTvar();*/
     /*RepVars = malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(int*));
@@ -89,6 +78,19 @@ int main(){
     printf("%d\n",RepVars->tab[0]);
     addVarray(7);
     printf("%d\n",RepVars->tab[1]);*/
+
+    pushCondJump(25);
+    pushCondJump(666);
+    pushCondJump(420);
+    pushCondJump(696969);
+    printAllCondJump();
+    printf("RES: %d\n", popCondJump());
+    printAllCondJump();
+    pushCondJump(420);
+    pushCondJump(696969);
+    pushCondJump(696969);
+    printAllCondJump();
+
 
     
 }
