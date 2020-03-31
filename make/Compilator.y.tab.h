@@ -112,7 +112,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 33 "syntaxique_C_Return.y" /* yacc.c:1909  */
+#line 37 "syntaxique_C_Return.y" /* yacc.c:1909  */
 
     int integerValue;
     char *stringValue;

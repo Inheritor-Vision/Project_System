@@ -2,7 +2,8 @@
 #include <string.h>
 #include <stdio.h>
 #include "symboltable.h"
-#include "ConditionalJump.h"
+#include "conditionaljump.h"
+#include "write.h"
 extern void initTvartable(void);
 extern void initCondJump(void);
 
@@ -13,6 +14,7 @@ void init(){
     var->nbvar = 0;
     initTvartable();
     initCondJump();
+    initWrite();
     //var->tab = (lvar*) malloc(sizeof(lvar));
 }
 
@@ -48,7 +50,7 @@ int set_var_to_local_int(char* a, bool cst, bool init, int depth){
     return res;
 }
 
-int assign_var_to_local_int(char* a, int depth){
+int assign_var_to_local_int(char* a){
     int fin = 0;
     int index = 0;
     int res = -1;
@@ -56,14 +58,15 @@ int assign_var_to_local_int(char* a, int depth){
         if (!strcmp(var->tab[index].varname, a)){
             if(var->tab[index].cst == false){
                 var->tab[index].init = true;
-                var->tab[index].depth = depth;
+                var->tab[index].depth = var->tab[index].depth;
                 res = var->tab[index].address;
             }else{
                 if(var->tab[index].init == true){
-                    printf("ERROR assign_var_to_local_int\n");
+                    printf("ERROR assign_var_to_local_int1\n");
+                    exit(4);
                 }else{
                     var->tab[index].init = true;
-                    var->tab[index].depth = depth;
+                    var->tab[index].depth = var->tab[index].depth;
                     res = var->tab[index].address;
                 }
             }
@@ -72,7 +75,7 @@ int assign_var_to_local_int(char* a, int depth){
         index ++;
     }
     if (!fin){
-        printf("ERROR assign_var_to_local_int\n");
+        printf("ERROR assign_var_to_local_int2\n");
     }
     return res;
 }
@@ -91,7 +94,7 @@ int get_local_var_addr(char* a){
         index ++;
     }
     if (!fin){
-        printf("ERROR get_local_var_addr\n");
+        printf("ERROR get_local_var_addr de:%s\n", a);
     }
     return res;
 }

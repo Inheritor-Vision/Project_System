@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "ConditionalJump.h"
+#include "conditionaljump.h"
 void initCondJump(){
     CondJumpList = (cjl*) malloc(sizeof(cjl));
     CondJumpList->size = 0;

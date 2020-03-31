@@ -4,6 +4,8 @@
 	#include <string.h>
 	#include "src/symboltable.h"
 	#include "src/tvartable.h"
+	#include "src/write.h"
+	#include "src/conditionaljump.h"
 	
 	int yydebug = 1;
 	int yyerror(char *s);
@@ -11,6 +13,8 @@
 	void addVarray(char*);
 	void freeAllVarray();
 	char * strdup( const char * source );
+	extern FILE * f;
+
 
 	typedef struct {
     	char** tab;
@@ -61,8 +65,14 @@ Instruction:
 	| ConditionnalJump;
 
 ConditionnalJump:
-	tIf tORB Expression ComparaisonOperator Expression tCRB tOCB Instructions tCCB {printf("if\n");}
-	| tIf tORB Expression ComparaisonOperator Expression tCRB tOCB Instructions tCCB tElse tOCB Instructions tCCB{printf("if/else\n");};
+	tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf {}
+	| tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf tElse InitIf Instructions EndIf{};
+
+InitIf:
+	tOCB {printAll();incrementeDepth();printAll();};
+
+EndIf:
+	tCCB {printAll();decrementeDepth();printAll();};
 
 ComparaisonOperator:
 	tSup
@@ -76,7 +86,7 @@ Assign:
 	tVar tEqu Expression tSC {
 		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
 		write_ligne();write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
-		write_ligne();write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();
+		write_ligne();write_int(8); write_int(assign_var_to_local_int($<stringValue>1)); write_int(0);write_endl();
 		delLastVal();};
 		
 
