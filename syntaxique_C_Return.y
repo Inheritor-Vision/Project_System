@@ -11,8 +11,10 @@
 	void write_int(int);
 	void write_endl();
 	void writeln_str(char*);
+	void write_ligne();
 	void addVarray(char*);
 	void freeAllVarray();
+	int ligne;
 	char * strdup( const char * source );
 	FILE * f;
 	typedef struct {
@@ -63,8 +65,8 @@ Instruction:
 Assign:
 	tVar tEqu Expression tSC {
 		fprintf(f,"%%Assignation var: %s\n",$<stringValue>1);
-		write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
-		write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();
+		write_ligne();write_int(7);write_int(0);write_int($<integerValue>3);write_endl();
+		write_ligne();write_int(8); write_int(assign_var_to_local_int($<stringValue>1, 0)); write_int(0);write_endl();
 		delLastVal();};
 		
 
@@ -77,8 +79,8 @@ Initialize:
 	  tInt RepInitialize tEqu Expression tSC {
 		  for(int i = 0; i < RepVars->size; i++){
 			  fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
-			  write_int(7);write_int(0);write_int($<integerValue>4);write_endl();
-			  write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			  write_ligne();write_int(7);write_int(0);write_int($<integerValue>4);write_endl();
+			  write_ligne();write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
@@ -86,8 +88,8 @@ Initialize:
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
 				fprintf(f,"%%Initialize var: %s\n",RepVars->tab[i]);
-				write_int(7);write_int(0);write_int($<integerValue>5);write_endl();
-			  	write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+				write_ligne();write_int(7);write_int(0);write_int($<integerValue>5);write_endl();
+			  	write_ligne();write_int(8); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
@@ -143,6 +145,11 @@ void write_int(int a){
 	fprintf(f, "%d ", a);
 }
 
+void write_ligne(){
+	fprintf(f, "%d ", ligne);
+	ligne ++;
+}
+
 void writeln_str(char* a){
 	fprintf(f, "%s\n", a);
 }
@@ -178,13 +185,17 @@ int yyerror(char *s){
 	exit(1);
 }
 int main(void){
+
 	printf("\nDebut de l'analyse syntaxique\n");
+
+	ligne = 12000;
 	//init vars locals
 	init();
 	//init RepVars
 	RepVars = (Varray*) malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = (char**) malloc(sizeof(char*));
+
 
 	f = fopen("compil.asm","w");
 	if (f == NULL){
