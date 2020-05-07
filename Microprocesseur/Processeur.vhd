@@ -81,10 +81,51 @@ begin
 			if(RST = '0') then
 				IP <= "00000000";
 			else
-				if(IP < "00001001") then
+				if(IP < "00101101") then
 					IP <= IP + 1;
 				end if;
 			end if;
+			
+			--A
+			DIEX(15 downto 8) <= LIDI(15 downto 8);
+			--OP
+			DIEX(7 downto 0) <= LIDI(7 downto 0);
+			--B
+			if(LIDI(7 downto 0) = "00000101" or LIDI(7 downto 0) = "00000001" or LIDI(7 downto 0) = "00000010" or LIDI(7 downto 0) = "00000011") or LIDI(7 downto 0) = "00001000" then
+				DIEX(23 downto 16) <=  QA;
+			else
+				DIEX(23 downto 16) <= LIDI(23 downto 16);
+			end if;
+			--C
+			DIEX(31 downto 24) <= QB;
+			
+			--A
+			EXMem(15 downto 8) <= DIEX(15 downto 8);
+			--OP
+			EXMem(7 downto 0) <= DIEX(7 downto 0);
+			--B
+			if(DIEX(7 downto 0) = "00000001" or DIEX(7 downto 0) = "00000010" or DIEX(7 downto 0) = "00000011") then
+				EXMem(23 downto 16) <= S;
+			else
+				EXMem(23 downto 16) <= DIEX(23 downto 16);
+			end if;
+			--C
+			EXMem(31 downto 24) <= (others=>'0');
+			
+			--A
+			MemRE(15 downto 8) <= EXMem(15 downto 8);
+			--OP
+			MemRE(7 downto 0) <= EXMem(7 downto 0);
+			--B
+			if(EXMem(7 downto 0) = "00000111" or EXMem(7 downto 0) = "00001000") then
+				MemRE(23 downto 16) <= sortie;
+			else
+				MemRE(23 downto 16) <= EXMem(23 downto 16);
+			end if;
+			--C
+			MemRE(31 downto 24) <= (others=>'0');
+			
+			
 		end if;
 	end process;
 	
@@ -101,31 +142,32 @@ begin
 	addr <= EXMem(15 downto 8) when EXMem(7 downto 0) = "00001000" else
 		EXMem(23 downto 16);
 	
-	--A
-	DIEX(15 downto 8) <= LIDI(15 downto 8);
-	--OP
-	DIEX(7 downto 0) <= LIDI(7 downto 0);
-	--B
-	DIEX(23 downto 16) <=  QA  when LIDI(7 downto 0) = "00000101" or LIDI(7 downto 0) = "00000001" or LIDI(7 downto 0) = "00000010" or LIDI(7 downto 0) = "00000011" else
-		QA when  LIDI(7 downto 0) = "00001000" else
-		LIDI(23 downto 16);
-	DIEX(31 downto 24) <= QB;
+--	--A
+--	DIEX(15 downto 8) <= LIDI(15 downto 8);
+--	--OP
+--	DIEX(7 downto 0) <= LIDI(7 downto 0);
+--	--B
+--	DIEX(23 downto 16) <=  QA  when LIDI(7 downto 0) = "00000101" or LIDI(7 downto 0) = "00000001" or LIDI(7 downto 0) = "00000010" or LIDI(7 downto 0) = "00000011" else
+--		QA when  LIDI(7 downto 0) = "00001000" else
+--		LIDI(23 downto 16);
+--	--C
+--	DIEX(31 downto 24) <= QB;
 	
-	--A
-	EXMem(15 downto 8) <= DIEX(15 downto 8);
-	--OP
-	EXMem(7 downto 0) <= DIEX(7 downto 0);
-	--B
-	EXMem(23 downto 16) <= S when DIEX(7 downto 0) = "00000001" or DIEX(7 downto 0) = "00000010" or DIEX(7 downto 0) = "00000011" else 
-		DIEX(23 downto 16);
+--	--A
+--	EXMem(15 downto 8) <= DIEX(15 downto 8);
+--	--OP
+--	EXMem(7 downto 0) <= DIEX(7 downto 0);
+--	--B
+--	EXMem(23 downto 16) <= S when DIEX(7 downto 0) = "00000001" or DIEX(7 downto 0) = "00000010" or DIEX(7 downto 0) = "00000011" else 
+--		DIEX(23 downto 16);
 	
-	--A
-	MemRE(15 downto 8) <= EXMem(15 downto 8);
-	--OP
-	MemRE(7 downto 0) <= EXMem(7 downto 0);
-	--B
-	MemRE(23 downto 16) <= sortie when EXMem(7 downto 0) = "00000111" or EXMem(7 downto 0) = "00001000"else
-		EXMem(23 downto 16);
+--	--A
+--	MemRE(15 downto 8) <= EXMem(15 downto 8);
+--	--OP
+--	MemRE(7 downto 0) <= EXMem(7 downto 0);
+--	--B
+--	MemRE(23 downto 16) <= sortie when EXMem(7 downto 0) = "00000111" or EXMem(7 downto 0) = "00001000" else
+--		EXMem(23 downto 16);
 	
 	
 
