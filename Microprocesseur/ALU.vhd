@@ -34,12 +34,13 @@ use IEEE.NUMERIC_STD.ALL;
 entity ALU is
     Port ( A : in  STD_LOGIC_VECTOR (7 downto 0);
            B : in  STD_LOGIC_VECTOR (7 downto 0);
+			  Ctrl_Alu : in  STD_LOGIC_VECTOR (2 downto 0);
            S : out  STD_LOGIC_VECTOR (7 downto 0);
            N : out  STD_LOGIC;
            O : out  STD_LOGIC;
            Z : out  STD_LOGIC;
-           C : out  STD_LOGIC;
-           Ctrl_Alu : in  STD_LOGIC_VECTOR (2 downto 0) ) ;
+           C : out  STD_LOGIC
+            ) ;
 			
 end ALU;
 

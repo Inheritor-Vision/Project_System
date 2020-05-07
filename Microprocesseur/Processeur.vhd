@@ -49,7 +49,13 @@ architecture Structural of Processeur is
 
 signal IP: STD_LOGIC_VECTOR (7 downto 0);
 signal LC_MemRE_B_to_W: STD_LOGIC; 
+signal LC_DIEX_OP_to_Ctrl_Alu: STD_LOGIC_VECTOR (2 downto 0);
+signal LC_EXMem_OP_to_RW: STD_LOGIC;
 signal QA: STD_LOGIC_VECTOR (7 downto 0);
+signal QB: STD_LOGIC_VECTOR (7 downto 0);
+signal S: STD_LOGIC_VECTOR (7 downto 0);
+signal sortie: STD_LOGIC_VECTOR (7 downto 0);
+signal addr: STD_LOGIC_VECTOR (7 downto 0);
 
 -- 0-7:OP | 8-15:A | 16-23:B | 24-31:C
 signal LIDI: STD_LOGIC_VECTOR (31 downto 0);
@@ -62,9 +68,12 @@ signal addrTEMP :  STD_LOGIC_VECTOR (3 downto 0);
 signal QTEMP : STD_LOGIC_VECTOR (7 downto 0);
 
 begin
-	addrTEMP <= (others =>'0');
+
+	
 	InstruMem : entity work.Memoire_des_Instructions port map ( IP, CLK, LIDI);
-	BancReg : entity work.Banc_de_Registre port map (LIDI(19 downto 16),addrTEMP,MemRE(11 downto 8),MemRE(23 downto 16),RST,CLK,QA,QTEMP,LC_MemRE_B_to_W);
+	BancReg : entity work.Banc_de_Registre port map (LIDI(19 downto 16),LIDI(27 downto 24),MemRE(11 downto 8),MemRE(23 downto 16),RST,CLK,QA,QB,LC_MemRE_B_to_W);
+	UAL: entity work.ALU port map(DIEX(23 downto 16), DIEX(31 downto 24), LC_DIEX_OP_to_Ctrl_Alu,S);
+	DataMem: entity work.Memoire_des_Donnees port map (addr,EXMem(23 downto 16), LC_EXMem_OP_to_RW, RST, CLK, sortie);
 	
 	process (CLK) is
 	begin
@@ -72,7 +81,7 @@ begin
 			if(RST = '0') then
 				IP <= "00000000";
 			else
-				if(IP < "00000100") then
+				if(IP < "00001001") then
 					IP <= IP + 1;
 				end if;
 			end if;
@@ -81,29 +90,42 @@ begin
 	
 		
 	LC_MemRE_B_to_W <= '1' when MemRE(7 downto 0) = "00000110" or MemRE(7 downto 0) = "00000101" else
+		'1' when MemRE(7 downto 0) = "00000001" or MemRE(7 downto 0) = "00000010" or MemRE(7 downto 0) = "00000011" else
+		'1' when MemRE(7 downto 0) = "00000111" else
 		'0';
+	LC_DIEX_OP_to_Ctrl_Alu <=  "001" when DIEX(7 downto 0) = "00000011" else
+		"010" when DIEX(7 downto 0) = "00000010" else
+		"000" when DIEX(7 downto 0) = "00000001";
+	LC_EXMem_OP_to_RW <= '0' when EXMem(7 downto 0) = "00001000" else
+		'1';
+	addr <= EXMem(15 downto 8) when EXMem(7 downto 0) = "00001000" else
+		EXMem(23 downto 16);
 	
 	--A
 	DIEX(15 downto 8) <= LIDI(15 downto 8);
 	--OP
 	DIEX(7 downto 0) <= LIDI(7 downto 0);
 	--B
-	DIEX(23 downto 16) <= QA when LIDI(7 downto 0) = "00000101" else
-	LIDI(23 downto 16);
+	DIEX(23 downto 16) <=  QA  when LIDI(7 downto 0) = "00000101" or LIDI(7 downto 0) = "00000001" or LIDI(7 downto 0) = "00000010" or LIDI(7 downto 0) = "00000011" else
+		QA when  LIDI(7 downto 0) = "00001000" else
+		LIDI(23 downto 16);
+	DIEX(31 downto 24) <= QB;
 	
 	--A
 	EXMem(15 downto 8) <= DIEX(15 downto 8);
 	--OP
 	EXMem(7 downto 0) <= DIEX(7 downto 0);
 	--B
-	EXMem(23 downto 16) <= DIEX(23 downto 16);
+	EXMem(23 downto 16) <= S when DIEX(7 downto 0) = "00000001" or DIEX(7 downto 0) = "00000010" or DIEX(7 downto 0) = "00000011" else 
+		DIEX(23 downto 16);
 	
 	--A
 	MemRE(15 downto 8) <= EXMem(15 downto 8);
 	--OP
 	MemRE(7 downto 0) <= EXMem(7 downto 0);
 	--B
-	MemRE(23 downto 16) <= EXMem(23 downto 16);
+	MemRE(23 downto 16) <= sortie when EXMem(7 downto 0) = "00000111" or EXMem(7 downto 0) = "00001000"else
+		EXMem(23 downto 16);
 	
 	
 
