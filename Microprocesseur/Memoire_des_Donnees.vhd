@@ -46,7 +46,7 @@ begin
 	process (CLK) is
 
 	begin
-		if(rising_edge(CLK)) then 
+		if(falling_edge(CLK)) then 
 			if (RST = '0') then 
 				sortie <= "00000000";
 				datas <= (others=>(others=>'0'));
