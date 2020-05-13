@@ -46,181 +46,45 @@ begin
 	begin
 		if(rising_edge(CLK)) then
 			cpt := 0;
+			-- NOP : 
+			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
+			instructions(cpt) <= "00000000000000000000000000000000";
+			cpt := cpt + 1;
 			-- AFC 1 15 : 
 			-- 0000 0000:C | 0000 1111:B | 0000 0001:A | 0000 0110:OP
 			instructions(cpt) <= "00000000000011110000000100000110";
 			cpt := cpt + 1;
---			-- NOP
---			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
---			instructions(1) <= (others=>'0');
---			-- NOP
---			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
---			instructions(2) <= (others=>'0');	
---			-- NOP
---			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
---			instructions(3) <= (others=>'0');
---			-- NOP
---			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
---			instructions(4) <= (others=>'0');
 			-- COP 2 1 : 
 			-- 0000 0000:C | 0000 0001:B | 0000 0010:A | 0000 0101:OP
 			instructions(cpt) <= "00000000000000010000001000000101";
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
 			cpt := cpt + 1;
 			-- AFC 3 3 : 
 			-- 0000 0000:C | 0000 0011:B | 0000 0011:A | 0000 0110:OP
 			instructions(cpt) <= "00000000000000110000001100000110";
 			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
 			-- COP 4 3 : 
 			-- 0000 0000:C | 0000 0011:B | 0000 0100:A | 0000 0101:OP
 			instructions(cpt) <= "00000000000000110000010000000101";
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
 			cpt := cpt + 1;
 			-- COP 5 4 : 
 			-- 0000 0000:C | 0000 0100:B | 0000 0101:A | 0000 0101:OP
 			instructions(cpt) <= "00000000000001000000010100000101";
 			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
 			-- ADD 6 5 5 : 
 			-- 0000 0101:C | 0000 0101:B | 0000 0110:A | 0000 0001:OP
 			instructions(cpt) <= "00000101000001010000011000000001";
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
 			cpt := cpt + 1;
 			-- SUB 7 1 5 : 
 			-- 0000 0101:C | 0000 0001:B | 0000 0111:A | 0000 0011:OP
 			instructions(cpt) <= "00000101000000010000011100000011";
 			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
 			-- MUL 8 5 5 : 
 			-- 0000 0101:C | 0000 0101:B | 0000 1000:A | 0000 0010:OP
 			instructions(cpt) <= "00000101000001010000100000000010";
 			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
 			-- LOAD 9 1 : 
 			-- 0000 0000:C | 0000 0001:B | 0000 1001:A | 0000 0111:OP
 			instructions(cpt) <= "00000000000000010000100100000111";
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;	
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
-			cpt := cpt + 1;
-			-- NOP
-			-- 0000 0000:C | 0000 0000:B | 0000 0000:A | 0000 0000:OP
-			instructions(cpt) <= (others=>'0');
 			cpt := cpt + 1;
 			-- STR 2 1 : 
 			-- 0000 0000:C | 0000 0001:B | 0000 0010:A | 0000 1000:OP
