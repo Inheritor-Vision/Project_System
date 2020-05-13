@@ -59,6 +59,7 @@ signal addr: STD_LOGIC_VECTOR (7 downto 0);
 
 -- 0-7:OP | 8-15:A | 16-23:B | 24-31:C
 signal LIDI: STD_LOGIC_VECTOR (31 downto 0);
+signal LIDItemp: STD_LOGIC_VECTOR(31 downto 0);
 signal DIEX: STD_LOGIC_VECTOR (31 downto 0);
 signal EXMem: STD_LOGIC_VECTOR (31 downto 0);
 signal MemRE: STD_LOGIC_VECTOR (31 downto 0);
@@ -67,22 +68,44 @@ signal MemRE: STD_LOGIC_VECTOR (31 downto 0);
 signal addrTEMP :  STD_LOGIC_VECTOR (3 downto 0);
 signal QTEMP : STD_LOGIC_VECTOR (7 downto 0);
 
+--Test
+type instruction_table is array (0 to 7) of std_logic_vector(7 downto 0);
+signal instructions: instruction_table := (others=>(others=>'0'));
+
+
 begin
 
 	
-	InstruMem : entity work.Memoire_des_Instructions port map ( IP, CLK, LIDI);
+	InstruMem : entity work.Memoire_des_Instructions port map ( IP, CLK, LIDItemp);
 	BancReg : entity work.Banc_de_Registre port map (LIDI(19 downto 16),LIDI(27 downto 24),MemRE(11 downto 8),MemRE(23 downto 16),RST,CLK,QA,QB,LC_MemRE_B_to_W);
 	UAL: entity work.ALU port map(DIEX(23 downto 16), DIEX(31 downto 24), LC_DIEX_OP_to_Ctrl_Alu,S);
 	DataMem: entity work.Memoire_des_Donnees port map (addr,EXMem(23 downto 16), LC_EXMem_OP_to_RW, RST, CLK, sortie);
 	
+	
 	process (CLK) is
+	variable cpt: natural range 0 to 4 := 0;
 	begin
 		if(rising_edge(CLK)) then
 			if(RST = '0') then
 				IP <= "00000000";
 			else
-				if(IP < "00101101") then
+				if(cpt = 1) then 
+					LIDI <= LIDItemp;
 					IP <= IP + 1;
+					cpt := cpt - 1 ;
+				elsif( cpt > 1) then 
+					LIDI <= (others => '0');
+					IP <= IP;
+					cpt := cpt - 1 ;
+				elsif((LIDI(15 downto 8) = LIDItemp(23 downto 16) or LIDI(15 downto 8) = LIDItemp(31 downto 24)) and LIDI(7 downto 0) /= "00000000") then
+					LIDI <= (others => '0');
+					IP <= IP - 1;
+					cpt := 4;
+				else
+					LIDI <= LIDItemp;
+					if(IP < "00101101") then
+						IP <= IP + 1;
+					end if;
 				end if;
 			end if;
 			
