@@ -32,5 +32,6 @@ main(void)
     int *cristaline;
     cristaline = &test2;
     int *bueno = 5 *6 +3;
+    int *skurt = &test; 
     
 }

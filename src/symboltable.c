@@ -313,6 +313,7 @@ void decrementeDepth(){
     if(dels){
         free(var->tab[var->size - 1].varname);
         var->size -= dels;
+        var->nbvar -= dels;
         var->tab = (lvar*)realloc(var->tab,var->size * sizeof(lvar));
     }
 }

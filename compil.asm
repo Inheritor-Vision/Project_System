@@ -90,7 +90,7 @@
 63        8         4000      0         
 %Initialize var : w
 64        7         0         4000      
-65        8         8044      0         
+65        8         8040      0         
 %Store value 2 dans la tvar 4000
 66        6         0         2         
 67        8         4000      0         
@@ -138,7 +138,7 @@
 98        8         4000      0         
 %Initialize var : h
 99        7         0         4000      
-100       8         8048      0         
+100       8         8040      0         
 %Store value 8016 de lvar dans la tvar 4000
 101       7         0         8016      
 102       8         4000      0         
@@ -265,7 +265,7 @@
 190       8         4000      0         
 %Assignation var: cristaline
 191       7         0         4000      
-192       8         8052      0         
+192       8         8040      0         
 %Store value 5 dans la tvar 4000
 193       6         0         5         
 194       8         4000      0         
@@ -287,4 +287,10 @@
 206       8         4000      0         
 %Initialize var : bueno
  207       7         0         4000      
-208       8         8056      0         
+208       8         8044      0         
+%Store value 8000 dans la tvar 4000
+209       6         0         8000      
+210       8         4000      0         
+%Initialize var : skurt
+ 211       7         0         4000      
+212       8         8048      0         
