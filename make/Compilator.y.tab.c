@@ -516,8 +516,8 @@ static const yytype_uint8 yyrline[] =
        0,    43,    43,    47,    48,    49,    53,    54,    55,    58,
       59,    62,    63,    64,    65,    66,    69,    72,    78,    81,
       87,    90,    91,    92,    93,    94,    98,   107,   108,   111,
-     120,   133,   134,   137,   143,   151,   152,   153,   155,   158,
-     162,   165,   167,   169,   171,   172,   173
+     120,   133,   134,   137,   145,   153,   154,   155,   157,   160,
+     164,   167,   169,   171,   173,   174,   175
 };
 #endif
 
@@ -1520,109 +1520,111 @@ yyreduce:
   case 33:
 #line 137 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
+		
 		for(int i = 0; i < RepVars->size; i++){
 			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
 		}
 		freeAllVarray();
+		
 	}
-#line 1529 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1531 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 34:
-#line 143 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 145 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		for(int i = 0; i < RepVars->size; i++){
 			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
 		}
 		freeAllVarray();
 	}
-#line 1540 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1542 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 35:
-#line 151 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 153 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {(yyval.integerValue) = (yyvsp[0].integerValue);}
-#line 1546 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1548 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 36:
-#line 152 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 154 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {}
-#line 1552 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1554 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 37:
-#line 153 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 155 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {}
-#line 1558 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1560 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 38:
-#line 155 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 157 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		  	(yyval.integerValue) = addTVarFromVal((yyvsp[0].integerValue));
 	  }
-#line 1566 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1568 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 39:
-#line 158 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 160 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 
 			(yyval.integerValue) = addTVarfromLVar(get_local_var_addr((yyvsp[0].stringValue)));
 	}
-#line 1575 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1577 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 40:
-#line 162 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 164 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		(yyval.integerValue) = addTVarFromOperation(add,(yyvsp[-2].integerValue), (yyvsp[0].integerValue));
 	}
-#line 1583 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1585 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 41:
-#line 165 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 167 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		(yyval.integerValue) = addTVarFromOperation(sub,(yyvsp[-2].integerValue), (yyvsp[0].integerValue));}
-#line 1590 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1592 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 42:
-#line 167 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 169 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		(yyval.integerValue) = addTVarFromOperation(mul,(yyvsp[-2].integerValue), (yyvsp[0].integerValue));}
-#line 1597 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1599 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 43:
-#line 169 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 171 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		(yyval.integerValue) = addTVarFromOperation(divi,(yyvsp[-2].integerValue), (yyvsp[0].integerValue));}
-#line 1604 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1606 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 44:
-#line 171 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 173 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {}
-#line 1610 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1612 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 45:
-#line 172 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 174 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {}
-#line 1616 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1618 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
   case 46:
-#line 173 "syntaxique_C_Return.y" /* yacc.c:1646  */
+#line 175 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {(yyval.integerValue) = (yyvsp[-2].integerValue);}
-#line 1622 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1624 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1626 "Compilator.y.tab.c" /* yacc.c:1646  */
+#line 1628 "Compilator.y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1850,7 +1852,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 175 "syntaxique_C_Return.y" /* yacc.c:1906  */
+#line 177 "syntaxique_C_Return.y" /* yacc.c:1906  */
 
 
 
@@ -1890,40 +1892,43 @@ int main(void){
 	RepVars = (Varray*) malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = (char**) malloc(sizeof(char*));
-
+	
 
 	
 	yyparse();
 	
 	fclose(f);
-	f = fopen("compil.asm","r");
-	FILE * ftemp = fopen("temp.tmp","w");
-	if(ftemp == NULL || f == NULL){
-		 printf("\nUnable to open file temp.tmp or compil.asm for patching.\n");
-		 exit(EXIT_FAILURE);
-	}
-	int count = 0;
-	int indexPatch = 0;
-	char* laligne;
-	size_t len = 0;
-	while((getline(&laligne,&len, f)) != -1){
-		if(count == CondJumpList->liste[indexPatch].from){
-			char yo[254];
-			sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
-			fprintf(ftemp,"%s\n",yo);
-			if(indexPatch+1 != CondJumpList->size){
-				indexPatch++;
-			}
-		}else{
-			fprintf(ftemp,"%s",laligne);
+	if(CondJumpList->size > 0){
+		f = fopen("compil.asm","r");
+		FILE * ftemp = fopen("temp.tmp","w");
+		if(ftemp == NULL || f == NULL){
+			printf("\nUnable to open file temp.tmp or compil.asm for patching.\n");
+			exit(EXIT_FAILURE);
 		}
-		
-		count++;
+		int count = 0;
+		int indexPatch = 0;
+		char* laligne;
+		size_t len = 0;
+		while((getline(&laligne,&len, f)) != -1){
+			if(count == CondJumpList->liste[indexPatch].from){
+				char yo[254];
+				sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
+				fprintf(ftemp,"%s\n",yo);
+				if(indexPatch+1 != CondJumpList->size){
+					indexPatch++;
+				}
+			}else{
+				fprintf(ftemp,"%s",laligne);
+			}
+			
+			count++;
+		}
+		fclose(f);
+		fclose(ftemp);
+		remove("compil.asm");
+		rename("temp.tmp", "compil.asm");
 	}
-	fclose(f);
-	fclose(ftemp);
-	remove("compil.asm");
-	rename("temp.tmp", "compil.asm");
+	
 	printf("\nFin de l'analyse syntaxique\n\n");
 }
 

@@ -135,10 +135,12 @@ Repdeclare:
 
 Declare:
 	tInt Repdeclare {
+		
 		for(int i = 0; i < RepVars->size; i++){
 			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
 		}
 		freeAllVarray();
+		
 	}
 	| tInt tConst Repdeclare {
 		for(int i = 0; i < RepVars->size; i++){
@@ -211,40 +213,43 @@ int main(void){
 	RepVars = (Varray*) malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = (char**) malloc(sizeof(char*));
-
+	
 
 	
 	yyparse();
 	
 	fclose(f);
-	f = fopen("compil.asm","r");
-	FILE * ftemp = fopen("temp.tmp","w");
-	if(ftemp == NULL || f == NULL){
-		 printf("\nUnable to open file temp.tmp or compil.asm for patching.\n");
-		 exit(EXIT_FAILURE);
-	}
-	int count = 0;
-	int indexPatch = 0;
-	char* laligne;
-	size_t len = 0;
-	while((getline(&laligne,&len, f)) != -1){
-		if(count == CondJumpList->liste[indexPatch].from){
-			char yo[254];
-			sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
-			fprintf(ftemp,"%s\n",yo);
-			if(indexPatch+1 != CondJumpList->size){
-				indexPatch++;
-			}
-		}else{
-			fprintf(ftemp,"%s",laligne);
+	if(CondJumpList->size > 0){
+		f = fopen("compil.asm","r");
+		FILE * ftemp = fopen("temp.tmp","w");
+		if(ftemp == NULL || f == NULL){
+			printf("\nUnable to open file temp.tmp or compil.asm for patching.\n");
+			exit(EXIT_FAILURE);
 		}
-		
-		count++;
+		int count = 0;
+		int indexPatch = 0;
+		char* laligne;
+		size_t len = 0;
+		while((getline(&laligne,&len, f)) != -1){
+			if(count == CondJumpList->liste[indexPatch].from){
+				char yo[254];
+				sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
+				fprintf(ftemp,"%s\n",yo);
+				if(indexPatch+1 != CondJumpList->size){
+					indexPatch++;
+				}
+			}else{
+				fprintf(ftemp,"%s",laligne);
+			}
+			
+			count++;
+		}
+		fclose(f);
+		fclose(ftemp);
+		remove("compil.asm");
+		rename("temp.tmp", "compil.asm");
 	}
-	fclose(f);
-	fclose(ftemp);
-	remove("compil.asm");
-	rename("temp.tmp", "compil.asm");
+	
 	printf("\nFin de l'analyse syntaxique\n\n");
 }
 

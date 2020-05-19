@@ -1,7 +1,9 @@
 #ifndef SYMBOLTABLE_H_   
 #define SYMBOLTABLE_H_
+#include<stdbool.h>
 extern char* strdup(const char*);
-typedef enum { false, true } bool;
+
+//typedef enum { false, true } bool;
 
 
 typedef struct { 
