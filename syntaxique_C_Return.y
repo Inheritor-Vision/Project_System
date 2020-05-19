@@ -29,7 +29,7 @@
 %token tInt tMain tReturn tPrintf tConst tVoid tAdd tSub tMul 
 %token tEqu tSC tDiv tOCB tCCB tORB tCRB tComma tCR tVar 
 %token tValInt tDecVal tExpVal tIf tElse tEquEqu tSupEqu tInfEqu
-%token tSup tInf 
+%token tSup tInf tWhile
 
 %left tAdd tSub
 %left tMul tDiv
@@ -66,16 +66,21 @@ Instruction:
 	| ConditionnalJump;
 
 ConditionnalJump:
-	tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf {
-		modifyLast($<integerValue>7,$<integerValue>9);
-		printAllCondJump();}
-	| tIf tORB Expression ComparaisonOperator Expression tCRB InitIf Instructions EndIf InitIf Instructions EndIf{
-		modifyLast($<integerValue>7,$<integerValue>9+1);
-		modifyLast($<integerValue>10,$<integerValue>12);
-		printAllCondJump();};
+	tIf tORB Expression tCRB InitIf Instructions EndIf {
+		modifyLast($<integerValue>5,$<integerValue>7);
+		}
+	| tIf tORB Expression tCRB InitIf Instructions EndIf InitIf Instructions EndIf{
+		modifyLast($<integerValue>5,$<integerValue>7+1);
+		modifyLast($<integerValue>8,$<integerValue>10);
+		}
+	| tWhile tORB Expression WhileCRB InitWhile Instructions EndWhile {
+		modifyLast($<integerValue>5,$<integerValue>7+1);
+		write_ligne();write_char(JMP[0]);write_int($<integerValue>4);write_endl();
+	};
 
 InitIf:
 	tOCB {
+		delLastVal();
 		incrementeDepth();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();}
 	| tElse tOCB {
@@ -84,7 +89,20 @@ InitIf:
 	};
 
 EndIf:
-	tCCB {decrementeDepth();$<integerValue>$ = ligneCom;};
+	tCCB {decrementeDepth();$<integerValue>$ = ligne;};
+
+InitWhile:
+	tOCB {
+		delLastVal();
+		incrementeDepth();
+		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
+	};
+
+EndWhile:
+	tCCB {decrementeDepth();$<integerValue>$ = ligne;};
+
+WhileCRB:
+	tCRB{$<integerValue>$ = ligne;};
 
 ComparaisonOperator:
 	tSup
@@ -119,13 +137,13 @@ Initialize:
 		}
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-				write_str("%%Initialize var: %s\n",RepVars->tab[i]);
+				write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
 				write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
 			  	write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
-			}
+				}
 			freeAllVarray();
 			delLastVal();
-	};
+			};
 
  
 
@@ -233,7 +251,12 @@ int main(void){
 		while((getline(&laligne,&len, f)) != -1){
 			if(count == CondJumpList->liste[indexPatch].from){
 				char yo[254];
-				sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,CondJumpList->liste[indexPatch].op,CondJumpList->liste[indexPatch].to);
+				if(!strcmp(CondJumpList->liste[indexPatch].op,JMF)){
+					sprintf(yo,"%-9d %-9s %-9d %-9d", CondJumpList->liste[indexPatch].pos,JMF,4000, CondJumpList->liste[indexPatch].to);
+				}else{
+					sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,JMP, CondJumpList->liste[indexPatch].to);
+				}
+				
 				fprintf(ftemp,"%s\n",yo);
 				if(indexPatch+1 != CondJumpList->size){
 					indexPatch++;

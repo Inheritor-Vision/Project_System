@@ -40,6 +40,7 @@ const {return(tConst);}
 void {return(tVoid);}
 if {return(tIf);}
 else { return(tElse);}
+while {return(tWhile);}
 ">=" {return(tSupEqu);}
 "<=" {return(tInfEqu);}
 "==" {return(tEquEqu);}

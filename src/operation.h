@@ -8,8 +8,8 @@
 #define AFC '6'
 #define LOD '7'
 #define STR '8'
-#define JMP "JMP"
-#define JMF "JMF"
+#define JMP "9"
+#define JMF "A"
 #define INF "INF"
 #define SUP "SUP"
 #define EQU "EQU"

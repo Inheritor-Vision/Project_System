@@ -73,7 +73,8 @@ extern int yydebug;
     tSupEqu = 283,
     tInfEqu = 284,
     tSup = 285,
-    tInf = 286
+    tInf = 286,
+    tWhile = 287
   };
 #endif
 /* Tokens.  */
@@ -106,6 +107,7 @@ extern int yydebug;
 #define tInfEqu 284
 #define tSup 285
 #define tInf 286
+#define tWhile 287
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -117,7 +119,7 @@ union YYSTYPE
     int integerValue;
     char *stringValue;
 
-#line 121 "Compilator.y.tab.h" /* yacc.c:1909  */
+#line 123 "Compilator.y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;
