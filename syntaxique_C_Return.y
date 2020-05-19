@@ -29,7 +29,7 @@
 %token tInt tMain tReturn tPrintf tConst tVoid tAdd tSub tMul 
 %token tEqu tSC tDiv tOCB tCCB tORB tCRB tComma tCR tVar 
 %token tValInt tDecVal tExpVal tIf tElse tEquEqu tSupEqu tInfEqu
-%token tSup tInf tWhile
+%token tSup tInf tWhile tEt
 
 %left tAdd tSub
 %left tMul tDiv
@@ -63,7 +63,7 @@ Instruction:
 	| Initialize {}
 	| Declare {}
 	| tPrintf tORB tVar tCRB tSC {}
-	| ConditionnalJump;
+	| ConditionnalJump {};
 
 ConditionnalJump:
 	tIf tORB Expression tCRB InitIf Instructions EndIf {
@@ -128,7 +128,7 @@ RepInitialize:
 Initialize:
 	  tInt RepInitialize tEqu Expression tSC {
 		  for(int i = 0; i < RepVars->size; i++){
-			  write_str("%%Initialize var: %s\n",RepVars->tab[i]);
+			  write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			  write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>4);write_endl();
 			  write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
@@ -137,13 +137,31 @@ Initialize:
 		}
 	| tInt tConst RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-				write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
-				write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
-			  	write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
-				}
-			freeAllVarray();
-			delLastVal();
-			};
+			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+		}
+		freeAllVarray();
+		delLastVal();
+	}
+	| tInt tMul RepInitialize tEqu Expression tSC {
+		for(int i = 0; i < RepVars->size; i++){
+			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+		}
+		freeAllVarray();
+		delLastVal();
+	}
+	| tInt tMul tConst  RepInitialize tEqu Expression tSC {
+		for(int i = 0; i < RepVars->size; i++){
+			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>6);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+		}
+		freeAllVarray();
+		delLastVal();
+	};
 
  
 
@@ -162,7 +180,19 @@ Declare:
 	}
 	| tInt tConst Repdeclare {
 		for(int i = 0; i < RepVars->size; i++){
+			initialize_var_to_local_int(RepVars->tab[i], true, false, 0);
+		}
+		freeAllVarray();
+	}
+	| tInt tMul Repdeclare {
+		for(int i = 0; i < RepVars->size; i++){
 			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
+		}
+		freeAllVarray();
+	}
+	| tInt tMul tConst Repdeclare {
+		for(int i = 0; i < RepVars->size; i++){
+			initialize_var_to_local_int(RepVars->tab[i], true, false, 0);
 		}
 		freeAllVarray();
 	};
@@ -177,7 +207,11 @@ Expression:
 	  }
 	| tVar {
 
-			$<integerValue>$ = addTVarfromLVar(get_local_var_addr($<stringValue>1));
+		$<integerValue>$ = addTVarfromLVar(get_local_var_addr($<stringValue>1));
+	}
+	| tEt tVar {
+		//printf("%s\n", )
+		$<integerValue>$ = addTVarFromVal(get_local_var_addr($<stringValue>2));
 	}
 	| Expression tAdd Expression {
 		$<integerValue>$ = addTVarFromOperation(add,$<integerValue>1, $<integerValue>3);
@@ -272,7 +306,7 @@ int main(void){
 		remove("compil.asm");
 		rename("temp.tmp", "compil.asm");
 	}
-	
+	printAll();
 	printf("\nFin de l'analyse syntaxique\n\n");
 }
 

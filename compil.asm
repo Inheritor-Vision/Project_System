@@ -51,7 +51,7 @@
 34        7         1         4004      
 35        3         0         0         1         
 36        8         4000      0         
-%Initialize var: g
+%Initialize var : g
 37        7         0         4000      
 38        8         8040      0         
 39        9         66       
@@ -88,7 +88,7 @@
 61        7         1         4004      
 62        1         0         0         1         
 63        8         4000      0         
-%Initialize var: w
+%Initialize var : w
 64        7         0         4000      
 65        8         8044      0         
 %Store value 2 dans la tvar 4000
@@ -136,7 +136,7 @@
 96        7         1         4004      
 97        1         0         0         1         
 98        8         4000      0         
-%Initialize var: h
+%Initialize var : h
 99        7         0         4000      
 100       8         8048      0         
 %Store value 8016 de lvar dans la tvar 4000
@@ -260,3 +260,31 @@
 186       7         0         4000      
 187       8         8012      0         
 188       9         127       
+%Store value 8020 dans la tvar 4000
+189       6         0         8020      
+190       8         4000      0         
+%Assignation var: cristaline
+191       7         0         4000      
+192       8         8052      0         
+%Store value 5 dans la tvar 4000
+193       6         0         5         
+194       8         4000      0         
+%Store value 6 dans la tvar 4004
+195       6         0         6         
+196       8         4004      0         
+%Load value from tvar 4000 and 4004 then mul and store in 4000
+197       7         0         4000      
+198       7         1         4004      
+199       2         0         0         1         
+200       8         4000      0         
+%Store value 3 dans la tvar 4004
+201       6         0         3         
+202       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+203       7         0         4000      
+204       7         1         4004      
+205       1         0         0         1         
+206       8         4000      0         
+%Initialize var : bueno
+ 207       7         0         4000      
+208       8         8056      0         

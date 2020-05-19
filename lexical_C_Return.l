@@ -57,6 +57,7 @@ while {return(tWhile);}
 "(" {return(tORB);}
 ")" {return(tCRB);}
 "," {return(tComma);}
+"&" {return (tEt);}
 
 
 \n {} 
