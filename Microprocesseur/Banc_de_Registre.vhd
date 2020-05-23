@@ -46,12 +46,12 @@ architecture Behavioral of Banc_de_Registre is
 	signal registers : register_table;
 begin
 
-
-QA <= DATA when addrA = addrW else
-		(others =>'0') when RST = '0' else
+      
+QA <= (others =>'0') when RST = '0' else
+		 DATA when addrA = addrW else
 		registers(to_integer(unsigned(addrA)));
-QB <= DATA when addrB = addrW else
-		(others =>'0') when RST = '0' else
+QB <= (others =>'0') when RST = '0' else
+		DATA when addrB = addrW else
 		registers(to_integer(unsigned(addrB)));
 
 	process (CLK) is
