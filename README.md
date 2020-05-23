@@ -33,4 +33,4 @@ Fichiers importants:
 	
 	Comprintlator : Compilateur (C simplifié -> print) (not up-to-date)
 	
-	
+TODO : Error et modif JMF pour prendre un regirstre et non un case mémoire
