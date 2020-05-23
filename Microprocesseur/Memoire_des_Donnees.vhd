@@ -51,7 +51,7 @@ begin
 				sortie <= "00000000";
 				datas <= (others=>(others=>'0'));
 			else
-				datas(1) <= "00000111";
+			--	datas(1) <= "00000111";
 				if(RW = '1') then
 					sortie <= datas(to_integer(unsigned(addr)));
 				else
