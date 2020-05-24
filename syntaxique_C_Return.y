@@ -69,21 +69,25 @@ ConditionnalJump:
 	tIf tORB Expression tCRB InitIf Instructions EndIf {
 		modifyLast($<integerValue>5,$<integerValue>7);
 		}
-	| tIf tORB Expression tCRB InitIf Instructions EndIf InitIf Instructions EndIf{
+	| tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf{
 		modifyLast($<integerValue>5,$<integerValue>7+1);
 		modifyLast($<integerValue>8,$<integerValue>10);
 		}
-	| tWhile tORB Expression WhileCRB InitWhile Instructions EndWhile {
+	| tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile {
 		modifyLast($<integerValue>5,$<integerValue>7+1);
-		write_ligne();write_char(JMP[0]);write_int($<integerValue>4);write_endl();
+		write_ligne();write_char(JMP[0]);write_int($<integerValue>2);write_endl();
 	};
 
 InitIf:
 	tOCB {
 		delLastVal();
 		incrementeDepth();
-		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();}
-	| tElse tOCB {
+		printf("%d\n",ligne);
+		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
+		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
+	};
+InitElse:
+	tElse tOCB {
 		incrementeDepth();
 		$<integerValue>$ = pushCondJump(JMP,ligneCom,ligne);write_endl();
 	};
@@ -95,14 +99,15 @@ InitWhile:
 	tOCB {
 		delLastVal();
 		incrementeDepth();
+		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
 	};
 
 EndWhile:
 	tCCB {decrementeDepth();$<integerValue>$ = ligne;};
 
-WhileCRB:
-	tCRB{$<integerValue>$ = ligne;};
+WhileORB:
+	tORB{$<integerValue>$ = ligne;};
 
 ComparaisonOperator:
 	tSup
