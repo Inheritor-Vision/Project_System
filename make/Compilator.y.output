@@ -8,159 +8,137 @@ Terminaux inutilisés dans la grammaire
    tInf
 
 
-La règle est inutile dans l'analyseur à cause de conflits
-
-   18 MainReturn: %empty
-
-   32 Instruction: %empty
-
-
-État 0 conflits: 2 décalage/réduction, 2 réduction/réduction
-État 6 conflits: 2 réduction/réduction
-État 7 conflits: 1 décalage/réduction
-État 21 conflits: 5 décalage/réduction, 1 réduction/réduction
-État 23 conflits: 5 décalage/réduction, 2 réduction/réduction
-État 40 conflits: 5 décalage/réduction, 2 réduction/réduction
-État 52 conflits: 1 décalage/réduction
-État 68 conflits: 1 décalage/réduction
-État 69 conflits: 1 décalage/réduction
-État 131 conflits: 5 décalage/réduction, 1 réduction/réduction
-État 133 conflits: 5 décalage/réduction, 1 réduction/réduction
-État 145 conflits: 5 décalage/réduction, 1 réduction/réduction
+État 0 conflits: 1 décalage/réduction
+État 6 conflits: 1 décalage/réduction
 
 
 Grammaire
 
     0 $accept: S $end
 
-    1 S: Functions Main Body
-    2  | Functions MainReturn BodyReturn
-    3  | Main Body
-    4  | MainReturn BodyReturn
+    1 S: Functions Main
 
-    5 Functions: Function Functions
-    6          | %empty
+    2 Functions: Function Functions
+    3          | %empty
 
-    7 RepFunction: tInt tVar
-    8            | tInt tVar tComma Repdeclare
-    9            | %empty
+    4 RepFunction: tComma tInt tVar
+    5            | tInt tVar Repdeclare
+    6            | %empty
 
-   10 Function: tVoid tVar tORB RepFunction tCRB Body
-   11         | tVar tORB RepFunction tCRB Body
-   12         | tInt tVar tORB RepFunction tCRB BodyReturn
+    7 Function: tVoid tVar tORB RepFunction tCRB Body
+    8         | tVar tORB RepFunction tCRB Body
+    9         | tInt tVar tORB RepFunction tCRB BodyReturn
 
-   13 Main: tMain tORB tVoid tCRB
-   14     | tMain tORB tCRB
-   15     | %empty
+   10 Vide: tVoid
+   11     | %empty
 
-   16 MainReturn: tInt tMain tORB tVoid tCRB
-   17           | tInt tMain tORB tCRB
-   18           | %empty
+   12 Main: tMain tORB Vide tCRB Body
+   13     | tInt tMain tORB Vide tCRB BodyReturn
+   14     | %empty
 
-   19 Body: tOCB Instructions tCCB
-   20     | %empty
+   15 Body: tOCB Instructions tCCB
+   16     | %empty
 
-   21 Return: tReturn Expression tSC
-   22       | %empty
+   17 Return: tReturn Expression tSC
+   18       | %empty
 
-   23 BodyReturn: tOCB Instructions Return tCCB
-   24           | %empty
+   19 BodyReturn: tOCB Instructions Return tCCB
+   20           | %empty
 
-   25 Instructions: Instruction Instructions
-   26             | %empty
+   21 Instructions: Instruction Instructions
+   22             | %empty
 
-   27 Instruction: Assign
-   28            | Initialize
-   29            | Declare
-   30            | tPrintf tORB tVar tCRB tSC
-   31            | ConditionnalJump
-   32            | %empty
+   23 Instruction: Assign
+   24            | Initialize
+   25            | Declare
+   26            | tPrintf tORB tVar tCRB tSC
+   27            | ConditionnalJump
 
-   33 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf
-   34                 | tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
-   35                 | tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile
+   28 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf
+   29                 | tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
+   30                 | tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile
 
-   36 InitIf: tOCB
+   31 InitIf: tOCB
 
-   37 InitElse: tElse tOCB
+   32 InitElse: tElse tOCB
 
-   38 EndIf: tCCB
+   33 EndIf: tCCB
 
-   39 InitWhile: tOCB
+   34 InitWhile: tOCB
 
-   40 EndWhile: tCCB
+   35 EndWhile: tCCB
 
-   41 WhileORB: tORB
+   36 WhileORB: tORB
 
-   42 Assign: tVar tEqu Expression tSC
+   37 Assign: tVar tEqu Expression tSC
 
-   43 RepInitialize: tVar
-   44              | tVar tComma RepInitialize
+   38 RepInitialize: tVar
+   39              | tVar tComma RepInitialize
 
-   45 Initialize: tInt RepInitialize tEqu Expression tSC
-   46           | tInt tConst RepInitialize tEqu Expression tSC
-   47           | tInt tMul RepInitialize tEqu Expression tSC
-   48           | tInt tMul tConst RepInitialize tEqu Expression tSC
+   40 Initialize: tInt RepInitialize tEqu Expression tSC
+   41           | tInt tConst RepInitialize tEqu Expression tSC
+   42           | tInt tMul RepInitialize tEqu Expression tSC
+   43           | tInt tMul tConst RepInitialize tEqu Expression tSC
 
-   49 Repdeclare: tVar tComma Repdeclare
-   50           | tVar tSC
+   44 Repdeclare: tVar tComma Repdeclare
+   45           | tVar tSC
 
-   51 Declare: tInt Repdeclare
-   52        | tInt tConst Repdeclare
-   53        | tInt tMul Repdeclare
-   54        | tInt tMul tConst Repdeclare
+   46 Declare: tInt Repdeclare
+   47        | tInt tConst Repdeclare
+   48        | tInt tMul Repdeclare
+   49        | tInt tMul tConst Repdeclare
 
-   55 IntegerValue: tValInt
-   56             | tDecVal
-   57             | tExpVal
+   50 IntegerValue: tValInt
+   51             | tDecVal
+   52             | tExpVal
 
-   58 Expression: IntegerValue
-   59           | tVar
-   60           | tEt tVar
-   61           | Expression tAdd Expression
-   62           | Expression tSub Expression
-   63           | Expression tMul Expression
-   64           | Expression tDiv Expression
-   65           | tSub Expression
-   66           | tAdd Expression
-   67           | tORB Expression tCRB
+   53 Expression: IntegerValue
+   54           | tVar
+   55           | tEt tVar
+   56           | Expression tAdd Expression
+   57           | Expression tSub Expression
+   58           | Expression tMul Expression
+   59           | Expression tDiv Expression
+   60           | tSub Expression
+   61           | tAdd Expression
+   62           | tORB Expression tCRB
 
 
 Terminaux, suivis des règles où ils apparaissent
 
 $end (0) 0
 error (256)
-tInt (258) 7 8 12 16 17 45 46 47 48 51 52 53 54
-tMain (259) 13 14 16 17
-tReturn (260) 21
-tPrintf (261) 30
-tConst (262) 46 48 52 54
-tVoid (263) 10 13 16
-tAdd (264) 61 66
-tSub (265) 62 65
-tMul (266) 47 48 53 54 63
-tEqu (267) 42 45 46 47 48
-tSC (268) 21 30 42 45 46 47 48 50
-tDiv (269) 64
-tOCB (270) 19 23 36 37 39
-tCCB (271) 19 23 38 40
-tORB (272) 10 11 12 13 14 16 17 30 33 34 41 67
-tCRB (273) 10 11 12 13 14 16 17 30 33 34 35 67
-tComma (274) 8 44 49
+tInt (258) 4 5 9 13 40 41 42 43 46 47 48 49
+tMain (259) 12 13
+tReturn (260) 17
+tPrintf (261) 26
+tConst (262) 41 43 47 49
+tVoid (263) 7 10
+tAdd (264) 56 61
+tSub (265) 57 60
+tMul (266) 42 43 48 49 58
+tEqu (267) 37 40 41 42 43
+tSC (268) 17 26 37 40 41 42 43 45
+tDiv (269) 59
+tOCB (270) 15 19 31 32 34
+tCCB (271) 15 19 33 35
+tORB (272) 7 8 9 12 13 26 28 29 36 62
+tCRB (273) 7 8 9 12 13 26 28 29 30 62
+tComma (274) 4 39 44
 tCR (275)
-tVar (276) 7 8 10 11 12 30 42 43 44 49 50 59 60
-tValInt (277) 55
-tDecVal (278) 56
-tExpVal (279) 57
-tIf (280) 33 34
-tElse (281) 37
+tVar (276) 4 5 7 8 9 26 37 38 39 44 45 54 55
+tValInt (277) 50
+tDecVal (278) 51
+tExpVal (279) 52
+tIf (280) 28 29
+tElse (281) 32
 tEquEqu (282)
 tSupEqu (283)
 tInfEqu (284)
 tSup (285)
 tInf (286)
-tWhile (287) 35
-tEt (288) 60
+tWhile (287) 30
+tEt (288) 55
 
 
 Non-terminaux, suivis des règles où ils apparaissent
@@ -168,56 +146,56 @@ Non-terminaux, suivis des règles où ils apparaissent
 $accept (34)
     à gauche: 0
 S (35)
-    à gauche: 1 2 3 4, à droite: 0
+    à gauche: 1, à droite: 0
 Functions (36)
-    à gauche: 5 6, à droite: 1 2 5
+    à gauche: 2 3, à droite: 1 2
 RepFunction (37)
-    à gauche: 7 8 9, à droite: 10 11 12
+    à gauche: 4 5 6, à droite: 7 8 9
 Function (38)
-    à gauche: 10 11 12, à droite: 5
-Main (39)
-    à gauche: 13 14 15, à droite: 1 3
-MainReturn (40)
-    à gauche: 16 17 18, à droite: 2 4
+    à gauche: 7 8 9, à droite: 2
+Vide (39)
+    à gauche: 10 11, à droite: 12 13
+Main (40)
+    à gauche: 12 13 14, à droite: 1
 Body (41)
-    à gauche: 19 20, à droite: 1 3 10 11
+    à gauche: 15 16, à droite: 7 8 12
 Return (42)
-    à gauche: 21 22, à droite: 23
+    à gauche: 17 18, à droite: 19
 BodyReturn (43)
-    à gauche: 23 24, à droite: 2 4 12
+    à gauche: 19 20, à droite: 9 13
 Instructions (44)
-    à gauche: 25 26, à droite: 19 23 25 33 34 35
+    à gauche: 21 22, à droite: 15 19 21 28 29 30
 Instruction (45)
-    à gauche: 27 28 29 30 31 32, à droite: 25
+    à gauche: 23 24 25 26 27, à droite: 21
 ConditionnalJump (46)
-    à gauche: 33 34 35, à droite: 31
+    à gauche: 28 29 30, à droite: 27
 InitIf (47)
-    à gauche: 36, à droite: 33 34
+    à gauche: 31, à droite: 28 29
 InitElse (48)
-    à gauche: 37, à droite: 34
+    à gauche: 32, à droite: 29
 EndIf (49)
-    à gauche: 38, à droite: 33 34
+    à gauche: 33, à droite: 28 29
 InitWhile (50)
-    à gauche: 39, à droite: 35
+    à gauche: 34, à droite: 30
 EndWhile (51)
-    à gauche: 40, à droite: 35
+    à gauche: 35, à droite: 30
 WhileORB (52)
-    à gauche: 41, à droite: 35
+    à gauche: 36, à droite: 30
 Assign (53)
-    à gauche: 42, à droite: 27
+    à gauche: 37, à droite: 23
 RepInitialize (54)
-    à gauche: 43 44, à droite: 44 45 46 47 48
+    à gauche: 38 39, à droite: 39 40 41 42 43
 Initialize (55)
-    à gauche: 45 46 47 48, à droite: 28
+    à gauche: 40 41 42 43, à droite: 24
 Repdeclare (56)
-    à gauche: 49 50, à droite: 8 49 51 52 53 54
+    à gauche: 44 45, à droite: 5 44 46 47 48 49
 Declare (57)
-    à gauche: 51 52 53 54, à droite: 29
+    à gauche: 46 47 48 49, à droite: 25
 IntegerValue (58)
-    à gauche: 55 56 57, à droite: 58
+    à gauche: 50 51 52, à droite: 53
 Expression (59)
-    à gauche: 58 59 60 61 62 63 64 65 66 67, à droite: 21 33 34 35
-    42 45 46 47 48 61 62 63 64 65 66 67
+    à gauche: 53 54 55 56 57 58 59 60 61 62, à droite: 17 28 29 30
+    37 40 41 42 43 56 57 58 59 60 61 62
 
 
 État 0
@@ -225,1580 +203,1469 @@ Expression (59)
     0 $accept: . S $end
 
     tInt   décalage et aller à l'état 1
-    tMain  décalage et aller à l'état 2
-    tVoid  décalage et aller à l'état 3
-    tVar   décalage et aller à l'état 4
+    tVoid  décalage et aller à l'état 2
+    tVar   décalage et aller à l'état 3
 
-    $end      réduction par utilisation de la règle 6 (Functions)
-    $end      [réduction par utilisation de la règle 15 (Main)]
-    $end      [réduction par utilisation de la règle 18 (MainReturn)]
-    tInt      [réduction par utilisation de la règle 6 (Functions)]
-    tMain     [réduction par utilisation de la règle 6 (Functions)]
-    tOCB      réduction par utilisation de la règle 6 (Functions)
-    tOCB      [réduction par utilisation de la règle 15 (Main)]
-    tOCB      [réduction par utilisation de la règle 18 (MainReturn)]
-    $défaut  réduction par utilisation de la règle 6 (Functions)
+    tInt      [réduction par utilisation de la règle 3 (Functions)]
+    $défaut  réduction par utilisation de la règle 3 (Functions)
 
-    S           aller à l'état 5
-    Functions   aller à l'état 6
-    Function    aller à l'état 7
-    Main        aller à l'état 8
-    MainReturn  aller à l'état 9
+    S          aller à l'état 4
+    Functions  aller à l'état 5
+    Function   aller à l'état 6
 
 
 État 1
 
-   12 Function: tInt . tVar tORB RepFunction tCRB BodyReturn
-   16 MainReturn: tInt . tMain tORB tVoid tCRB
-   17           | tInt . tMain tORB tCRB
+    9 Function: tInt . tVar tORB RepFunction tCRB BodyReturn
 
-    tMain  décalage et aller à l'état 10
-    tVar   décalage et aller à l'état 11
+    tVar  décalage et aller à l'état 7
 
 
 État 2
 
-   13 Main: tMain . tORB tVoid tCRB
-   14     | tMain . tORB tCRB
+    7 Function: tVoid . tVar tORB RepFunction tCRB Body
 
-    tORB  décalage et aller à l'état 12
+    tVar  décalage et aller à l'état 8
 
 
 État 3
 
-   10 Function: tVoid . tVar tORB RepFunction tCRB Body
+    8 Function: tVar . tORB RepFunction tCRB Body
 
-    tVar  décalage et aller à l'état 13
+    tORB  décalage et aller à l'état 9
 
 
 État 4
 
-   11 Function: tVar . tORB RepFunction tCRB Body
+    0 $accept: S . $end
 
-    tORB  décalage et aller à l'état 14
+    $end  décalage et aller à l'état 10
 
 
 État 5
 
-    0 $accept: S . $end
+    1 S: Functions . Main
 
-    $end  décalage et aller à l'état 15
+    tInt   décalage et aller à l'état 11
+    tMain  décalage et aller à l'état 12
+
+    $défaut  réduction par utilisation de la règle 14 (Main)
+
+    Main  aller à l'état 13
 
 
 État 6
 
-    1 S: Functions . Main Body
-    2  | Functions . MainReturn BodyReturn
+    2 Functions: Function . Functions
 
-    tInt   décalage et aller à l'état 16
-    tMain  décalage et aller à l'état 2
+    tInt   décalage et aller à l'état 1
+    tVoid  décalage et aller à l'état 2
+    tVar   décalage et aller à l'état 3
 
-    $end      réduction par utilisation de la règle 15 (Main)
-    $end      [réduction par utilisation de la règle 18 (MainReturn)]
-    tOCB      réduction par utilisation de la règle 15 (Main)
-    tOCB      [réduction par utilisation de la règle 18 (MainReturn)]
-    $défaut  réduction par utilisation de la règle 15 (Main)
+    tInt      [réduction par utilisation de la règle 3 (Functions)]
+    $défaut  réduction par utilisation de la règle 3 (Functions)
 
-    Main        aller à l'état 17
-    MainReturn  aller à l'état 18
+    Functions  aller à l'état 14
+    Function   aller à l'état 6
 
 
 État 7
 
-    5 Functions: Function . Functions
+    9 Function: tInt tVar . tORB RepFunction tCRB BodyReturn
 
-    tInt   décalage et aller à l'état 19
-    tVoid  décalage et aller à l'état 3
-    tVar   décalage et aller à l'état 4
-
-    tInt      [réduction par utilisation de la règle 6 (Functions)]
-    $défaut  réduction par utilisation de la règle 6 (Functions)
-
-    Functions  aller à l'état 20
-    Function   aller à l'état 7
+    tORB  décalage et aller à l'état 15
 
 
 État 8
 
-    3 S: Main . Body
+    7 Function: tVoid tVar . tORB RepFunction tCRB Body
 
-    tOCB  décalage et aller à l'état 21
-
-    $défaut  réduction par utilisation de la règle 20 (Body)
-
-    Body  aller à l'état 22
+    tORB  décalage et aller à l'état 16
 
 
 État 9
 
-    4 S: MainReturn . BodyReturn
+    8 Function: tVar tORB . RepFunction tCRB Body
 
-    tOCB  décalage et aller à l'état 23
+    tInt    décalage et aller à l'état 17
+    tComma  décalage et aller à l'état 18
 
-    $défaut  réduction par utilisation de la règle 24 (BodyReturn)
+    $défaut  réduction par utilisation de la règle 6 (RepFunction)
 
-    BodyReturn  aller à l'état 24
+    RepFunction  aller à l'état 19
 
 
 État 10
-
-   16 MainReturn: tInt tMain . tORB tVoid tCRB
-   17           | tInt tMain . tORB tCRB
-
-    tORB  décalage et aller à l'état 25
-
-
-État 11
-
-   12 Function: tInt tVar . tORB RepFunction tCRB BodyReturn
-
-    tORB  décalage et aller à l'état 26
-
-
-État 12
-
-   13 Main: tMain tORB . tVoid tCRB
-   14     | tMain tORB . tCRB
-
-    tVoid  décalage et aller à l'état 27
-    tCRB   décalage et aller à l'état 28
-
-
-État 13
-
-   10 Function: tVoid tVar . tORB RepFunction tCRB Body
-
-    tORB  décalage et aller à l'état 29
-
-
-État 14
-
-   11 Function: tVar tORB . RepFunction tCRB Body
-
-    tInt  décalage et aller à l'état 30
-
-    $défaut  réduction par utilisation de la règle 9 (RepFunction)
-
-    RepFunction  aller à l'état 31
-
-
-État 15
 
     0 $accept: S $end .
 
     $défaut  accepter
 
 
-État 16
+État 11
 
-   16 MainReturn: tInt . tMain tORB tVoid tCRB
-   17           | tInt . tMain tORB tCRB
+   13 Main: tInt . tMain tORB Vide tCRB BodyReturn
 
-    tMain  décalage et aller à l'état 10
+    tMain  décalage et aller à l'état 20
 
 
-État 17
+État 12
 
-    1 S: Functions Main . Body
+   12 Main: tMain . tORB Vide tCRB Body
 
-    tOCB  décalage et aller à l'état 21
+    tORB  décalage et aller à l'état 21
 
-    $défaut  réduction par utilisation de la règle 20 (Body)
 
-    Body  aller à l'état 32
+État 13
 
-
-État 18
-
-    2 S: Functions MainReturn . BodyReturn
-
-    tOCB  décalage et aller à l'état 23
-
-    $défaut  réduction par utilisation de la règle 24 (BodyReturn)
-
-    BodyReturn  aller à l'état 33
-
-
-État 19
-
-   12 Function: tInt . tVar tORB RepFunction tCRB BodyReturn
-
-    tVar  décalage et aller à l'état 11
-
-
-État 20
-
-    5 Functions: Function Functions .
-
-    $défaut  réduction par utilisation de la règle 5 (Functions)
-
-
-État 21
-
-   19 Body: tOCB . Instructions tCCB
-
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
-
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 39
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
-
-
-État 22
-
-    3 S: Main Body .
-
-    $défaut  réduction par utilisation de la règle 3 (S)
-
-
-État 23
-
-   23 BodyReturn: tOCB . Instructions Return tCCB
-
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
-
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tReturn   réduction par utilisation de la règle 26 (Instructions)
-    tReturn   [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 45
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
-
-
-État 24
-
-    4 S: MainReturn BodyReturn .
-
-    $défaut  réduction par utilisation de la règle 4 (S)
-
-
-État 25
-
-   16 MainReturn: tInt tMain tORB . tVoid tCRB
-   17           | tInt tMain tORB . tCRB
-
-    tVoid  décalage et aller à l'état 46
-    tCRB   décalage et aller à l'état 47
-
-
-État 26
-
-   12 Function: tInt tVar tORB . RepFunction tCRB BodyReturn
-
-    tInt  décalage et aller à l'état 30
-
-    $défaut  réduction par utilisation de la règle 9 (RepFunction)
-
-    RepFunction  aller à l'état 48
-
-
-État 27
-
-   13 Main: tMain tORB tVoid . tCRB
-
-    tCRB  décalage et aller à l'état 49
-
-
-État 28
-
-   14 Main: tMain tORB tCRB .
-
-    $défaut  réduction par utilisation de la règle 14 (Main)
-
-
-État 29
-
-   10 Function: tVoid tVar tORB . RepFunction tCRB Body
-
-    tInt  décalage et aller à l'état 30
-
-    $défaut  réduction par utilisation de la règle 9 (RepFunction)
-
-    RepFunction  aller à l'état 50
-
-
-État 30
-
-    7 RepFunction: tInt . tVar
-    8            | tInt . tVar tComma Repdeclare
-
-    tVar  décalage et aller à l'état 51
-
-
-État 31
-
-   11 Function: tVar tORB RepFunction . tCRB Body
-
-    tCRB  décalage et aller à l'état 52
-
-
-État 32
-
-    1 S: Functions Main Body .
+    1 S: Functions Main .
 
     $défaut  réduction par utilisation de la règle 1 (S)
 
 
+État 14
+
+    2 Functions: Function Functions .
+
+    $défaut  réduction par utilisation de la règle 2 (Functions)
+
+
+État 15
+
+    9 Function: tInt tVar tORB . RepFunction tCRB BodyReturn
+
+    tInt    décalage et aller à l'état 17
+    tComma  décalage et aller à l'état 18
+
+    $défaut  réduction par utilisation de la règle 6 (RepFunction)
+
+    RepFunction  aller à l'état 22
+
+
+État 16
+
+    7 Function: tVoid tVar tORB . RepFunction tCRB Body
+
+    tInt    décalage et aller à l'état 17
+    tComma  décalage et aller à l'état 18
+
+    $défaut  réduction par utilisation de la règle 6 (RepFunction)
+
+    RepFunction  aller à l'état 23
+
+
+État 17
+
+    5 RepFunction: tInt . tVar Repdeclare
+
+    tVar  décalage et aller à l'état 24
+
+
+État 18
+
+    4 RepFunction: tComma . tInt tVar
+
+    tInt  décalage et aller à l'état 25
+
+
+État 19
+
+    8 Function: tVar tORB RepFunction . tCRB Body
+
+    tCRB  décalage et aller à l'état 26
+
+
+État 20
+
+   13 Main: tInt tMain . tORB Vide tCRB BodyReturn
+
+    tORB  décalage et aller à l'état 27
+
+
+État 21
+
+   12 Main: tMain tORB . Vide tCRB Body
+
+    tVoid  décalage et aller à l'état 28
+
+    $défaut  réduction par utilisation de la règle 11 (Vide)
+
+    Vide  aller à l'état 29
+
+
+État 22
+
+    9 Function: tInt tVar tORB RepFunction . tCRB BodyReturn
+
+    tCRB  décalage et aller à l'état 30
+
+
+État 23
+
+    7 Function: tVoid tVar tORB RepFunction . tCRB Body
+
+    tCRB  décalage et aller à l'état 31
+
+
+État 24
+
+    5 RepFunction: tInt tVar . Repdeclare
+
+    tVar  décalage et aller à l'état 32
+
+    Repdeclare  aller à l'état 33
+
+
+État 25
+
+    4 RepFunction: tComma tInt . tVar
+
+    tVar  décalage et aller à l'état 34
+
+
+État 26
+
+    8 Function: tVar tORB RepFunction tCRB . Body
+
+    tOCB  décalage et aller à l'état 35
+
+    $défaut  réduction par utilisation de la règle 16 (Body)
+
+    Body  aller à l'état 36
+
+
+État 27
+
+   13 Main: tInt tMain tORB . Vide tCRB BodyReturn
+
+    tVoid  décalage et aller à l'état 28
+
+    $défaut  réduction par utilisation de la règle 11 (Vide)
+
+    Vide  aller à l'état 37
+
+
+État 28
+
+   10 Vide: tVoid .
+
+    $défaut  réduction par utilisation de la règle 10 (Vide)
+
+
+État 29
+
+   12 Main: tMain tORB Vide . tCRB Body
+
+    tCRB  décalage et aller à l'état 38
+
+
+État 30
+
+    9 Function: tInt tVar tORB RepFunction tCRB . BodyReturn
+
+    tOCB  décalage et aller à l'état 39
+
+    $défaut  réduction par utilisation de la règle 20 (BodyReturn)
+
+    BodyReturn  aller à l'état 40
+
+
+État 31
+
+    7 Function: tVoid tVar tORB RepFunction tCRB . Body
+
+    tOCB  décalage et aller à l'état 35
+
+    $défaut  réduction par utilisation de la règle 16 (Body)
+
+    Body  aller à l'état 41
+
+
+État 32
+
+   44 Repdeclare: tVar . tComma Repdeclare
+   45           | tVar . tSC
+
+    tSC     décalage et aller à l'état 42
+    tComma  décalage et aller à l'état 43
+
+
 État 33
 
-    2 S: Functions MainReturn BodyReturn .
+    5 RepFunction: tInt tVar Repdeclare .
 
-    $défaut  réduction par utilisation de la règle 2 (S)
+    $défaut  réduction par utilisation de la règle 5 (RepFunction)
 
 
 État 34
 
-   45 Initialize: tInt . RepInitialize tEqu Expression tSC
-   46           | tInt . tConst RepInitialize tEqu Expression tSC
-   47           | tInt . tMul RepInitialize tEqu Expression tSC
-   48           | tInt . tMul tConst RepInitialize tEqu Expression tSC
-   51 Declare: tInt . Repdeclare
-   52        | tInt . tConst Repdeclare
-   53        | tInt . tMul Repdeclare
-   54        | tInt . tMul tConst Repdeclare
+    4 RepFunction: tComma tInt tVar .
 
-    tConst  décalage et aller à l'état 53
-    tMul    décalage et aller à l'état 54
-    tVar    décalage et aller à l'état 55
-
-    RepInitialize  aller à l'état 56
-    Repdeclare     aller à l'état 57
+    $défaut  réduction par utilisation de la règle 4 (RepFunction)
 
 
 État 35
 
-   30 Instruction: tPrintf . tORB tVar tCRB tSC
+   15 Body: tOCB . Instructions tCCB
 
-    tORB  décalage et aller à l'état 58
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 49
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
 
 
 État 36
 
-   42 Assign: tVar . tEqu Expression tSC
+    8 Function: tVar tORB RepFunction tCRB Body .
 
-    tEqu  décalage et aller à l'état 59
+    $défaut  réduction par utilisation de la règle 8 (Function)
 
 
 État 37
 
-   33 ConditionnalJump: tIf . tORB Expression tCRB InitIf Instructions EndIf
-   34                 | tIf . tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
+   13 Main: tInt tMain tORB Vide . tCRB BodyReturn
 
-    tORB  décalage et aller à l'état 60
+    tCRB  décalage et aller à l'état 55
 
 
 État 38
 
-   35 ConditionnalJump: tWhile . WhileORB Expression tCRB InitWhile Instructions EndWhile
+   12 Main: tMain tORB Vide tCRB . Body
 
-    tORB  décalage et aller à l'état 61
+    tOCB  décalage et aller à l'état 35
 
-    WhileORB  aller à l'état 62
+    $défaut  réduction par utilisation de la règle 16 (Body)
+
+    Body  aller à l'état 56
 
 
 État 39
 
-   19 Body: tOCB Instructions . tCCB
+   19 BodyReturn: tOCB . Instructions Return tCCB
 
-    tCCB  décalage et aller à l'état 63
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 57
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
 
 
 État 40
 
-   25 Instructions: Instruction . Instructions
+    9 Function: tInt tVar tORB RepFunction tCRB BodyReturn .
 
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
-
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tReturn   réduction par utilisation de la règle 26 (Instructions)
-    tReturn   [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 64
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
+    $défaut  réduction par utilisation de la règle 9 (Function)
 
 
 État 41
 
-   31 Instruction: ConditionnalJump .
+    7 Function: tVoid tVar tORB RepFunction tCRB Body .
 
-    $défaut  réduction par utilisation de la règle 31 (Instruction)
+    $défaut  réduction par utilisation de la règle 7 (Function)
 
 
 État 42
 
-   27 Instruction: Assign .
+   45 Repdeclare: tVar tSC .
 
-    $défaut  réduction par utilisation de la règle 27 (Instruction)
+    $défaut  réduction par utilisation de la règle 45 (Repdeclare)
 
 
 État 43
 
-   28 Instruction: Initialize .
+   44 Repdeclare: tVar tComma . Repdeclare
 
-    $défaut  réduction par utilisation de la règle 28 (Instruction)
+    tVar  décalage et aller à l'état 32
+
+    Repdeclare  aller à l'état 58
 
 
 État 44
 
-   29 Instruction: Declare .
+   40 Initialize: tInt . RepInitialize tEqu Expression tSC
+   41           | tInt . tConst RepInitialize tEqu Expression tSC
+   42           | tInt . tMul RepInitialize tEqu Expression tSC
+   43           | tInt . tMul tConst RepInitialize tEqu Expression tSC
+   46 Declare: tInt . Repdeclare
+   47        | tInt . tConst Repdeclare
+   48        | tInt . tMul Repdeclare
+   49        | tInt . tMul tConst Repdeclare
 
-    $défaut  réduction par utilisation de la règle 29 (Instruction)
+    tConst  décalage et aller à l'état 59
+    tMul    décalage et aller à l'état 60
+    tVar    décalage et aller à l'état 61
+
+    RepInitialize  aller à l'état 62
+    Repdeclare     aller à l'état 63
 
 
 État 45
 
-   23 BodyReturn: tOCB Instructions . Return tCCB
+   26 Instruction: tPrintf . tORB tVar tCRB tSC
 
-    tReturn  décalage et aller à l'état 65
-
-    $défaut  réduction par utilisation de la règle 22 (Return)
-
-    Return  aller à l'état 66
+    tORB  décalage et aller à l'état 64
 
 
 État 46
 
-   16 MainReturn: tInt tMain tORB tVoid . tCRB
+   37 Assign: tVar . tEqu Expression tSC
 
-    tCRB  décalage et aller à l'état 67
+    tEqu  décalage et aller à l'état 65
 
 
 État 47
 
-   17 MainReturn: tInt tMain tORB tCRB .
+   28 ConditionnalJump: tIf . tORB Expression tCRB InitIf Instructions EndIf
+   29                 | tIf . tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
 
-    $défaut  réduction par utilisation de la règle 17 (MainReturn)
+    tORB  décalage et aller à l'état 66
 
 
 État 48
 
-   12 Function: tInt tVar tORB RepFunction . tCRB BodyReturn
+   30 ConditionnalJump: tWhile . WhileORB Expression tCRB InitWhile Instructions EndWhile
 
-    tCRB  décalage et aller à l'état 68
+    tORB  décalage et aller à l'état 67
+
+    WhileORB  aller à l'état 68
 
 
 État 49
 
-   13 Main: tMain tORB tVoid tCRB .
+   15 Body: tOCB Instructions . tCCB
 
-    $défaut  réduction par utilisation de la règle 13 (Main)
+    tCCB  décalage et aller à l'état 69
 
 
 État 50
 
-   10 Function: tVoid tVar tORB RepFunction . tCRB Body
+   21 Instructions: Instruction . Instructions
 
-    tCRB  décalage et aller à l'état 69
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 70
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
 
 
 État 51
 
-    7 RepFunction: tInt tVar .
-    8            | tInt tVar . tComma Repdeclare
+   27 Instruction: ConditionnalJump .
 
-    tComma  décalage et aller à l'état 70
-
-    $défaut  réduction par utilisation de la règle 7 (RepFunction)
+    $défaut  réduction par utilisation de la règle 27 (Instruction)
 
 
 État 52
 
-   11 Function: tVar tORB RepFunction tCRB . Body
+   23 Instruction: Assign .
 
-    tOCB  décalage et aller à l'état 21
-
-    tOCB      [réduction par utilisation de la règle 20 (Body)]
-    $défaut  réduction par utilisation de la règle 20 (Body)
-
-    Body  aller à l'état 71
+    $défaut  réduction par utilisation de la règle 23 (Instruction)
 
 
 État 53
 
-   46 Initialize: tInt tConst . RepInitialize tEqu Expression tSC
-   52 Declare: tInt tConst . Repdeclare
+   24 Instruction: Initialize .
 
-    tVar  décalage et aller à l'état 55
-
-    RepInitialize  aller à l'état 72
-    Repdeclare     aller à l'état 73
+    $défaut  réduction par utilisation de la règle 24 (Instruction)
 
 
 État 54
 
-   47 Initialize: tInt tMul . RepInitialize tEqu Expression tSC
-   48           | tInt tMul . tConst RepInitialize tEqu Expression tSC
-   53 Declare: tInt tMul . Repdeclare
-   54        | tInt tMul . tConst Repdeclare
+   25 Instruction: Declare .
 
-    tConst  décalage et aller à l'état 74
-    tVar    décalage et aller à l'état 55
-
-    RepInitialize  aller à l'état 75
-    Repdeclare     aller à l'état 76
+    $défaut  réduction par utilisation de la règle 25 (Instruction)
 
 
 État 55
 
-   43 RepInitialize: tVar .
-   44              | tVar . tComma RepInitialize
-   49 Repdeclare: tVar . tComma Repdeclare
-   50           | tVar . tSC
+   13 Main: tInt tMain tORB Vide tCRB . BodyReturn
 
-    tSC     décalage et aller à l'état 77
-    tComma  décalage et aller à l'état 78
+    tOCB  décalage et aller à l'état 39
 
-    $défaut  réduction par utilisation de la règle 43 (RepInitialize)
+    $défaut  réduction par utilisation de la règle 20 (BodyReturn)
+
+    BodyReturn  aller à l'état 71
 
 
 État 56
 
-   45 Initialize: tInt RepInitialize . tEqu Expression tSC
+   12 Main: tMain tORB Vide tCRB Body .
 
-    tEqu  décalage et aller à l'état 79
+    $défaut  réduction par utilisation de la règle 12 (Main)
 
 
 État 57
 
-   51 Declare: tInt Repdeclare .
+   19 BodyReturn: tOCB Instructions . Return tCCB
 
-    $défaut  réduction par utilisation de la règle 51 (Declare)
+    tReturn  décalage et aller à l'état 72
+
+    $défaut  réduction par utilisation de la règle 18 (Return)
+
+    Return  aller à l'état 73
 
 
 État 58
 
-   30 Instruction: tPrintf tORB . tVar tCRB tSC
+   44 Repdeclare: tVar tComma Repdeclare .
 
-    tVar  décalage et aller à l'état 80
+    $défaut  réduction par utilisation de la règle 44 (Repdeclare)
 
 
 État 59
 
-   42 Assign: tVar tEqu . Expression tSC
+   41 Initialize: tInt tConst . RepInitialize tEqu Expression tSC
+   47 Declare: tInt tConst . Repdeclare
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tVar  décalage et aller à l'état 61
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 90
+    RepInitialize  aller à l'état 74
+    Repdeclare     aller à l'état 75
 
 
 État 60
 
-   33 ConditionnalJump: tIf tORB . Expression tCRB InitIf Instructions EndIf
-   34                 | tIf tORB . Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
+   42 Initialize: tInt tMul . RepInitialize tEqu Expression tSC
+   43           | tInt tMul . tConst RepInitialize tEqu Expression tSC
+   48 Declare: tInt tMul . Repdeclare
+   49        | tInt tMul . tConst Repdeclare
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tConst  décalage et aller à l'état 76
+    tVar    décalage et aller à l'état 61
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 91
+    RepInitialize  aller à l'état 77
+    Repdeclare     aller à l'état 78
 
 
 État 61
 
-   41 WhileORB: tORB .
+   38 RepInitialize: tVar .
+   39              | tVar . tComma RepInitialize
+   44 Repdeclare: tVar . tComma Repdeclare
+   45           | tVar . tSC
 
-    $défaut  réduction par utilisation de la règle 41 (WhileORB)
+    tSC     décalage et aller à l'état 42
+    tComma  décalage et aller à l'état 79
+
+    $défaut  réduction par utilisation de la règle 38 (RepInitialize)
 
 
 État 62
 
-   35 ConditionnalJump: tWhile WhileORB . Expression tCRB InitWhile Instructions EndWhile
+   40 Initialize: tInt RepInitialize . tEqu Expression tSC
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 92
+    tEqu  décalage et aller à l'état 80
 
 
 État 63
 
-   19 Body: tOCB Instructions tCCB .
+   46 Declare: tInt Repdeclare .
 
-    $défaut  réduction par utilisation de la règle 19 (Body)
+    $défaut  réduction par utilisation de la règle 46 (Declare)
 
 
 État 64
 
-   25 Instructions: Instruction Instructions .
+   26 Instruction: tPrintf tORB . tVar tCRB tSC
 
-    $défaut  réduction par utilisation de la règle 25 (Instructions)
+    tVar  décalage et aller à l'état 81
 
 
 État 65
 
-   21 Return: tReturn . Expression tSC
+   37 Assign: tVar tEqu . Expression tSC
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 93
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 91
 
 
 État 66
 
-   23 BodyReturn: tOCB Instructions Return . tCCB
+   28 ConditionnalJump: tIf tORB . Expression tCRB InitIf Instructions EndIf
+   29                 | tIf tORB . Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf
 
-    tCCB  décalage et aller à l'état 94
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 92
 
 
 État 67
 
-   16 MainReturn: tInt tMain tORB tVoid tCRB .
+   36 WhileORB: tORB .
 
-    $défaut  réduction par utilisation de la règle 16 (MainReturn)
+    $défaut  réduction par utilisation de la règle 36 (WhileORB)
 
 
 État 68
 
-   12 Function: tInt tVar tORB RepFunction tCRB . BodyReturn
+   30 ConditionnalJump: tWhile WhileORB . Expression tCRB InitWhile Instructions EndWhile
 
-    tOCB  décalage et aller à l'état 23
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
 
-    tOCB      [réduction par utilisation de la règle 24 (BodyReturn)]
-    $défaut  réduction par utilisation de la règle 24 (BodyReturn)
-
-    BodyReturn  aller à l'état 95
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 93
 
 
 État 69
 
-   10 Function: tVoid tVar tORB RepFunction tCRB . Body
+   15 Body: tOCB Instructions tCCB .
 
-    tOCB  décalage et aller à l'état 21
-
-    tOCB      [réduction par utilisation de la règle 20 (Body)]
-    $défaut  réduction par utilisation de la règle 20 (Body)
-
-    Body  aller à l'état 96
+    $défaut  réduction par utilisation de la règle 15 (Body)
 
 
 État 70
 
-    8 RepFunction: tInt tVar tComma . Repdeclare
+   21 Instructions: Instruction Instructions .
 
-    tVar  décalage et aller à l'état 97
-
-    Repdeclare  aller à l'état 98
+    $défaut  réduction par utilisation de la règle 21 (Instructions)
 
 
 État 71
 
-   11 Function: tVar tORB RepFunction tCRB Body .
+   13 Main: tInt tMain tORB Vide tCRB BodyReturn .
 
-    $défaut  réduction par utilisation de la règle 11 (Function)
+    $défaut  réduction par utilisation de la règle 13 (Main)
 
 
 État 72
 
-   46 Initialize: tInt tConst RepInitialize . tEqu Expression tSC
+   17 Return: tReturn . Expression tSC
 
-    tEqu  décalage et aller à l'état 99
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 94
 
 
 État 73
 
-   52 Declare: tInt tConst Repdeclare .
+   19 BodyReturn: tOCB Instructions Return . tCCB
 
-    $défaut  réduction par utilisation de la règle 52 (Declare)
+    tCCB  décalage et aller à l'état 95
 
 
 État 74
 
-   48 Initialize: tInt tMul tConst . RepInitialize tEqu Expression tSC
-   54 Declare: tInt tMul tConst . Repdeclare
+   41 Initialize: tInt tConst RepInitialize . tEqu Expression tSC
 
-    tVar  décalage et aller à l'état 55
-
-    RepInitialize  aller à l'état 100
-    Repdeclare     aller à l'état 101
+    tEqu  décalage et aller à l'état 96
 
 
 État 75
 
-   47 Initialize: tInt tMul RepInitialize . tEqu Expression tSC
+   47 Declare: tInt tConst Repdeclare .
 
-    tEqu  décalage et aller à l'état 102
+    $défaut  réduction par utilisation de la règle 47 (Declare)
 
 
 État 76
 
-   53 Declare: tInt tMul Repdeclare .
+   43 Initialize: tInt tMul tConst . RepInitialize tEqu Expression tSC
+   49 Declare: tInt tMul tConst . Repdeclare
 
-    $défaut  réduction par utilisation de la règle 53 (Declare)
+    tVar  décalage et aller à l'état 61
+
+    RepInitialize  aller à l'état 97
+    Repdeclare     aller à l'état 98
 
 
 État 77
 
-   50 Repdeclare: tVar tSC .
+   42 Initialize: tInt tMul RepInitialize . tEqu Expression tSC
 
-    $défaut  réduction par utilisation de la règle 50 (Repdeclare)
+    tEqu  décalage et aller à l'état 99
 
 
 État 78
 
-   44 RepInitialize: tVar tComma . RepInitialize
-   49 Repdeclare: tVar tComma . Repdeclare
+   48 Declare: tInt tMul Repdeclare .
 
-    tVar  décalage et aller à l'état 55
-
-    RepInitialize  aller à l'état 103
-    Repdeclare     aller à l'état 104
+    $défaut  réduction par utilisation de la règle 48 (Declare)
 
 
 État 79
 
-   45 Initialize: tInt RepInitialize tEqu . Expression tSC
+   39 RepInitialize: tVar tComma . RepInitialize
+   44 Repdeclare: tVar tComma . Repdeclare
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tVar  décalage et aller à l'état 61
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 105
+    RepInitialize  aller à l'état 100
+    Repdeclare     aller à l'état 58
 
 
 État 80
 
-   30 Instruction: tPrintf tORB tVar . tCRB tSC
+   40 Initialize: tInt RepInitialize tEqu . Expression tSC
 
-    tCRB  décalage et aller à l'état 106
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 101
 
 
 État 81
 
-   66 Expression: tAdd . Expression
+   26 Instruction: tPrintf tORB tVar . tCRB tSC
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 107
+    tCRB  décalage et aller à l'état 102
 
 
 État 82
 
-   65 Expression: tSub . Expression
+   61 Expression: tAdd . Expression
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 108
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 103
 
 
 État 83
 
-   67 Expression: tORB . Expression tCRB
+   60 Expression: tSub . Expression
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 109
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 104
 
 
 État 84
 
-   59 Expression: tVar .
+   62 Expression: tORB . Expression tCRB
 
-    $défaut  réduction par utilisation de la règle 59 (Expression)
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 105
 
 
 État 85
 
-   55 IntegerValue: tValInt .
+   54 Expression: tVar .
 
-    $défaut  réduction par utilisation de la règle 55 (IntegerValue)
+    $défaut  réduction par utilisation de la règle 54 (Expression)
 
 
 État 86
 
-   56 IntegerValue: tDecVal .
+   50 IntegerValue: tValInt .
 
-    $défaut  réduction par utilisation de la règle 56 (IntegerValue)
+    $défaut  réduction par utilisation de la règle 50 (IntegerValue)
 
 
 État 87
 
-   57 IntegerValue: tExpVal .
+   51 IntegerValue: tDecVal .
 
-    $défaut  réduction par utilisation de la règle 57 (IntegerValue)
+    $défaut  réduction par utilisation de la règle 51 (IntegerValue)
 
 
 État 88
 
-   60 Expression: tEt . tVar
+   52 IntegerValue: tExpVal .
 
-    tVar  décalage et aller à l'état 110
+    $défaut  réduction par utilisation de la règle 52 (IntegerValue)
 
 
 État 89
 
-   58 Expression: IntegerValue .
+   55 Expression: tEt . tVar
 
-    $défaut  réduction par utilisation de la règle 58 (Expression)
+    tVar  décalage et aller à l'état 106
 
 
 État 90
 
-   42 Assign: tVar tEqu Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   53 Expression: IntegerValue .
 
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 114
-    tDiv  décalage et aller à l'état 115
+    $défaut  réduction par utilisation de la règle 53 (Expression)
 
 
 État 91
 
-   33 ConditionnalJump: tIf tORB Expression . tCRB InitIf Instructions EndIf
-   34                 | tIf tORB Expression . tCRB InitIf Instructions EndIf InitElse Instructions EndIf
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   37 Assign: tVar tEqu Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tDiv  décalage et aller à l'état 115
-    tCRB  décalage et aller à l'état 116
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 110
+    tDiv  décalage et aller à l'état 111
 
 
 État 92
 
-   35 ConditionnalJump: tWhile WhileORB Expression . tCRB InitWhile Instructions EndWhile
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   28 ConditionnalJump: tIf tORB Expression . tCRB InitIf Instructions EndIf
+   29                 | tIf tORB Expression . tCRB InitIf Instructions EndIf InitElse Instructions EndIf
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tDiv  décalage et aller à l'état 115
-    tCRB  décalage et aller à l'état 117
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tDiv  décalage et aller à l'état 111
+    tCRB  décalage et aller à l'état 112
 
 
 État 93
 
-   21 Return: tReturn Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   30 ConditionnalJump: tWhile WhileORB Expression . tCRB InitWhile Instructions EndWhile
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 118
-    tDiv  décalage et aller à l'état 115
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tDiv  décalage et aller à l'état 111
+    tCRB  décalage et aller à l'état 113
 
 
 État 94
 
-   23 BodyReturn: tOCB Instructions Return tCCB .
+   17 Return: tReturn Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    $défaut  réduction par utilisation de la règle 23 (BodyReturn)
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 114
+    tDiv  décalage et aller à l'état 111
 
 
 État 95
 
-   12 Function: tInt tVar tORB RepFunction tCRB BodyReturn .
+   19 BodyReturn: tOCB Instructions Return tCCB .
 
-    $défaut  réduction par utilisation de la règle 12 (Function)
+    $défaut  réduction par utilisation de la règle 19 (BodyReturn)
 
 
 État 96
 
-   10 Function: tVoid tVar tORB RepFunction tCRB Body .
+   41 Initialize: tInt tConst RepInitialize tEqu . Expression tSC
 
-    $défaut  réduction par utilisation de la règle 10 (Function)
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 115
 
 
 État 97
 
-   49 Repdeclare: tVar . tComma Repdeclare
-   50           | tVar . tSC
+   43 Initialize: tInt tMul tConst RepInitialize . tEqu Expression tSC
 
-    tSC     décalage et aller à l'état 77
-    tComma  décalage et aller à l'état 119
+    tEqu  décalage et aller à l'état 116
 
 
 État 98
 
-    8 RepFunction: tInt tVar tComma Repdeclare .
+   49 Declare: tInt tMul tConst Repdeclare .
 
-    $défaut  réduction par utilisation de la règle 8 (RepFunction)
+    $défaut  réduction par utilisation de la règle 49 (Declare)
 
 
 État 99
 
-   46 Initialize: tInt tConst RepInitialize tEqu . Expression tSC
+   42 Initialize: tInt tMul RepInitialize tEqu . Expression tSC
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
 
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 120
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 117
 
 
 État 100
 
-   48 Initialize: tInt tMul tConst RepInitialize . tEqu Expression tSC
+   39 RepInitialize: tVar tComma RepInitialize .
 
-    tEqu  décalage et aller à l'état 121
+    $défaut  réduction par utilisation de la règle 39 (RepInitialize)
 
 
 État 101
 
-   54 Declare: tInt tMul tConst Repdeclare .
+   40 Initialize: tInt RepInitialize tEqu Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    $défaut  réduction par utilisation de la règle 54 (Declare)
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 118
+    tDiv  décalage et aller à l'état 111
 
 
 État 102
 
-   47 Initialize: tInt tMul RepInitialize tEqu . Expression tSC
+   26 Instruction: tPrintf tORB tVar tCRB . tSC
 
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 122
+    tSC  décalage et aller à l'état 119
 
 
 État 103
 
-   44 RepInitialize: tVar tComma RepInitialize .
-
-    $défaut  réduction par utilisation de la règle 44 (RepInitialize)
-
-
-État 104
-
-   49 Repdeclare: tVar tComma Repdeclare .
-
-    $défaut  réduction par utilisation de la règle 49 (Repdeclare)
-
-
-État 105
-
-   45 Initialize: tInt RepInitialize tEqu Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 123
-    tDiv  décalage et aller à l'état 115
-
-
-État 106
-
-   30 Instruction: tPrintf tORB tVar tCRB . tSC
-
-    tSC  décalage et aller à l'état 124
-
-
-État 107
-
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-   66           | tAdd Expression .
-
-    $défaut  réduction par utilisation de la règle 66 (Expression)
-
-
-État 108
-
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-   65           | tSub Expression .
-
-    $défaut  réduction par utilisation de la règle 65 (Expression)
-
-
-État 109
-
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-   67           | tORB Expression . tCRB
-
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tDiv  décalage et aller à l'état 115
-    tCRB  décalage et aller à l'état 125
-
-
-État 110
-
-   60 Expression: tEt tVar .
-
-    $défaut  réduction par utilisation de la règle 60 (Expression)
-
-
-État 111
-
-   61 Expression: Expression tAdd . Expression
-
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 126
-
-
-État 112
-
-   62 Expression: Expression tSub . Expression
-
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 127
-
-
-État 113
-
-   63 Expression: Expression tMul . Expression
-
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 128
-
-
-État 114
-
-   42 Assign: tVar tEqu Expression tSC .
-
-    $défaut  réduction par utilisation de la règle 42 (Assign)
-
-
-État 115
-
-   64 Expression: Expression tDiv . Expression
-
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 129
-
-
-État 116
-
-   33 ConditionnalJump: tIf tORB Expression tCRB . InitIf Instructions EndIf
-   34                 | tIf tORB Expression tCRB . InitIf Instructions EndIf InitElse Instructions EndIf
-
-    tOCB  décalage et aller à l'état 130
-
-    InitIf  aller à l'état 131
-
-
-État 117
-
-   35 ConditionnalJump: tWhile WhileORB Expression tCRB . InitWhile Instructions EndWhile
-
-    tOCB  décalage et aller à l'état 132
-
-    InitWhile  aller à l'état 133
-
-
-État 118
-
-   21 Return: tReturn Expression tSC .
-
-    $défaut  réduction par utilisation de la règle 21 (Return)
-
-
-État 119
-
-   49 Repdeclare: tVar tComma . Repdeclare
-
-    tVar  décalage et aller à l'état 97
-
-    Repdeclare  aller à l'état 104
-
-
-État 120
-
-   46 Initialize: tInt tConst RepInitialize tEqu Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 134
-    tDiv  décalage et aller à l'état 115
-
-
-État 121
-
-   48 Initialize: tInt tMul tConst RepInitialize tEqu . Expression tSC
-
-    tAdd     décalage et aller à l'état 81
-    tSub     décalage et aller à l'état 82
-    tORB     décalage et aller à l'état 83
-    tVar     décalage et aller à l'état 84
-    tValInt  décalage et aller à l'état 85
-    tDecVal  décalage et aller à l'état 86
-    tExpVal  décalage et aller à l'état 87
-    tEt      décalage et aller à l'état 88
-
-    IntegerValue  aller à l'état 89
-    Expression    aller à l'état 135
-
-
-État 122
-
-   47 Initialize: tInt tMul RepInitialize tEqu Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 136
-    tDiv  décalage et aller à l'état 115
-
-
-État 123
-
-   45 Initialize: tInt RepInitialize tEqu Expression tSC .
-
-    $défaut  réduction par utilisation de la règle 45 (Initialize)
-
-
-État 124
-
-   30 Instruction: tPrintf tORB tVar tCRB tSC .
-
-    $défaut  réduction par utilisation de la règle 30 (Instruction)
-
-
-État 125
-
-   67 Expression: tORB Expression tCRB .
-
-    $défaut  réduction par utilisation de la règle 67 (Expression)
-
-
-État 126
-
-   61 Expression: Expression . tAdd Expression
-   61           | Expression tAdd Expression .
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-
-    tMul  décalage et aller à l'état 113
-    tDiv  décalage et aller à l'état 115
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+   61           | tAdd Expression .
 
     $défaut  réduction par utilisation de la règle 61 (Expression)
 
 
-État 127
+État 104
 
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   62           | Expression tSub Expression .
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+   60           | tSub Expression .
 
-    tMul  décalage et aller à l'état 113
-    tDiv  décalage et aller à l'état 115
+    $défaut  réduction par utilisation de la règle 60 (Expression)
+
+
+État 105
+
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+   62           | tORB Expression . tCRB
+
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tDiv  décalage et aller à l'état 111
+    tCRB  décalage et aller à l'état 120
+
+
+État 106
+
+   55 Expression: tEt tVar .
+
+    $défaut  réduction par utilisation de la règle 55 (Expression)
+
+
+État 107
+
+   56 Expression: Expression tAdd . Expression
+
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 121
+
+
+État 108
+
+   57 Expression: Expression tSub . Expression
+
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 122
+
+
+État 109
+
+   58 Expression: Expression tMul . Expression
+
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 123
+
+
+État 110
+
+   37 Assign: tVar tEqu Expression tSC .
+
+    $défaut  réduction par utilisation de la règle 37 (Assign)
+
+
+État 111
+
+   59 Expression: Expression tDiv . Expression
+
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 124
+
+
+État 112
+
+   28 ConditionnalJump: tIf tORB Expression tCRB . InitIf Instructions EndIf
+   29                 | tIf tORB Expression tCRB . InitIf Instructions EndIf InitElse Instructions EndIf
+
+    tOCB  décalage et aller à l'état 125
+
+    InitIf  aller à l'état 126
+
+
+État 113
+
+   30 ConditionnalJump: tWhile WhileORB Expression tCRB . InitWhile Instructions EndWhile
+
+    tOCB  décalage et aller à l'état 127
+
+    InitWhile  aller à l'état 128
+
+
+État 114
+
+   17 Return: tReturn Expression tSC .
+
+    $défaut  réduction par utilisation de la règle 17 (Return)
+
+
+État 115
+
+   41 Initialize: tInt tConst RepInitialize tEqu Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 129
+    tDiv  décalage et aller à l'état 111
+
+
+État 116
+
+   43 Initialize: tInt tMul tConst RepInitialize tEqu . Expression tSC
+
+    tAdd     décalage et aller à l'état 82
+    tSub     décalage et aller à l'état 83
+    tORB     décalage et aller à l'état 84
+    tVar     décalage et aller à l'état 85
+    tValInt  décalage et aller à l'état 86
+    tDecVal  décalage et aller à l'état 87
+    tExpVal  décalage et aller à l'état 88
+    tEt      décalage et aller à l'état 89
+
+    IntegerValue  aller à l'état 90
+    Expression    aller à l'état 130
+
+
+État 117
+
+   42 Initialize: tInt tMul RepInitialize tEqu Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 131
+    tDiv  décalage et aller à l'état 111
+
+
+État 118
+
+   40 Initialize: tInt RepInitialize tEqu Expression tSC .
+
+    $défaut  réduction par utilisation de la règle 40 (Initialize)
+
+
+État 119
+
+   26 Instruction: tPrintf tORB tVar tCRB tSC .
+
+    $défaut  réduction par utilisation de la règle 26 (Instruction)
+
+
+État 120
+
+   62 Expression: tORB Expression tCRB .
 
     $défaut  réduction par utilisation de la règle 62 (Expression)
 
 
+État 121
+
+   56 Expression: Expression . tAdd Expression
+   56           | Expression tAdd Expression .
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+
+    tMul  décalage et aller à l'état 109
+    tDiv  décalage et aller à l'état 111
+
+    $défaut  réduction par utilisation de la règle 56 (Expression)
+
+
+État 122
+
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   57           | Expression tSub Expression .
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+
+    tMul  décalage et aller à l'état 109
+    tDiv  décalage et aller à l'état 111
+
+    $défaut  réduction par utilisation de la règle 57 (Expression)
+
+
+État 123
+
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   58           | Expression tMul Expression .
+   59           | Expression . tDiv Expression
+
+    $défaut  réduction par utilisation de la règle 58 (Expression)
+
+
+État 124
+
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
+   59           | Expression tDiv Expression .
+
+    $défaut  réduction par utilisation de la règle 59 (Expression)
+
+
+État 125
+
+   31 InitIf: tOCB .
+
+    $défaut  réduction par utilisation de la règle 31 (InitIf)
+
+
+État 126
+
+   28 ConditionnalJump: tIf tORB Expression tCRB InitIf . Instructions EndIf
+   29                 | tIf tORB Expression tCRB InitIf . Instructions EndIf InitElse Instructions EndIf
+
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 132
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
+
+
+État 127
+
+   34 InitWhile: tOCB .
+
+    $défaut  réduction par utilisation de la règle 34 (InitWhile)
+
+
 État 128
 
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   63           | Expression tMul Expression .
-   64           | Expression . tDiv Expression
+   30 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile . Instructions EndWhile
 
-    $défaut  réduction par utilisation de la règle 63 (Expression)
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 133
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
 
 
 État 129
 
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
-   64           | Expression tDiv Expression .
+   41 Initialize: tInt tConst RepInitialize tEqu Expression tSC .
 
-    $défaut  réduction par utilisation de la règle 64 (Expression)
+    $défaut  réduction par utilisation de la règle 41 (Initialize)
 
 
 État 130
 
-   36 InitIf: tOCB .
+   43 Initialize: tInt tMul tConst RepInitialize tEqu Expression . tSC
+   56 Expression: Expression . tAdd Expression
+   57           | Expression . tSub Expression
+   58           | Expression . tMul Expression
+   59           | Expression . tDiv Expression
 
-    $défaut  réduction par utilisation de la règle 36 (InitIf)
+    tAdd  décalage et aller à l'état 107
+    tSub  décalage et aller à l'état 108
+    tMul  décalage et aller à l'état 109
+    tSC   décalage et aller à l'état 134
+    tDiv  décalage et aller à l'état 111
 
 
 État 131
 
-   33 ConditionnalJump: tIf tORB Expression tCRB InitIf . Instructions EndIf
-   34                 | tIf tORB Expression tCRB InitIf . Instructions EndIf InitElse Instructions EndIf
+   42 Initialize: tInt tMul RepInitialize tEqu Expression tSC .
 
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
-
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 137
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
+    $défaut  réduction par utilisation de la règle 42 (Initialize)
 
 
 État 132
 
-   39 InitWhile: tOCB .
+   28 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions . EndIf
+   29                 | tIf tORB Expression tCRB InitIf Instructions . EndIf InitElse Instructions EndIf
 
-    $défaut  réduction par utilisation de la règle 39 (InitWhile)
+    tCCB  décalage et aller à l'état 135
+
+    EndIf  aller à l'état 136
 
 
 État 133
 
-   35 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile . Instructions EndWhile
+   30 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile Instructions . EndWhile
 
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
+    tCCB  décalage et aller à l'état 137
 
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 138
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
+    EndWhile  aller à l'état 138
 
 
 État 134
 
-   46 Initialize: tInt tConst RepInitialize tEqu Expression tSC .
+   43 Initialize: tInt tMul tConst RepInitialize tEqu Expression tSC .
 
-    $défaut  réduction par utilisation de la règle 46 (Initialize)
+    $défaut  réduction par utilisation de la règle 43 (Initialize)
 
 
 État 135
 
-   48 Initialize: tInt tMul tConst RepInitialize tEqu Expression . tSC
-   61 Expression: Expression . tAdd Expression
-   62           | Expression . tSub Expression
-   63           | Expression . tMul Expression
-   64           | Expression . tDiv Expression
+   33 EndIf: tCCB .
 
-    tAdd  décalage et aller à l'état 111
-    tSub  décalage et aller à l'état 112
-    tMul  décalage et aller à l'état 113
-    tSC   décalage et aller à l'état 139
-    tDiv  décalage et aller à l'état 115
+    $défaut  réduction par utilisation de la règle 33 (EndIf)
 
 
 État 136
 
-   47 Initialize: tInt tMul RepInitialize tEqu Expression tSC .
+   28 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf .
+   29                 | tIf tORB Expression tCRB InitIf Instructions EndIf . InitElse Instructions EndIf
 
-    $défaut  réduction par utilisation de la règle 47 (Initialize)
+    tElse  décalage et aller à l'état 139
+
+    $défaut  réduction par utilisation de la règle 28 (ConditionnalJump)
+
+    InitElse  aller à l'état 140
 
 
 État 137
 
-   33 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions . EndIf
-   34                 | tIf tORB Expression tCRB InitIf Instructions . EndIf InitElse Instructions EndIf
+   35 EndWhile: tCCB .
 
-    tCCB  décalage et aller à l'état 140
-
-    EndIf  aller à l'état 141
+    $défaut  réduction par utilisation de la règle 35 (EndWhile)
 
 
 État 138
 
-   35 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile Instructions . EndWhile
+   30 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile .
 
-    tCCB  décalage et aller à l'état 142
-
-    EndWhile  aller à l'état 143
+    $défaut  réduction par utilisation de la règle 30 (ConditionnalJump)
 
 
 État 139
 
-   48 Initialize: tInt tMul tConst RepInitialize tEqu Expression tSC .
+   32 InitElse: tElse . tOCB
 
-    $défaut  réduction par utilisation de la règle 48 (Initialize)
+    tOCB  décalage et aller à l'état 141
 
 
 État 140
 
-   38 EndIf: tCCB .
+   29 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse . Instructions EndIf
 
-    $défaut  réduction par utilisation de la règle 38 (EndIf)
+    tInt     décalage et aller à l'état 44
+    tPrintf  décalage et aller à l'état 45
+    tVar     décalage et aller à l'état 46
+    tIf      décalage et aller à l'état 47
+    tWhile   décalage et aller à l'état 48
+
+    $défaut  réduction par utilisation de la règle 22 (Instructions)
+
+    Instructions      aller à l'état 142
+    Instruction       aller à l'état 50
+    ConditionnalJump  aller à l'état 51
+    Assign            aller à l'état 52
+    Initialize        aller à l'état 53
+    Declare           aller à l'état 54
 
 
 État 141
 
-   33 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf .
-   34                 | tIf tORB Expression tCRB InitIf Instructions EndIf . InitElse Instructions EndIf
+   32 InitElse: tElse tOCB .
 
-    tElse  décalage et aller à l'état 144
-
-    $défaut  réduction par utilisation de la règle 33 (ConditionnalJump)
-
-    InitElse  aller à l'état 145
+    $défaut  réduction par utilisation de la règle 32 (InitElse)
 
 
 État 142
 
-   40 EndWhile: tCCB .
+   29 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions . EndIf
 
-    $défaut  réduction par utilisation de la règle 40 (EndWhile)
+    tCCB  décalage et aller à l'état 135
+
+    EndIf  aller à l'état 143
 
 
 État 143
 
-   35 ConditionnalJump: tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile .
+   29 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf .
 
-    $défaut  réduction par utilisation de la règle 35 (ConditionnalJump)
-
-
-État 144
-
-   37 InitElse: tElse . tOCB
-
-    tOCB  décalage et aller à l'état 146
-
-
-État 145
-
-   34 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse . Instructions EndIf
-
-    tInt     décalage et aller à l'état 34
-    tPrintf  décalage et aller à l'état 35
-    tVar     décalage et aller à l'état 36
-    tIf      décalage et aller à l'état 37
-    tWhile   décalage et aller à l'état 38
-
-    tInt      [réduction par utilisation de la règle 32 (Instruction)]
-    tPrintf   [réduction par utilisation de la règle 32 (Instruction)]
-    tCCB      réduction par utilisation de la règle 26 (Instructions)
-    tCCB      [réduction par utilisation de la règle 32 (Instruction)]
-    tVar      [réduction par utilisation de la règle 32 (Instruction)]
-    tIf       [réduction par utilisation de la règle 32 (Instruction)]
-    tWhile    [réduction par utilisation de la règle 32 (Instruction)]
-    $défaut  réduction par utilisation de la règle 26 (Instructions)
-
-    Instructions      aller à l'état 147
-    Instruction       aller à l'état 40
-    ConditionnalJump  aller à l'état 41
-    Assign            aller à l'état 42
-    Initialize        aller à l'état 43
-    Declare           aller à l'état 44
-
-
-État 146
-
-   37 InitElse: tElse tOCB .
-
-    $défaut  réduction par utilisation de la règle 37 (InitElse)
-
-
-État 147
-
-   34 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions . EndIf
-
-    tCCB  décalage et aller à l'état 140
-
-    EndIf  aller à l'état 148
-
-
-État 148
-
-   34 ConditionnalJump: tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf .
-
-    $défaut  réduction par utilisation de la règle 34 (ConditionnalJump)
+    $défaut  réduction par utilisation de la règle 29 (ConditionnalJump)

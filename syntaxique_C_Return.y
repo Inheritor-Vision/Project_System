@@ -45,19 +45,18 @@
 };
 
 %%
-S:  
-Functions Main Body {}
-|  Functions MainReturn BodyReturn {}
-|  Main Body {}
-|  MainReturn BodyReturn {};
+S:  Functions Main ;
+
+
 
 Functions:
 	Function Functions {printf("A1");}
 	| {printf("A2");};
 
+
 RepFunction:
-	tInt tVar {}
-	| tInt tVar tComma Repdeclare {}
+	tComma tInt tVar {}
+	| tInt tVar Repdeclare {}
 	| {};
 
 
@@ -67,15 +66,14 @@ Function:
 	| tInt tVar tORB RepFunction tCRB BodyReturn {};
 
 
+Vide: 
+	tVoid
+	| ;
 Main:
-	tMain tORB tVoid tCRB {}
-	| tMain tORB tCRB {}
+	tMain tORB Vide tCRB Body{}
+	| tInt tMain tORB Vide tCRB BodyReturn{}
 	| {fprintf(stderr,"Error l%d: No main detected, maybe ( or ) missing\n",mylineno);exit(EXIT_FAILURE);};
 
-MainReturn:
-	tInt tMain tORB tVoid tCRB {}
-	| tInt tMain tORB tCRB {}
-	| {fprintf(stderr,"Error l%d: No main detected, maybe ( or ) missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Body: 
 	tOCB Instructions tCCB {}
@@ -94,15 +92,14 @@ BodyReturn:
 
 Instructions: 
 	Instruction Instructions {}
-	| {};
+	| {fprintf(stderr,"Error l%d: Line %d isn't an well formed instruction.\n",mylineno,mylineno);exit(EXIT_FAILURE);};
 
 Instruction: 
 	Assign {}
 	| Initialize {}
 	| Declare {}
 	| tPrintf tORB tVar tCRB tSC {}
-	| ConditionnalJump {}
-	| {fprintf(stderr,"Error l%d: Line %d isn't an well formed instruction.\n",mylineno,mylineno);exit(EXIT_FAILURE);};
+	| ConditionnalJump {};
 
 ConditionnalJump:
 	tIf tORB Expression tCRB InitIf Instructions EndIf {
