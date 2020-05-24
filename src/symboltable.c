@@ -5,9 +5,11 @@
 #include "conditionaljump.h"
 #include "write.h"
 
+
 extern void initTvartable(void);
 extern void initCondJump(void);
 extern void initWrite(void);
+extern int mylineno;
 
 void init(){
     var = (Array*)malloc(sizeof(Array));
@@ -47,6 +49,8 @@ int set_var_to_local_int(char* a, bool cst, bool init, int depth){
         var->tab[pos].init = init;
         var->tab[pos].depth = depth;
 
+    }else{
+        fprintf(stderr,"Error: variable %s \n",a);exit(EXIT_FAILURE);
     }
     return res;
 }
@@ -63,8 +67,7 @@ int assign_var_to_local_int(char* a){
                 res = var->tab[index].address;
             }else{
                 if(var->tab[index].init == true){
-                    printf("ERROR assign_var_to_local_int1\n");
-                    exit(4);
+                    fprintf(stderr,"Error l%d: variable %s is constant and already intialized\n",mylineno,a);exit(EXIT_FAILURE);
                 }else{
                     var->tab[index].init = true;
                     var->tab[index].depth = var->tab[index].depth;
@@ -76,7 +79,7 @@ int assign_var_to_local_int(char* a){
         index ++;
     }
     if (!fin){
-        printf("ERROR assign_var_to_local_int2\n");
+        fprintf(stderr,"Error l%d: variable %s not declared or out of scope.\n",mylineno,a);exit(EXIT_FAILURE);
     }
     return res;
 }
@@ -129,7 +132,7 @@ int get_local_var_addr(char* a){
         index ++;
     }
     if (!fin){
-        printf("ERROR get_local_var_addr de:%s\n", a);
+        fprintf(stderr,"Error l%d: variable %s not declared or out of scope.\n",mylineno,a);exit(EXIT_FAILURE);
     }
     return res;
 }
@@ -163,7 +166,7 @@ int varname_to_address(char* a){
         index ++;
     }
     if (!fin){
-        printf("ERROR varname_to_address\n");
+        fprintf(stderr,"Error l%d: variable %s not declared or out of scope.\n",mylineno,a);exit(EXIT_FAILURE);
 
     }
     return res;
@@ -175,8 +178,7 @@ int initialize_var_to_local_int(char* a, bool cst, bool init, int depth){
     int res = -1;
     while(index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
-            printAll();
-            printf("ERROR initialize_var_to_local_int1 de : %s\n", a);
+            fprintf(stderr,"Error l%d: variable %s already declared.\n",mylineno,a);exit(EXIT_FAILURE);
             exit(EXIT_FAILURE);
         }
         index ++;

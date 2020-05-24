@@ -7,6 +7,7 @@ extern YYSTYPE yylval;
 int var_to_local_int_lex(char*, int);
 char * strdup( const char * source );
 typedef enum { false, true } bool;
+int mylineno = 1;
 
 
 typedef struct { 
@@ -26,6 +27,7 @@ typedef struct {
 Array *var;
 
 %}
+
 %%
 
 [ \t]+% 
@@ -60,7 +62,7 @@ while {return(tWhile);}
 "&" {return (tEt);}
 
 
-\n {} 
+\n {mylineno++;} 
 [A-Za-z][A-Za-z0-9_]*  {yylval.stringValue = strdup(yytext);return(tVar);}
 
 [0-9]+ {yylval.integerValue = atoi(yytext);return(tValInt);}

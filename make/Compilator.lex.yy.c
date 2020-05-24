@@ -499,6 +499,7 @@ extern YYSTYPE yylval;
 int var_to_local_int_lex(char*, int);
 char * strdup( const char * source );
 typedef enum { false, true } bool;
+int mylineno = 1;
 
 
 typedef struct { 
@@ -517,8 +518,8 @@ typedef struct {
 
 Array *var;
 
-#line 521 "Compilator.lex.yy.c"
 #line 522 "Compilator.lex.yy.c"
+#line 523 "Compilator.lex.yy.c"
 
 #define INITIAL 0
 
@@ -735,10 +736,10 @@ YY_DECL
 		}
 
 	{
-#line 29 "lexical_C_Return.l"
+#line 31 "lexical_C_Return.l"
 
 
-#line 742 "Compilator.lex.yy.c"
+#line 743 "Compilator.lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -797,176 +798,176 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 31 "lexical_C_Return.l"
+#line 33 "lexical_C_Return.l"
 
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 32 "lexical_C_Return.l"
+#line 34 "lexical_C_Return.l"
 {}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 33 "lexical_C_Return.l"
+#line 35 "lexical_C_Return.l"
 {return(tInt);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 35 "lexical_C_Return.l"
+#line 37 "lexical_C_Return.l"
 {return(tMain);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 37 "lexical_C_Return.l"
+#line 39 "lexical_C_Return.l"
 {return(tReturn);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 38 "lexical_C_Return.l"
+#line 40 "lexical_C_Return.l"
 {return(tPrintf);}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 39 "lexical_C_Return.l"
+#line 41 "lexical_C_Return.l"
 {return(tConst);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 40 "lexical_C_Return.l"
+#line 42 "lexical_C_Return.l"
 {return(tVoid);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 41 "lexical_C_Return.l"
+#line 43 "lexical_C_Return.l"
 {return(tIf);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 42 "lexical_C_Return.l"
+#line 44 "lexical_C_Return.l"
 { return(tElse);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 43 "lexical_C_Return.l"
+#line 45 "lexical_C_Return.l"
 {return(tWhile);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 44 "lexical_C_Return.l"
+#line 46 "lexical_C_Return.l"
 {return(tSupEqu);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 45 "lexical_C_Return.l"
+#line 47 "lexical_C_Return.l"
 {return(tInfEqu);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 46 "lexical_C_Return.l"
+#line 48 "lexical_C_Return.l"
 {return(tEquEqu);}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 47 "lexical_C_Return.l"
+#line 49 "lexical_C_Return.l"
 {return(tSup);}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 48 "lexical_C_Return.l"
+#line 50 "lexical_C_Return.l"
 {return(tInf);}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 49 "lexical_C_Return.l"
+#line 51 "lexical_C_Return.l"
 {return(tAdd);}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 50 "lexical_C_Return.l"
+#line 52 "lexical_C_Return.l"
 {return(tSub);}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 51 "lexical_C_Return.l"
+#line 53 "lexical_C_Return.l"
 {return(tMul);}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 52 "lexical_C_Return.l"
+#line 54 "lexical_C_Return.l"
 {return(tEqu);}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 53 "lexical_C_Return.l"
+#line 55 "lexical_C_Return.l"
 {return(tSC);}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 54 "lexical_C_Return.l"
+#line 56 "lexical_C_Return.l"
 {return(tDiv);}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 55 "lexical_C_Return.l"
+#line 57 "lexical_C_Return.l"
 {return(tOCB);}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 56 "lexical_C_Return.l"
+#line 58 "lexical_C_Return.l"
 {return(tCCB);}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 57 "lexical_C_Return.l"
+#line 59 "lexical_C_Return.l"
 {return(tORB);}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 58 "lexical_C_Return.l"
+#line 60 "lexical_C_Return.l"
 {return(tCRB);}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 59 "lexical_C_Return.l"
+#line 61 "lexical_C_Return.l"
 {return(tComma);}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 60 "lexical_C_Return.l"
+#line 62 "lexical_C_Return.l"
 {return (tEt);}
 	YY_BREAK
 case 29:
 /* rule 29 can match eol */
 YY_RULE_SETUP
-#line 63 "lexical_C_Return.l"
-{} 
+#line 65 "lexical_C_Return.l"
+{mylineno++;} 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 64 "lexical_C_Return.l"
+#line 66 "lexical_C_Return.l"
 {yylval.stringValue = strdup(yytext);return(tVar);}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 66 "lexical_C_Return.l"
+#line 68 "lexical_C_Return.l"
 {yylval.integerValue = atoi(yytext);return(tValInt);}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 67 "lexical_C_Return.l"
+#line 69 "lexical_C_Return.l"
 {return(tDecVal);}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 68 "lexical_C_Return.l"
+#line 70 "lexical_C_Return.l"
 {return(tExpVal);}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 71 "lexical_C_Return.l"
+#line 73 "lexical_C_Return.l"
 ECHO;
 	YY_BREAK
-#line 970 "Compilator.lex.yy.c"
+#line 971 "Compilator.lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1971,7 +1972,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 71 "lexical_C_Return.l"
+#line 73 "lexical_C_Return.l"
 
 
 int yywrap(void){}

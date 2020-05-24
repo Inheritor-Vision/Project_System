@@ -1,4 +1,5 @@
 %{
+	#define _GNU_SOURCE
 	#include <stdio.h>
 	#include <stdlib.h>
 	#include <string.h>
@@ -7,6 +8,7 @@
 	#include "src/write.h"
 	#include "src/conditionaljump.h"
 	#include "src/operation.h"
+
 	
 	int yydebug = 1;
 	int yyerror(char *s);
@@ -15,6 +17,8 @@
 	void freeAllVarray();
 	char * strdup( const char * source );
 	extern FILE * f;
+	extern int mylineno;
+	int args = 0;
 
 
 	typedef struct {
@@ -39,20 +43,54 @@
     int integerValue;
     char *stringValue;
 };
+
 %%
-S: Main Body ;
+S:  
+Functions Main Body {}
+|  Functions MainReturn BodyReturn {}
+|  Main Body {}
+|  MainReturn BodyReturn {};
+
+Functions:
+	Function Functions {printf("A1");}
+	| {printf("A2");};
+
+RepFunction:
+	tInt tVar {}
+	| tInt tVar tComma Repdeclare {}
+	| {};
+
+
+Function:
+	tVoid tVar tORB RepFunction tCRB Body {}
+	| tVar tORB RepFunction tCRB Body {}
+	| tInt tVar tORB RepFunction tCRB BodyReturn {};
 
 
 Main:
 	tMain tORB tVoid tCRB {}
 	| tMain tORB tCRB {}
-	| {fprintf(stderr,"Error: No main detected, maybe ( or ) missing\n");exit(3);};
+	| {fprintf(stderr,"Error l%d: No main detected, maybe ( or ) missing\n",mylineno);exit(EXIT_FAILURE);};
 
+MainReturn:
+	tInt tMain tORB tVoid tCRB {}
+	| tInt tMain tORB tCRB {}
+	| {fprintf(stderr,"Error l%d: No main detected, maybe ( or ) missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Body: 
-	tOCB Instructions tReturn tValInt tSC tCRB {}
-	| tOCB Instructions tCCB {}
-	| {fprintf(stderr,"Error: No body detected, maybe  { or } missing\n");exit(3);};
+	tOCB Instructions tCCB {}
+	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
+
+Return:
+	tReturn Expression tSC {} 
+	| {fprintf(stderr,"Error l%d: No return detected\n",mylineno);exit(EXIT_FAILURE);};
+
+BodyReturn:
+	tOCB Instructions Return tCCB {}
+	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
+
+
+
 
 Instructions: 
 	Instruction Instructions {}
@@ -63,7 +101,8 @@ Instruction:
 	| Initialize {}
 	| Declare {}
 	| tPrintf tORB tVar tCRB tSC {}
-	| ConditionnalJump {};
+	| ConditionnalJump {}
+	| {fprintf(stderr,"Error l%d: Line %d isn't an well formed instruction.\n",mylineno,mylineno);exit(EXIT_FAILURE);};
 
 ConditionnalJump:
 	tIf tORB Expression tCRB InitIf Instructions EndIf {
@@ -82,7 +121,6 @@ InitIf:
 	tOCB {
 		delLastVal();
 		incrementeDepth();
-		printf("%d\n",ligne);
 		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
 	};
@@ -109,12 +147,7 @@ EndWhile:
 WhileORB:
 	tORB{$<integerValue>$ = ligne;};
 
-ComparaisonOperator:
-	tSup
-	|tInf
-	|tSupEqu
-	|tInfEqu
-	|tEquEqu;
+
 
 	
 Assign:
@@ -257,11 +290,11 @@ void freeAllVarray(){
 
 
 int yyerror(char *s){
-	printf("Default Error:  \"%s\"\n",s);
-	exit(1);
+	printf("Error: %s at line %d\n",s,mylineno);
+	exit(EXIT_FAILURE);
 }
 int main(void){
-
+	//printf("|>.-O_|3(7_5`/573|\\/| : /<o|\\/||>1|_47o.-");
 	printf("\nDebut de l'analyse syntaxique\n");
 
 	//init vars locals
