@@ -53,11 +53,12 @@ Function:
 Vide:
 	tVoid
 	| ;
-	
+InitFunc:
+	tOCB {printf("InitFunc ");};
 
 
 Body: 
-	tOCB Instructions tCCB {printf("Body1 ");}
+	InitFunc Instructions tCCB {printf("Body1 ");}
 	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Return:
@@ -65,7 +66,7 @@ Return:
 	| {fprintf(stderr,"Error l%d: No return detected\n",mylineno);exit(EXIT_FAILURE);};
 
 BodyReturn:
-	tOCB Instructions Return tCCB {printf("BodyReturn1 ");}
+	InitFunc Instructions Return tCCB {printf("BodyReturn1 ");}
 	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 

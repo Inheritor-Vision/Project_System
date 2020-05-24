@@ -4,6 +4,7 @@
 #include "symboltable.h"
 #include "conditionaljump.h"
 #include "write.h"
+#include "functable.h"
 
 
 extern void initTvartable(void);
@@ -18,6 +19,7 @@ void init(){
     initTvartable();
     initCondJump();
     initWrite();
+    initFuncTable();
     //var->tab = (lvar*) malloc(sizeof(lvar));
 }
 

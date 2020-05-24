@@ -26,6 +26,7 @@
     	int size;
 	} Varray;
 	Varray *RepVars;
+
     
 %}
 
@@ -50,8 +51,8 @@ S:  Functions ;
 
 
 Functions:
-	Function Functions {printf("A1");}
-	| {printf("A2");};
+	Function Functions {}
+	| {};
 
 
 RepFunction:
@@ -74,10 +75,13 @@ Vide:
 	tVoid
 	| ;
 	
-
+InitFunc:
+	tOCB {
+		write_str("%%Début d'une nouvelle fonction\n");
+	};
 
 Body: 
-	tOCB Instructions tCCB {}
+	InitFunc Instructions tCCB {}
 	| {fprintf(stderr,"Error l%d: No body detected1, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Return:
@@ -85,7 +89,7 @@ Return:
 	| {fprintf(stderr,"Error l%d: No return detected\n",mylineno);exit(EXIT_FAILURE);};
 
 BodyReturn:
-	tOCB Instructions Return tCCB {}
+	InitFunc Instructions Return tCCB {}
 	| {fprintf(stderr,"Error l%d: No body detected2, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 
