@@ -33,5 +33,4 @@ Fichiers importants:
 	
 	Comprintlator : Compilateur (C simplifié -> print) (not up-to-date)
 	
-TODO : Obligatoire : Unité de controle
-Error et modif JMF pour prendre un regirstre et non un case mémoire . Init if / while faux : permet de reconnaitre  IF(sdfds) ELSE{}
+
