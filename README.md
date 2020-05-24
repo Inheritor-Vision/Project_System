@@ -5,7 +5,7 @@ Organisation des dossiers :
 	
 	Sandbox : Zone de test
 	
-	examples : Examples de fichier C reconnus
+	examples : Examples de fichier C reconnus et traduit en ASM
 	
 	make : Résidus de compilation
 	
