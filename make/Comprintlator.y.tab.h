@@ -66,7 +66,16 @@ extern int yydebug;
     tVar = 276,
     tValInt = 277,
     tDecVal = 278,
-    tExpVal = 279
+    tExpVal = 279,
+    tIf = 280,
+    tElse = 281,
+    tEquEqu = 282,
+    tSupEqu = 283,
+    tInfEqu = 284,
+    tSup = 285,
+    tInf = 286,
+    tWhile = 287,
+    tEt = 288
   };
 #endif
 /* Tokens.  */
@@ -92,18 +101,27 @@ extern int yydebug;
 #define tValInt 277
 #define tDecVal 278
 #define tExpVal 279
+#define tIf 280
+#define tElse 281
+#define tEquEqu 282
+#define tSupEqu 283
+#define tInfEqu 284
+#define tSup 285
+#define tInf 286
+#define tWhile 287
+#define tEt 288
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 
 union YYSTYPE
 {
-#line 22 "syntaxique_C_Printf.y" /* yacc.c:1909  */
+#line 23 "syntaxique_C_Printf.y" /* yacc.c:1909  */
 
     int integerValue;
     char *stringValue;
 
-#line 107 "Comprintlator.y.tab.h" /* yacc.c:1909  */
+#line 125 "Comprintlator.y.tab.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

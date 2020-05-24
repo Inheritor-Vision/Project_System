@@ -45,7 +45,7 @@
 };
 
 %%
-S:  Functions Main ;
+S:  Functions ;
 
 
 
@@ -59,25 +59,26 @@ RepFunction:
 	| tInt tVar Repdeclare {}
 	| {};
 
-
+Funct:
+	tMain tORB Vide tCRB Body
+	| tVar tORB RepFunction tCRB Body;
+FunctReturn: 
+	tMain tORB Vide tCRB BodyReturn
+	| tORB RepFunction tCRB BodyReturn;
 Function:
-	tVoid tVar tORB RepFunction tCRB Body {}
-	| tVar tORB RepFunction tCRB Body {}
-	| tInt tVar tORB RepFunction tCRB BodyReturn {};
+	tVoid Funct {}
+	| Funct  {}
+	| tInt FunctReturn  {};
 
-
-Vide: 
+Vide:
 	tVoid
 	| ;
-Main:
-	tMain tORB Vide tCRB Body{}
-	| tInt tMain tORB Vide tCRB BodyReturn{}
-	| {fprintf(stderr,"Error l%d: No main detected, maybe ( or ) missing\n",mylineno);exit(EXIT_FAILURE);};
+	
 
 
 Body: 
 	tOCB Instructions tCCB {}
-	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
+	| {fprintf(stderr,"Error l%d: No body detected1, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Return:
 	tReturn Expression tSC {} 
@@ -85,14 +86,14 @@ Return:
 
 BodyReturn:
 	tOCB Instructions Return tCCB {}
-	| {fprintf(stderr,"Error l%d: No body detected, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
+	| {fprintf(stderr,"Error l%d: No body detected2, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 
 
 
 Instructions: 
 	Instruction Instructions {}
-	| {fprintf(stderr,"Error l%d: Line %d isn't an well formed instruction.\n",mylineno,mylineno);exit(EXIT_FAILURE);};
+	|;
 
 Instruction: 
 	Assign {}
