@@ -1,7 +1,7 @@
-void lol (){
-    int res;
-    int j;
-
+int lol (){
+    int res= 12;
+    int j = 11;
+return j;
 }
 
 int main(void)
@@ -39,5 +39,6 @@ int main(void)
     cristaline = &test2;
     int *bueno = 5 *6 +3;
     int *skurt = &test; 
+    int test = lol() +3 * 5;
     return 1;
 }

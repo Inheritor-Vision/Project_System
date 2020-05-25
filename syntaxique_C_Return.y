@@ -288,13 +288,14 @@ Declare:
 		freeAllVarray();
 	};
 RepArgs:
-	Expression tComma RepArgs {
+	tComma Expression RepArgs {
 		delLastVal();
 		addTVars($<integerValue>1);
 	}
 	| Expression {
 		delLastVal();
-		addTVars($<integerValue>1);};
+		addTVars($<integerValue>1);}
+	| {};
 IntegerValue:
 	  tValInt {$<integerValue>$ = $<integerValue>1;}
 	| tDecVal {}
