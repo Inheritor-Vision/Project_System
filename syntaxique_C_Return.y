@@ -113,7 +113,7 @@ InitFunc:
 
 Body: 
 	InitFunc Instructions tCCB {
-		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
+		write_str("%%Fin de la fonction %s\n", $<stringValue>1);
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
 		write_str("%%Récupération de l'addresse de retour\n");
@@ -132,7 +132,7 @@ Return:
 
 BodyReturn:
 	InitFunc Instructions Return tCCB {
-		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
+		write_str("%%Fin de la fonction %s\n", $<stringValue>1);
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
 		write_str("%%Récupération de l'addresse de retour et return ds r0\n");
