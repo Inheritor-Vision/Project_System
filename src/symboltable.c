@@ -338,8 +338,10 @@ void dellvar(Array* var){
     free(var->tab);
     free(var);
 }
-int incrementOffset(){offset += 4;}
-int decrementOffset(){offset -= 4;}
+int getSize(){
+    return var->nbvar;
+}
+
 
 void printAll(void){
     printf("----------------------------------------------------------\n");

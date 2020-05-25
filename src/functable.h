@@ -9,6 +9,7 @@ bool haveMain;
 
 typedef struct { 
     char* varname;
+    char** args;
     int address;
     int nbr_args;
 } func;
@@ -21,7 +22,7 @@ typedef struct {
 tfunc *functable;
 
 void initFuncTable();
-void addFunc(char* name, int addr, int argc);
+void addFunc(char* name, int addr, int argc,char** argt);
 func getFunc(char* name);
 void modifyLastArgc(int argc);
 char* getLastName(void);

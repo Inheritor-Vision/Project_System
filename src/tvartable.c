@@ -17,6 +17,14 @@ int addTVarFromVal(int value){
     write_ligne();write_char(STR);write_int(lvt->tvar[lvt->size-1]);write_int(0);write_endl();
     return lvt->tvar[lvt->size-1];
 }
+int addTVarFromReg0(){
+    lvt->size++;
+    lvt->tvar = realloc(lvt->tvar, sizeof(int) *  lvt->size);
+    lvt->tvar[lvt->size-1] = (lvt->size-1) * 4 + 4000;
+    write_str("%%Store value du registre 0 dans la tvar %d\n", lvt->tvar[lvt->size-1]);
+    write_ligne();write_char(STR);write_int(lvt->tvar[lvt->size-1]);write_int(0);write_endl();
+    return lvt->tvar[lvt->size-1];
+}
 
 int addTVarfromLVar(int addr){
     lvt->size++;
@@ -31,7 +39,7 @@ int addTVarFromPointer(int addr){
     lvt->size++;
     lvt->tvar = realloc(lvt->tvar, sizeof(int) *  lvt->size);
     lvt->tvar[lvt->size-1] = (lvt->size-1) * 4 + 4000;
-    write_str("%%Store value %d de lvar dans la tvar %d\n", addr, lvt->tvar[lvt->size-1]);
+    write_str("%%Store value %d de pointer dans la tvar %d\n", addr, lvt->tvar[lvt->size-1]);
     write_ligne();write_char(LOD);write_int(0);write_int(addr);write_endl();
     write_ligne();write_char(LODR);write_int(0);write_int(0);write_endl();
     write_ligne();write_char(STR);write_int(lvt->tvar[lvt->size-1]);write_int(0);write_endl();

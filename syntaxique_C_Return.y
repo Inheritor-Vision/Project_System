@@ -15,6 +15,8 @@
 	int yyerror(char *s);
 	int yylex();
 	void addVarray(char*);
+	void addTVars(int a);
+	void freeAllTVars();
 	void freeAllVarray();
 	char * strdup( const char * source );
 	extern FILE * f;
@@ -22,9 +24,15 @@
 	int deb[50] = {0};
 	int debIndex = 0;
 	int arg = 0;
+	int wile = 0;
+	char ** argt = NULL;
 	char* nameFct;
 
-
+	typedef struct {
+		int* tab;
+		int size;
+	} argsArray;
+	argsArray  *RepTVars;
 
 	typedef struct {
     	char** tab;
@@ -61,8 +69,14 @@ Functions:
 
 
 RepFunction:
-	tComma tInt tVar {arg++;}
-	| tInt tVar Repdeclare {arg++;}
+	tComma tInt tVar {
+		arg++;
+		argt = realloc(argt, sizeof(char*) * arg);
+		argt[arg-1] = strdup($<stringValue>3);}
+	| tInt tVar Repdeclare {
+		arg++;
+		argt = realloc(argt, sizeof(char*) * arg);
+		argt[arg-1] = strdup($<stringValue>3);}
 	| {};
 
 Funct:
@@ -77,10 +91,13 @@ Function:
 	| tInt FunctReturn  {};
 
 Princ: 
-	tMain {addFunc("main",ligne, 0);};
+	tMain {
+		addFunc("main",ligne, 0, NULL);};
 
 Var:
-	tVar {addFunc($<stringValue>1,ligne, 0);};
+	tVar {
+		addFunc($<stringValue>1,ligne, 0, argt);
+		argt = NULL;};
 
 Vide:
 	tVoid
@@ -91,26 +108,38 @@ InitFunc:
 		modifyLastArgc(arg);
 		arg = 0;
 		write_str("%%Début de la fonction %s\n", getLastName());
-		
-		/* write_ligne();write_char(ADD);write_int(SP);write_int(SP);write_int(4);write_endl();
-		write_ligne();write_char(STRR);write_int(SP);write_int(ligne-1);write_endl(); */
-
-		incrementOffset();
-
+		$<stringValue>$ = getLastName();
 	};
 
 Body: 
-	InitFunc Instructions tCCB {decrementOffset();}
+	InitFunc Instructions tCCB {
+		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
+		decrementeDepth(deb[debIndex]);
+		debIndex--;
+		write_ligne();write_char(LODR);write_int(0);write_int(SP);write_endl();
+		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(JMP[0]);write_int(0);write_endl();
+		}
 	| {fprintf(stderr,"Error l%d: No body detected1, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Return:
-	tReturn Expression tSC {} 
+	tReturn Expression tSC {
+	delLastVal();
+	$<integerValue>$ = $<integerValue>2;
+	} 
 	| {fprintf(stderr,"Error l%d: No return detected\n",mylineno);exit(EXIT_FAILURE);};
 
 BodyReturn:
-	InitFunc Instructions Return tCCB {decrementOffset();}
+	InitFunc Instructions Return tCCB {
+		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
+		decrementeDepth(deb[debIndex]);
+		debIndex--;
+		write_ligne();write_char(AFC);write_int(0);write_int($<integerValue>3);write_endl();
+		write_ligne();write_char(LODR);write_int(1);write_int(SP);write_endl();
+		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(JMP[0]);write_int(1);write_endl();
+		}
 	| {fprintf(stderr,"Error l%d: No body detected2, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
-
 
 
 
@@ -126,23 +155,23 @@ Instruction:
 	| ConditionnalJump {};
 
 ConditionnalJump:
-	tIf tORB Expression tCRB InitIf Instructions EndIf {
-		modifyLast($<integerValue>5,$<integerValue>7);
+	 InitIf Instructions EndIf {
+		modifyLast($<integerValue>1,$<integerValue>3);
 		}
-	| tIf tORB Expression tCRB InitIf Instructions EndIf InitElse Instructions EndIf{
-		modifyLast($<integerValue>5,$<integerValue>7+1);
-		modifyLast($<integerValue>8,$<integerValue>10);
+	| InitIf Instructions EndIf InitElse Instructions EndIf{
+		modifyLast($<integerValue>1,$<integerValue>3+1);
+		modifyLast($<integerValue>4,$<integerValue>6);
 		}
-	| tWhile WhileORB Expression tCRB InitWhile Instructions EndWhile {
-		modifyLast($<integerValue>5,$<integerValue>7+1);
-		write_ligne();write_char(JMP[0]);write_int($<integerValue>2);write_endl();
+	| InitWhile Instructions EndWhile {
+		modifyLast($<integerValue>1,$<integerValue>3+1);
+		write_ligne();write_char(JMP[0]);write_int(wile);write_endl();
 	};
 
 InitIf:
-	tOCB {
+	tIf Expression {
 		delLastVal();
 		incrementeDepth(deb[debIndex]);
-		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
+		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>2);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
 	};
 InitElse:
@@ -155,11 +184,12 @@ EndIf:
 	tCCB {decrementeDepth(deb[debIndex]);$<integerValue>$ = ligne;};
 
 InitWhile:
-	tOCB {
+	tWhile WhileORB Expression tCRB tOCB {
 		delLastVal();
 		incrementeDepth(deb[debIndex]);
-		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
+		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>3);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
+		wile = $<integerValue>2;
 	};
 
 EndWhile:
@@ -255,7 +285,14 @@ Declare:
 		}
 		freeAllVarray();
 	};
-
+RepArgs:
+	Expression tComma RepArgs {
+		delLastVal();
+		addTVars($<integerValue>1);
+	}
+	| Expression {
+		delLastVal();
+		addTVars($<integerValue>1);};
 IntegerValue:
 	  tValInt {$<integerValue>$ = $<integerValue>1;}
 	| tDecVal {}
@@ -273,7 +310,25 @@ Expression:
 	}
 	| tMul tVar  {
 		$<integerValue>$ = addTVarFromPointer(get_local_var_addr(deb[debIndex],$<stringValue>2));
-	} 
+	}
+	| tVar tORB RepArgs tCRB{
+		func tmp = getFunc($<stringValue>1);
+		debIndex++;
+		deb[debIndex] = getSize();
+		write_ligne();write_char(ADD);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(STRR);write_int(SP);write_int(ligne+1+2*RepTVars->size);write_endl();
+		write_ligne();write_char(JMP[0]);write_int(tmp.address);write_endl();
+		if(!(tmp.nbr_args == RepTVars->size)){
+			fprintf(stderr,"Error l%d: Function %s as wrong number of args\n",mylineno,tmp.varname);exit(EXIT_FAILURE);
+		}
+		for(int i = 0; i < RepTVars->size; i++){
+			write_str("%%Initialize args of function: %s\n ", tmp.args[i]);
+			write_ligne();write_char(LOD);write_int(0);write_int(RepTVars->tab[i]);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],tmp.args[i], true, true, 0)); write_int(0);write_endl();
+		}
+		freeAllTVars();
+		$<integerValue>$ = addTVarFromReg0();
+	}
 	| Expression tAdd Expression {
 		$<integerValue>$ = addTVarFromOperation(add,$<integerValue>1, $<integerValue>3);
 	}
@@ -307,6 +362,19 @@ void freeAllVarray(){
     RepVars->size = 0;
     RepVars->tab = malloc(sizeof(char**));
 }
+void addTVars(int a){
+    RepTVars->size++;
+    RepTVars->tab = (int*)realloc(RepTVars->tab,RepTVars->size * sizeof(int));
+	RepTVars->tab[RepTVars->size-1] = a;
+}
+
+void freeAllTVars(){
+    free(RepTVars->tab);
+    free(RepTVars);
+	RepTVars = (argsArray*) malloc(sizeof(argsArray));
+	RepTVars->size = 0;
+	RepTVars->tab = (int*) malloc(sizeof(int));
+}
 
 
 
@@ -326,6 +394,9 @@ int main(void){
 	RepVars = (Varray*) malloc(sizeof(Varray));
     RepVars->size = 0;
     RepVars->tab = (char**) malloc(sizeof(char*));
+	RepTVars = (argsArray*) malloc(sizeof(argsArray));
+	RepTVars->size = 0;
+	RepTVars->tab = (int*) malloc(sizeof(int));
 	
 
 	
@@ -347,7 +418,7 @@ int main(void){
 			if(count == CondJumpList->liste[indexPatch].from){
 				char yo[254];
 				if(!strcmp(CondJumpList->liste[indexPatch].op,JMF)){
-					sprintf(yo,"%-9d %-9s %-9d %-9d", CondJumpList->liste[indexPatch].pos,JMF,4000, CondJumpList->liste[indexPatch].to);
+					sprintf(yo,"%-9d %-9s %-9d %-9d", CondJumpList->liste[indexPatch].pos,JMF,0, CondJumpList->liste[indexPatch].to);
 				}else{
 					sprintf(yo,"%-9d %-9s %-9d", CondJumpList->liste[indexPatch].pos,JMP, CondJumpList->liste[indexPatch].to);
 				}
