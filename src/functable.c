@@ -37,3 +37,11 @@ func getFunc(char* name){
     }
     return res;
 }
+
+void modifyLastArgc(int argc){
+    functable->tab[functable->size - 1].nbr_args = argc;
+}
+
+char* getLastName(void){
+    return functable->tab[functable->size - 1].varname;
+}

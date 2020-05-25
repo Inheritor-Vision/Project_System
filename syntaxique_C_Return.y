@@ -19,6 +19,8 @@
 	extern FILE * f;
 	extern int mylineno;
 	int deb = 0;
+	int arg = 0;
+	char* nameFct;
 
 
 
@@ -57,20 +59,26 @@ Functions:
 
 
 RepFunction:
-	tComma tInt tVar {}
-	| tInt tVar Repdeclare {}
+	tComma tInt tVar {arg++;}
+	| tInt tVar Repdeclare {arg++;}
 	| {};
 
 Funct:
-	tMain tORB Vide tCRB Body
-	| tVar tORB RepFunction tCRB Body;
+	Princ tORB Vide tCRB Body
+	| tVar tORB RepFunction tCRB Body{ };
 FunctReturn: 
-	tMain tORB Vide tCRB BodyReturn
-	| tORB RepFunction tCRB BodyReturn;
+	Princ tORB Vide tCRB BodyReturn
+	| tVar tORB RepFunction tCRB BodyReturn {};
 Function:
 	tVoid Funct {}
 	| Funct  {}
 	| tInt FunctReturn  {};
+
+Princ: 
+	tMain {addFunc("main",ligne, 0);};
+
+Var:
+	tVar {addFunc($<stringValue>1,ligne, 0);};
 
 Vide:
 	tVoid
@@ -78,11 +86,17 @@ Vide:
 	
 InitFunc:
 	tOCB {
-		write_str("%%Début d'une nouvelle fonction\n");
+		modifyArgc(arg);
+		arg = 0;
+		write_str("%%Début de la fonction %s\n", getLastName());
+		write_ligne();write_char(ADD);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(STRR);write_int(SP);write_int(ligne);write_endl();
+		incrementeOffset();
+
 	};
 
 Body: 
-	InitFunc Instructions tCCB {}
+	InitFunc Instructions tCCB {decrementOffset();}
 	| {fprintf(stderr,"Error l%d: No body detected1, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 Return:
@@ -90,7 +104,7 @@ Return:
 	| {fprintf(stderr,"Error l%d: No return detected\n",mylineno);exit(EXIT_FAILURE);};
 
 BodyReturn:
-	InitFunc Instructions Return tCCB {}
+	InitFunc Instructions Return tCCB {decrementOffset();}
 	| {fprintf(stderr,"Error l%d: No body detected2, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
 
 
@@ -251,9 +265,11 @@ Expression:
 		$<integerValue>$ = addTVarfromLVar(get_local_var_addr(deb,$<stringValue>1));
 	}
 	| tEt tVar {
-		//printf("%s\n", )
 		$<integerValue>$ = addTVarFromVal(get_local_var_addr(deb,$<stringValue>2));
 	}
+	| TMul TVar  {
+		$<integerValue>$ = addTVarFromPointer(get_local_var_addr(deb,$<stringValue>2));
+	} 
 	| Expression tAdd Expression {
 		$<integerValue>$ = addTVarFromOperation(add,$<integerValue>1, $<integerValue>3);
 	}

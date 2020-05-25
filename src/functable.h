@@ -22,7 +22,9 @@ tfunc *functable;
 
 void initFuncTable();
 void addFunc(char* name, int addr, int argc);
-func getFunc(char* name) ;
+func getFunc(char* name);
+void modifyLastArgc(int argc);
+char* getLastName(void);
 
 
 #endif

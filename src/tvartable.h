@@ -16,6 +16,7 @@ tvartable *lvt;
 void initTvartable(void);
 int addTVarFromVal(int value);
 int addTVarfromLVar(int addr);
+int addTVarFromPointer(int addr);
 int addTVarFromOperation(op ope, int tvar1, int tvar2);
 void delLastVal();
 void printAllTvar();

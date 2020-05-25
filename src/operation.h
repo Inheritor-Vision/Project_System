@@ -10,9 +10,12 @@
 #define STR '8'
 #define JMP "9"
 #define JMF "A"
+#define STRR 'B'
+#define LODR 'C'
 #define INF "INF"
 #define SUP "SUP"
 #define EQU "EQU"
 #define PRI "PRI"
+#define SP 15
 
 #endif

@@ -16,6 +16,7 @@ void init(void){
     var = (Array*)malloc(sizeof(Array));
     var->size = 0;
     var->nbvar = 0;
+    offset = 8000;
     initTvartable();
     initCondJump();
     initWrite();
@@ -194,7 +195,7 @@ int initialize_var_to_local_int(int deb,char* a, bool cst, bool init, int depth)
     var->size++;
     var->nbvar++;
     int pos = var->size-1;
-    res = (var->nbvar - 1) * 4 + 8000;
+    res = (var->nbvar - 1) * 4 + offset;
     var->tab = (lvar*)realloc(var->tab,var->size * sizeof(lvar));
     var->tab[pos].varname = (char*)malloc(256*sizeof(char));
     strcpy(var->tab[pos].varname, a);
@@ -337,6 +338,8 @@ void dellvar(Array* var){
     free(var->tab);
     free(var);
 }
+int incrementOffset(){offset += 4;}
+int decrementOffset(){offset -= 4;}
 
 void printAll(void){
     printf("----------------------------------------------------------\n");

@@ -23,6 +23,8 @@ typedef struct {
 } Array;
 Array *var;
 
+int offset;
+
 
 void init(void);
 Array* newArray(void);
@@ -37,6 +39,8 @@ int initialize_var_to_local_int(int deb,char* a, bool cst, bool init, int depth)
 void del_var_name(int deb,char* dvar);
 void incrementeDepth(int deb);
 void decrementeDepth(int deb);
+int incrementOffset();
+int decrementOffset();
 void dellvar(Array* var);
 void printAll(void);
 
