@@ -264,8 +264,42 @@
 189       7         0         4000      
 190       8         8012      0         
 191       9         127       
-% Fin de la fonction main
+%Store value 8020 dans la tvar 4000
+192       6         0         8020      
+193       8         4000      0         
+%Assignation var: cristaline
+194       7         0         4000      
+195       8         8040      0         
+%Store value 5 dans la tvar 4000
+196       6         0         5         
+197       8         4000      0         
+%Store value 6 dans la tvar 4004
+198       6         0         6         
+199       8         4004      0         
+%Load value from tvar 4000 and 4004 then mul and store in 4000
+200       7         0         4000      
+201       7         1         4004      
+202       2         0         0         1         
+203       8         4000      0         
+%Store value 3 dans la tvar 4004
+204       6         0         3         
+205       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+206       7         0         4000      
+207       7         1         4004      
+208       1         0         0         1         
+209       8         4000      0         
+%Initialize var : bueno
+210       7         0         4000      
+211       8         8044      0         
+%Store value 8000 dans la tvar 4000
+212       6         0         8000      
+213       8         4000      0         
+%Initialize var : skurt
+214       7         0         4000      
+215       8         8048      0         
+%Fin de la fonction main
 %Récupération de l'addresse de retour
-192       C         0         15        
-193       3         15        15        4         
-194       9         0         
+216       C         0         15        
+217       3         15        15        4         
+218       9         0         

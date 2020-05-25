@@ -237,7 +237,7 @@ Initialize:
 	}
 	| tInt tMul RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
 			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 		}
@@ -246,7 +246,7 @@ Initialize:
 	}
 	| tInt tMul tConst  RepInitialize tEqu Expression tSC {
 		for(int i = 0; i < RepVars->size; i++){
-			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>6);write_endl();
 			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 		}

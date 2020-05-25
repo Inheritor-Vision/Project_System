@@ -1507,7 +1507,7 @@ yyreduce:
   case 20:
 #line 115 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
-		write_str("%% Fin de la fonction %s\n", (yyvsp[-2].stringValue));
+		write_str("%%Fin de la fonction %s\n", (yyvsp[-2].stringValue));
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
 		write_str("%%Récupération de l'addresse de retour\n");
@@ -1542,7 +1542,7 @@ yyreduce:
   case 24:
 #line 134 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
-		write_str("%% Fin de la fonction %s\n", (yyvsp[-3].stringValue));
+		write_str("%%Fin de la fonction %s\n", (yyvsp[-3].stringValue));
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
 		write_str("%%Récupération de l'addresse de retour et return ds r0\n");
@@ -1726,7 +1726,7 @@ yyreduce:
 #line 238 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		for(int i = 0; i < RepVars->size; i++){
-			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int((yyvsp[-1].integerValue));write_endl();
 			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 		}
@@ -1740,7 +1740,7 @@ yyreduce:
 #line 247 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		for(int i = 0; i < RepVars->size; i++){
-			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int((yyvsp[-1].integerValue));write_endl();
 			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 		}
