@@ -114,11 +114,12 @@ InitFunc:
 Body: 
 	InitFunc Instructions tCCB {
 		write_str("%%Fin de la fonction %s\n", $<stringValue>1);
+		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int((getSize()-deb[debIndex]-1)*4);write_endl();
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
 		write_str("%%Récupération de l'addresse de retour\n");
-		write_ligne();write_char(LODR);write_int(0);write_int(SP);write_endl();
 		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(LODR);write_int(0);write_int(SP);write_endl();
 		write_ligne();write_char(JMP[0]);write_int(0);write_endl();
 		}
 	| {fprintf(stderr,"Error l%d: No body detected1, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
@@ -133,12 +134,13 @@ Return:
 BodyReturn:
 	InitFunc Instructions Return tCCB {
 		write_str("%%Fin de la fonction %s\n", $<stringValue>1);
+		write_str("%%Récupération de l'addresse de retour et return ds r0\n");
+		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int((getSize()-deb[debIndex]-1)*4);write_endl();
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
-		write_str("%%Récupération de l'addresse de retour et return ds r0\n");
 		write_ligne();write_char(AFC);write_int(0);write_int($<integerValue>3);write_endl();
-		write_ligne();write_char(LODR);write_int(1);write_int(SP);write_endl();
 		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
+		write_ligne();write_char(LODR);write_int(1);write_int(SP);write_endl();
 		write_ligne();write_char(JMP[0]);write_int(1);write_endl();
 		}
 	| {fprintf(stderr,"Error l%d: No body detected2, maybe  { or } missing\n",mylineno);exit(EXIT_FAILURE);};
@@ -207,7 +209,9 @@ Assign:
 	tVar tEqu Expression tSC {
 		write_str("%%Assignation var: %s\n",$<stringValue>1);
 		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>3);write_endl();
-		write_ligne();write_char(STR); write_int(assign_var_to_local_int(deb[debIndex],$<stringValue>1)); write_int(0);write_endl();
+		write_ligne();write_char(AFC);write_int(1);write_int(assign_var_to_local_int(deb[debIndex],$<stringValue>1));write_endl();
+		write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+		write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 		delLastVal();};
 		
 
@@ -221,7 +225,9 @@ Initialize:
 		  for(int i = 0; i < RepVars->size; i++){
 			  write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			  write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>4);write_endl();
-			  write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			  write_ligne();write_char(AFC);write_int(1);write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0));write_endl();
+			  write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+			  write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
@@ -230,7 +236,9 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(AFC);write_int(1);write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0));write_endl();
+			write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+			write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -239,7 +247,9 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(AFC);write_int(1);write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], false, true, 0));write_endl();
+			write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+			write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -248,7 +258,9 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>6);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(AFC);write_int(1);write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0));write_endl();
+			write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+			write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -315,11 +327,14 @@ Expression:
 		$<integerValue>$ = addTVarFromPointer(get_local_var_addr(deb[debIndex],$<stringValue>2));
 	}
 	| tVar tORB RepArgs tCRB{
+		
 		func tmp = getFunc($<stringValue>1);
 		debIndex++;
 		deb[debIndex] = getSize();
+		write_str("%%Initializing jump. Prepare stack.\n");
+		write_ligne();write_char(ADD);write_int(SP);write_int(SP);write_int((deb[debIndex]-deb[debIndex-1] + debIndex-1)*4);write_endl();
+		write_ligne();write_char(STRR);write_int(SP);write_int(ligne+4+4*RepTVars->size);write_endl();
 		write_ligne();write_char(ADD);write_int(SP);write_int(SP);write_int(4);write_endl();
-		write_ligne();write_char(STRR);write_int(SP);write_int(ligne+1+2*RepTVars->size);write_endl();
 		write_ligne();write_char(JMP[0]);write_int(tmp.address);write_endl();
 		if(!(tmp.nbr_args == RepTVars->size)){
 			fprintf(stderr,"Error l%d: Function %s as wrong number of args\n",mylineno,tmp.varname);exit(EXIT_FAILURE);
@@ -327,7 +342,9 @@ Expression:
 		for(int i = 0; i < RepTVars->size; i++){
 			write_str("%%Initialize args of function: %s\n ", tmp.args[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int(RepTVars->tab[i]);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],tmp.args[i], true, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(AFC);write_int(1);write_int(initialize_var_to_local_int(deb[debIndex],tmp.args[i], true, true, 0));write_endl();
+			write_ligne();write_char(ADD);write_int(1);write_int(SP);write_int(1);write_endl();
+			write_ligne();write_char(STRR); write_int(1); write_int(0);write_endl();
 		}
 		freeAllTVars();
 		$<integerValue>$ = addTVarFromReg0();

@@ -39,6 +39,8 @@ int initialize_var_to_local_int(int deb,char* a, bool cst, bool init, int depth)
 void del_var_name(int deb,char* dvar);
 void incrementeDepth(int deb);
 void decrementeDepth(int deb);
+int incrementOffset(int a);
+int decrementOffset(int a);
 int getSize();
 void dellvar(Array* var);
 void printAll(void);

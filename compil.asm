@@ -4,352 +4,402 @@
 1         8         4000      0         
 %Initialize var : res
 2         7         0         4000      
-3         8         8000      0         
+3         6         1         8000      
+4         1         1         15        1         
+5         B         1         0         
 %Store value 11 dans la tvar 4000
-4         6         0         11        
-5         8         4000      0         
+6         6         0         11        
+7         8         4000      0         
 %Initialize var : j
-6         7         0         4000      
-7         8         8004      0         
+8         7         0         4000      
+9         6         1         8004      
+10        1         1         15        1         
+11        B         1         0         
 %Store value 8004 de lvar dans la tvar 4000
-8         7         0         8004      
-9         8         4000      0         
+12        7         0         8004      
+13        8         4000      0         
 %Fin de la fonction lol
 %Récupération de l'addresse de retour et return ds r0
-10        6         0         4000      
-11        C         1         15        
-12        3         15        15        4         
-13        9         1         
+14        3         15        15        4         
+15        6         0         4000      
+16        3         15        15        4         
+17        C         1         15        
+18        9         1         
 %Début de la fonction main
 %Store value 13 dans la tvar 4000
-14        6         0         13        
-15        8         4000      0         
+19        6         0         13        
+20        8         4000      0         
 %Assignation var: test2
-16        7         0         4000      
-17        8         8020      0         
+21        7         0         4000      
+22        6         1         8020      
+23        1         1         15        1         
+24        B         1         0         
 %Store value 7 dans la tvar 4000
-18        6         0         7         
-19        8         4000      0         
+25        6         0         7         
+26        8         4000      0         
 %Assignation var: a
-20        7         0         4000      
-21        8         8016      0         
+27        7         0         4000      
+28        6         1         8016      
+29        1         1         15        1         
+30        B         1         0         
 %Store value 25 dans la tvar 4000
-22        6         0         25        
-23        8         4000      0         
+31        6         0         25        
+32        8         4000      0         
 %Initialize var : z
-24        7         0         4000      
-25        8         8028      0         
+33        7         0         4000      
+34        6         1         8028      
+35        1         1         15        1         
+36        B         1         0         
 %Initialize var : y
-26        7         0         4000      
-27        8         8032      0         
+37        7         0         4000      
+38        6         1         8032      
+39        1         1         15        1         
+40        B         1         0         
 %Initialize var : x
-28        7         0         4000      
-29        8         8036      0         
+41        7         0         4000      
+42        6         1         8036      
+43        1         1         15        1         
+44        B         1         0         
 %Store value 8000 de lvar dans la tvar 4000
-30        7         0         8000      
-31        8         4000      0         
-32        7         0         4000      
-33        A         0         55       
+45        7         0         8000      
+46        8         4000      0         
+47        7         0         4000      
+48        A         0         74       
 %Store value 6854 dans la tvar 4000
-34        6         0         6854      
-35        8         4000      0         
+49        6         0         6854      
+50        8         4000      0         
 %Assignation var: ZZ
-36        7         0         4000      
-37        8         8008      0         
+51        7         0         4000      
+52        6         1         8008      
+53        1         1         15        1         
+54        B         1         0         
 %Store value 58 dans la tvar 4000
-38        6         0         58        
-39        8         4000      0         
-%Store value 6 dans la tvar 4004
-40        6         0         6         
-41        8         4004      0         
-%Load value from tvar 4000 and 4004 then mul and store in 4000
-42        7         0         4000      
-43        7         1         4004      
-44        2         0         0         1         
-45        8         4000      0         
-%Store value 2 dans la tvar 4004
-46        6         0         2         
-47        8         4004      0         
-%Load value from tvar 4000 and 4004 then sub and store in 4000
-48        7         0         4000      
-49        7         1         4004      
-50        3         0         0         1         
-51        8         4000      0         
-%Initialize var : g
-52        7         0         4000      
-53        8         8040      0         
-54        9         81       
-%Store value 8008 de lvar dans la tvar 4000
-55        7         0         8008      
+55        6         0         58        
 56        8         4000      0         
-%Assignation var: JJ
-57        7         0         4000      
-58        8         8012      0         
-%Store value 4258 dans la tvar 4000
-59        6         0         4258      
-60        8         4000      0         
-%Store value 21256 dans la tvar 4004
-61        6         0         21256     
-62        8         4004      0         
-%Load value from tvar 4000 and 4004 then div and store in 4000
-63        7         0         4000      
-64        7         1         4004      
-65        4         0         0         1         
-66        8         4000      0         
-%Store value 54 dans la tvar 4004
-67        6         0         54        
-68        8         4004      0         
-%Store value 5 dans la tvar 4008
-69        6         0         5         
-70        8         4008      0         
-%Load value from tvar 4004 and 4008 then mul and store in 4004
-71        7         0         4004      
-72        7         1         4008      
-73        2         0         0         1         
-74        8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-75        7         0         4000      
-76        7         1         4004      
-77        1         0         0         1         
-78        8         4000      0         
-%Initialize var : w
-79        7         0         4000      
-80        8         8040      0         
-%Store value 2 dans la tvar 4000
-81        6         0         2         
-82        8         4000      0         
-%Store value 5 dans la tvar 4004
-83        6         0         5         
-84        8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-85        7         0         4000      
-86        7         1         4004      
-87        1         0         0         1         
-88        8         4000      0         
-89        7         0         4000      
-90        A         0         117      
-%Store value 8008 de lvar dans la tvar 4000
-91        7         0         8008      
-92        8         4000      0         
-%Assignation var: JJ
-93        7         0         4000      
-94        8         8012      0         
-%Store value 4258 dans la tvar 4000
-95        6         0         4258      
-96        8         4000      0         
-%Store value 21256 dans la tvar 4004
-97        6         0         21256     
-98        8         4004      0         
-%Load value from tvar 4000 and 4004 then div and store in 4000
-99        7         0         4000      
-100       7         1         4004      
-101       4         0         0         1         
-102       8         4000      0         
-%Store value 54 dans la tvar 4004
-103       6         0         54        
-104       8         4004      0         
-%Store value 5 dans la tvar 4008
-105       6         0         5         
-106       8         4008      0         
-%Load value from tvar 4004 and 4008 then mul and store in 4004
-107       7         0         4004      
-108       7         1         4008      
-109       2         0         0         1         
-110       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-111       7         0         4000      
-112       7         1         4004      
-113       1         0         0         1         
-114       8         4000      0         
-%Initialize var : h
-115       7         0         4000      
-116       8         8040      0         
-%Store value 8016 de lvar dans la tvar 4000
-117       7         0         8016      
-118       8         4000      0         
-%Assignation var: JJ
-119       7         0         4000      
-120       8         8012      0         
-%Store value 1 dans la tvar 4000
-121       6         0         1         
-122       8         4000      0         
-%Store value 2 dans la tvar 4004
-123       6         0         2         
-124       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-125       7         0         4000      
-126       7         1         4004      
-127       1         0         0         1         
-128       8         4000      0         
-%Assignation var: test
-129       7         0         4000      
-130       8         8000      0         
-%Store value 2 dans la tvar 4000
-131       6         0         2         
-132       8         4000      0         
-%Store value 3 dans la tvar 4004
-133       6         0         3         
-134       8         4004      0         
-%Load value from tvar 4000 and 4004 then mul and store in 4000
-135       7         0         4000      
-136       7         1         4004      
-137       2         0         0         1         
-138       8         4000      0         
-%Assignation var: AA
-139       7         0         4000      
-140       8         8004      0         
-%Store value 1 dans la tvar 4000
-141       6         0         1         
-142       8         4000      0         
-143       7         0         4000      
-144       A         0         206      
-%Store value 1 dans la tvar 4000
-145       6         0         1         
-146       8         4000      0         
-%Store value 2 dans la tvar 4004
-147       6         0         2         
-148       8         4004      0         
-%Store value 3 dans la tvar 4008
-149       6         0         3         
-150       8         4008      0         
-%Load value from tvar 4004 and 4008 then mul and store in 4004
-151       7         0         4004      
-152       7         1         4008      
-153       2         0         0         1         
-154       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-155       7         0         4000      
-156       7         1         4004      
-157       1         0         0         1         
-158       8         4000      0         
-%Assignation var: ZZ
-159       7         0         4000      
-160       8         8008      0         
-%Store value 1 dans la tvar 4000
-161       6         0         1         
-162       8         4000      0         
-%Store value 2 dans la tvar 4004
-163       6         0         2         
-164       8         4004      0         
-%Store value 1 dans la tvar 4008
-165       6         0         1         
-166       8         4008      0         
-%Store value 2 dans la tvar 4012
-167       6         0         2         
-168       8         4012      0         
-%Load value from tvar 4008 and 4012 then add and store in 4008
-169       7         0         4008      
-170       7         1         4012      
-171       1         0         0         1         
-172       8         4008      0         
-%Load value from tvar 4004 and 4008 then mul and store in 4004
-173       7         0         4004      
-174       7         1         4008      
-175       2         0         0         1         
-176       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-177       7         0         4000      
-178       7         1         4004      
-179       1         0         0         1         
-180       8         4000      0         
-%Assignation var: JJ
-181       7         0         4000      
-182       8         8012      0         
-%Store value 1 dans la tvar 4000
-183       6         0         1         
-184       8         4000      0         
-%Store value 1 dans la tvar 4004
-185       6         0         1         
-186       8         4004      0         
-%Store value 2 dans la tvar 4008
-187       6         0         2         
-188       8         4008      0         
-%Load value from tvar 4004 and 4008 then add and store in 4004
-189       7         0         4004      
-190       7         1         4008      
-191       1         0         0         1         
-192       8         4004      0         
-%Store value 2 dans la tvar 4008
-193       6         0         2         
-194       8         4008      0         
-%Load value from tvar 4004 and 4008 then mul and store in 4004
-195       7         0         4004      
-196       7         1         4008      
-197       2         0         0         1         
-198       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-199       7         0         4000      
-200       7         1         4004      
-201       1         0         0         1         
-202       8         4000      0         
-%Assignation var: JJ
-203       7         0         4000      
-204       8         8012      0         
-205       9         141       
-%Store value 8020 dans la tvar 4000
-206       6         0         8020      
-207       8         4000      0         
-%Assignation var: cristaline
-208       7         0         4000      
-209       8         8040      0         
-%Store value 5 dans la tvar 4000
-210       6         0         5         
-211       8         4000      0         
 %Store value 6 dans la tvar 4004
-212       6         0         6         
-213       8         4004      0         
+57        6         0         6         
+58        8         4004      0         
 %Load value from tvar 4000 and 4004 then mul and store in 4000
-214       7         0         4000      
-215       7         1         4004      
-216       2         0         0         1         
-217       8         4000      0         
-%Store value 3 dans la tvar 4004
-218       6         0         3         
-219       8         4004      0         
-%Load value from tvar 4000 and 4004 then add and store in 4000
-220       7         0         4000      
-221       7         1         4004      
-222       1         0         0         1         
-223       8         4000      0         
-%Initialize var : bueno
-224       7         0         4000      
-225       8         8044      0         
-%Store value 8000 dans la tvar 4000
-226       6         0         8000      
-227       8         4000      0         
-%Initialize var : skurt
-228       7         0         4000      
-229       8         8048      0         
-230       1         15        15        4         
-231       B         15        232       
-232       9         0         
-%Store value du registre 0 dans la tvar 4000
-233       8         4000      0         
-%Store value 3 dans la tvar 4004
-234       6         0         3         
-235       8         4004      0         
+59        7         0         4000      
+60        7         1         4004      
+61        2         0         0         1         
+62        8         4000      0         
+%Store value 2 dans la tvar 4004
+63        6         0         2         
+64        8         4004      0         
+%Load value from tvar 4000 and 4004 then sub and store in 4000
+65        7         0         4000      
+66        7         1         4004      
+67        3         0         0         1         
+68        8         4000      0         
+%Initialize var : g
+69        7         0         4000      
+70        6         1         8040      
+71        1         1         15        1         
+72        B         1         0         
+73        9         104      
+%Store value 8008 de lvar dans la tvar 4000
+74        7         0         8008      
+75        8         4000      0         
+%Assignation var: JJ
+76        7         0         4000      
+77        6         1         8012      
+78        1         1         15        1         
+79        B         1         0         
+%Store value 4258 dans la tvar 4000
+80        6         0         4258      
+81        8         4000      0         
+%Store value 21256 dans la tvar 4004
+82        6         0         21256     
+83        8         4004      0         
+%Load value from tvar 4000 and 4004 then div and store in 4000
+84        7         0         4000      
+85        7         1         4004      
+86        4         0         0         1         
+87        8         4000      0         
+%Store value 54 dans la tvar 4004
+88        6         0         54        
+89        8         4004      0         
 %Store value 5 dans la tvar 4008
-236       6         0         5         
-237       8         4008      0         
+90        6         0         5         
+91        8         4008      0         
 %Load value from tvar 4004 and 4008 then mul and store in 4004
-238       7         0         4004      
-239       7         1         4008      
-240       2         0         0         1         
-241       8         4004      0         
+92        7         0         4004      
+93        7         1         4008      
+94        2         0         0         1         
+95        8         4004      0         
 %Load value from tvar 4000 and 4004 then add and store in 4000
-242       7         0         4000      
-243       7         1         4004      
-244       1         0         0         1         
-245       8         4000      0         
-%Initialize var : test
-246       7         0         4000      
-247       8         8052      0         
+96        7         0         4000      
+97        7         1         4004      
+98        1         0         0         1         
+99        8         4000      0         
+%Initialize var : w
+100       7         0         4000      
+101       6         1         8040      
+102       1         1         15        1         
+103       B         1         0         
+%Store value 2 dans la tvar 4000
+104       6         0         2         
+105       8         4000      0         
+%Store value 5 dans la tvar 4004
+106       6         0         5         
+107       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+108       7         0         4000      
+109       7         1         4004      
+110       1         0         0         1         
+111       8         4000      0         
+112       7         0         4000      
+113       A         0         144      
+%Store value 8008 de lvar dans la tvar 4000
+114       7         0         8008      
+115       8         4000      0         
+%Assignation var: JJ
+116       7         0         4000      
+117       6         1         8012      
+118       1         1         15        1         
+119       B         1         0         
+%Store value 4258 dans la tvar 4000
+120       6         0         4258      
+121       8         4000      0         
+%Store value 21256 dans la tvar 4004
+122       6         0         21256     
+123       8         4004      0         
+%Load value from tvar 4000 and 4004 then div and store in 4000
+124       7         0         4000      
+125       7         1         4004      
+126       4         0         0         1         
+127       8         4000      0         
+%Store value 54 dans la tvar 4004
+128       6         0         54        
+129       8         4004      0         
+%Store value 5 dans la tvar 4008
+130       6         0         5         
+131       8         4008      0         
+%Load value from tvar 4004 and 4008 then mul and store in 4004
+132       7         0         4004      
+133       7         1         4008      
+134       2         0         0         1         
+135       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+136       7         0         4000      
+137       7         1         4004      
+138       1         0         0         1         
+139       8         4000      0         
+%Initialize var : h
+140       7         0         4000      
+141       6         1         8040      
+142       1         1         15        1         
+143       B         1         0         
+%Store value 8016 de lvar dans la tvar 4000
+144       7         0         8016      
+145       8         4000      0         
+%Assignation var: JJ
+146       7         0         4000      
+147       6         1         8012      
+148       1         1         15        1         
+149       B         1         0         
 %Store value 1 dans la tvar 4000
-248       6         0         1         
-249       8         4000      0         
+150       6         0         1         
+151       8         4000      0         
+%Store value 2 dans la tvar 4004
+152       6         0         2         
+153       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+154       7         0         4000      
+155       7         1         4004      
+156       1         0         0         1         
+157       8         4000      0         
+%Assignation var: test
+158       7         0         4000      
+159       6         1         8000      
+160       1         1         15        1         
+161       B         1         0         
+%Store value 2 dans la tvar 4000
+162       6         0         2         
+163       8         4000      0         
+%Store value 3 dans la tvar 4004
+164       6         0         3         
+165       8         4004      0         
+%Load value from tvar 4000 and 4004 then mul and store in 4000
+166       7         0         4000      
+167       7         1         4004      
+168       2         0         0         1         
+169       8         4000      0         
+%Assignation var: AA
+170       7         0         4000      
+171       6         1         8004      
+172       1         1         15        1         
+173       B         1         0         
+%Store value 1 dans la tvar 4000
+174       6         0         1         
+175       8         4000      0         
+176       7         0         4000      
+177       A         0         245      
+%Store value 1 dans la tvar 4000
+178       6         0         1         
+179       8         4000      0         
+%Store value 2 dans la tvar 4004
+180       6         0         2         
+181       8         4004      0         
+%Store value 3 dans la tvar 4008
+182       6         0         3         
+183       8         4008      0         
+%Load value from tvar 4004 and 4008 then mul and store in 4004
+184       7         0         4004      
+185       7         1         4008      
+186       2         0         0         1         
+187       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+188       7         0         4000      
+189       7         1         4004      
+190       1         0         0         1         
+191       8         4000      0         
+%Assignation var: ZZ
+192       7         0         4000      
+193       6         1         8008      
+194       1         1         15        1         
+195       B         1         0         
+%Store value 1 dans la tvar 4000
+196       6         0         1         
+197       8         4000      0         
+%Store value 2 dans la tvar 4004
+198       6         0         2         
+199       8         4004      0         
+%Store value 1 dans la tvar 4008
+200       6         0         1         
+201       8         4008      0         
+%Store value 2 dans la tvar 4012
+202       6         0         2         
+203       8         4012      0         
+%Load value from tvar 4008 and 4012 then add and store in 4008
+204       7         0         4008      
+205       7         1         4012      
+206       1         0         0         1         
+207       8         4008      0         
+%Load value from tvar 4004 and 4008 then mul and store in 4004
+208       7         0         4004      
+209       7         1         4008      
+210       2         0         0         1         
+211       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+212       7         0         4000      
+213       7         1         4004      
+214       1         0         0         1         
+215       8         4000      0         
+%Assignation var: JJ
+216       7         0         4000      
+217       6         1         8012      
+218       1         1         15        1         
+219       B         1         0         
+%Store value 1 dans la tvar 4000
+220       6         0         1         
+221       8         4000      0         
+%Store value 1 dans la tvar 4004
+222       6         0         1         
+223       8         4004      0         
+%Store value 2 dans la tvar 4008
+224       6         0         2         
+225       8         4008      0         
+%Load value from tvar 4004 and 4008 then add and store in 4004
+226       7         0         4004      
+227       7         1         4008      
+228       1         0         0         1         
+229       8         4004      0         
+%Store value 2 dans la tvar 4008
+230       6         0         2         
+231       8         4008      0         
+%Load value from tvar 4004 and 4008 then mul and store in 4004
+232       7         0         4004      
+233       7         1         4008      
+234       2         0         0         1         
+235       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+236       7         0         4000      
+237       7         1         4004      
+238       1         0         0         1         
+239       8         4000      0         
+%Assignation var: JJ
+240       7         0         4000      
+241       6         1         8012      
+242       1         1         15        1         
+243       B         1         0         
+244       9         174       
+%Store value 8020 dans la tvar 4000
+245       6         0         8020      
+246       8         4000      0         
+%Assignation var: cristaline
+247       7         0         4000      
+248       6         1         8040      
+249       1         1         15        1         
+250       B         1         0         
+%Store value 5 dans la tvar 4000
+251       6         0         5         
+252       8         4000      0         
+%Store value 6 dans la tvar 4004
+253       6         0         6         
+254       8         4004      0         
+%Load value from tvar 4000 and 4004 then mul and store in 4000
+255       7         0         4000      
+256       7         1         4004      
+257       2         0         0         1         
+258       8         4000      0         
+%Store value 3 dans la tvar 4004
+259       6         0         3         
+260       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+261       7         0         4000      
+262       7         1         4004      
+263       1         0         0         1         
+264       8         4000      0         
+%Initialize var : bueno
+265       7         0         4000      
+266       6         1         8044      
+267       1         1         15        1         
+268       B         1         0         
+%Store value 8000 dans la tvar 4000
+269       6         0         8000      
+270       8         4000      0         
+%Initialize var : skurt
+271       7         0         4000      
+272       6         1         8048      
+273       1         1         15        1         
+274       B         1         0         
+%Initializing jump. Prepare stack.
+275       1         15        15        48        
+276       B         15        280       
+277       1         15        15        4         
+278       9         0         
+%Store value du registre 0 dans la tvar 4000
+279       8         4000      0         
+%Store value 3 dans la tvar 4004
+280       6         0         3         
+281       8         4004      0         
+%Store value 5 dans la tvar 4008
+282       6         0         5         
+283       8         4008      0         
+%Load value from tvar 4004 and 4008 then mul and store in 4004
+284       7         0         4004      
+285       7         1         4008      
+286       2         0         0         1         
+287       8         4004      0         
+%Load value from tvar 4000 and 4004 then add and store in 4000
+288       7         0         4000      
+289       7         1         4004      
+290       1         0         0         1         
+291       8         4000      0         
+%Initialize var : test
+292       7         0         4000      
+293       6         1         8052      
+294       1         1         15        1         
+295       B         1         0         
+%Store value 1 dans la tvar 4000
+296       6         0         1         
+297       8         4000      0         
 %Fin de la fonction main
 %Récupération de l'addresse de retour et return ds r0
-250       6         0         4000      
-251       C         1         15        
-252       3         15        15        4         
-253       9         1         
+298       3         15        15        0         
+299       6         0         4000      
+300       3         15        15        4         
+301       C         1         15        
+302       9         1         

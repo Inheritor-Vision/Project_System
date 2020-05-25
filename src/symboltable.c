@@ -342,6 +342,16 @@ int getSize(){
     return var->nbvar;
 }
 
+int incrementOffset(int a){
+    offset += a;
+    return offset;
+}
+int decrementOffset(int a){
+    offset -= a;
+    return offset;
+}
+
+
 
 void printAll(void){
     printf("----------------------------------------------------------\n");
