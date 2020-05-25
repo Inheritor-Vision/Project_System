@@ -9,7 +9,7 @@ main(void)
     test2 = 13;
     a = 7;
     int const x,y,z = 25;
-   
+    test = 0;
     if(test){
         ZZ = 6854;
         int g = 58 * 6 -2;

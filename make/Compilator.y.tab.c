@@ -1710,7 +1710,7 @@ yyreduce:
 #line 227 "syntaxique_C_Return.y" /* yacc.c:1646  */
     {
 		for(int i = 0; i < RepVars->size; i++){
-			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
+			write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int((yyvsp[-1].integerValue));write_endl();
 			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb[debIndex],RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 		}
@@ -1940,7 +1940,7 @@ yyreduce:
 
   case 71:
 #line 343 "syntaxique_C_Return.y" /* yacc.c:1646  */
-    {(yyval.integerValue) = (yyvsp[-2].integerValue);}
+    {(yyval.integerValue) = (yyvsp[-1].integerValue);}
 #line 1945 "Compilator.y.tab.c" /* yacc.c:1646  */
     break;
 
