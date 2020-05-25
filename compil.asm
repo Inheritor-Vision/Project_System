@@ -298,8 +298,15 @@
 %Initialize var : skurt
 214       7         0         4000      
 215       8         8048      0         
+%Store value 8048 de pointer dans la tvar 4000
+216       7         0         8048      
+217       C         0         0         
+218       8         4000      0         
+%Assignation var: test
+219       7         0         4000      
+220       8         8000      0         
 %Fin de la fonction main
 %Récupération de l'addresse de retour
-216       C         0         15        
-217       3         15        15        4         
-218       9         0         
+221       C         0         15        
+222       3         15        15        4         
+223       9         0         
