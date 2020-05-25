@@ -116,6 +116,7 @@ Body:
 		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
+		write_str("%%Récupération de l'addresse de retour\n");
 		write_ligne();write_char(LODR);write_int(0);write_int(SP);write_endl();
 		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
 		write_ligne();write_char(JMP[0]);write_int(0);write_endl();
@@ -134,6 +135,7 @@ BodyReturn:
 		write_str("%% Fin de la fonction %s\n", $<stringValue>1);
 		decrementeDepth(deb[debIndex]);
 		debIndex--;
+		write_str("%%Récupération de l'addresse de retour et return ds r0\n");
 		write_ligne();write_char(AFC);write_int(0);write_int($<integerValue>3);write_endl();
 		write_ligne();write_char(LODR);write_int(1);write_int(SP);write_endl();
 		write_ligne();write_char(SOU);write_int(SP);write_int(SP);write_int(4);write_endl();
@@ -168,7 +170,7 @@ ConditionnalJump:
 	};
 
 InitIf:
-	tIf Expression {
+	tIf Expression tOCB{
 		delLastVal();
 		incrementeDepth(deb[debIndex]);
 		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>2);write_endl();
