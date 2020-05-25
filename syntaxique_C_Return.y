@@ -18,7 +18,8 @@
 	char * strdup( const char * source );
 	extern FILE * f;
 	extern int mylineno;
-	int args = 0;
+	int deb = 0;
+
 
 
 	typedef struct {
@@ -122,29 +123,29 @@ ConditionnalJump:
 InitIf:
 	tOCB {
 		delLastVal();
-		incrementeDepth();
+		incrementeDepth(deb);
 		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
 	};
 InitElse:
 	tElse tOCB {
-		incrementeDepth();
+		incrementeDepth(deb);
 		$<integerValue>$ = pushCondJump(JMP,ligneCom,ligne);write_endl();
 	};
 
 EndIf:
-	tCCB {decrementeDepth();$<integerValue>$ = ligne;};
+	tCCB {decrementeDepth(deb);$<integerValue>$ = ligne;};
 
 InitWhile:
 	tOCB {
 		delLastVal();
-		incrementeDepth();
+		incrementeDepth(deb);
 		write_ligne();write_char(LOD);write_int(0);write_int(4000);write_endl();
 		$<integerValue>$ = pushCondJump(JMF,ligneCom,ligne);write_endl();
 	};
 
 EndWhile:
-	tCCB {decrementeDepth();$<integerValue>$ = ligne;};
+	tCCB {decrementeDepth(deb);$<integerValue>$ = ligne;};
 
 WhileORB:
 	tORB{$<integerValue>$ = ligne;};
@@ -156,7 +157,7 @@ Assign:
 	tVar tEqu Expression tSC {
 		write_str("%%Assignation var: %s\n",$<stringValue>1);
 		write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>3);write_endl();
-		write_ligne();write_char(STR); write_int(assign_var_to_local_int($<stringValue>1)); write_int(0);write_endl();
+		write_ligne();write_char(STR); write_int(assign_var_to_local_int(deb,$<stringValue>1)); write_int(0);write_endl();
 		delLastVal();};
 		
 
@@ -170,7 +171,7 @@ Initialize:
 		  for(int i = 0; i < RepVars->size; i++){
 			  write_str("%%Initialize var : %s\n",RepVars->tab[i]);
 			  write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>4);write_endl();
-			  write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			  write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb,RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 			}
 			freeAllVarray();
 			delLastVal();
@@ -179,7 +180,7 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb,RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -188,7 +189,7 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>5);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb,RepVars->tab[i], false, true, 0)); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -197,7 +198,7 @@ Initialize:
 		for(int i = 0; i < RepVars->size; i++){
 			write_str("%%Initialize var : %s\n ",RepVars->tab[i]);
 			write_ligne();write_char(LOD);write_int(0);write_int($<integerValue>6);write_endl();
-			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
+			write_ligne();write_char(STR); write_int(initialize_var_to_local_int(deb,RepVars->tab[i], true, true, 0)); write_int(0);write_endl();
 		}
 		freeAllVarray();
 		delLastVal();
@@ -213,26 +214,26 @@ Declare:
 	tInt Repdeclare {
 		
 		for(int i = 0; i < RepVars->size; i++){
-			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
+			initialize_var_to_local_int(deb,RepVars->tab[i], false, false, 0);
 		}
 		freeAllVarray();
 		
 	}
 	| tInt tConst Repdeclare {
 		for(int i = 0; i < RepVars->size; i++){
-			initialize_var_to_local_int(RepVars->tab[i], true, false, 0);
+			initialize_var_to_local_int(deb,RepVars->tab[i], true, false, 0);
 		}
 		freeAllVarray();
 	}
 	| tInt tMul Repdeclare {
 		for(int i = 0; i < RepVars->size; i++){
-			initialize_var_to_local_int(RepVars->tab[i], false, false, 0);
+			initialize_var_to_local_int(deb,RepVars->tab[i], false, false, 0);
 		}
 		freeAllVarray();
 	}
 	| tInt tMul tConst Repdeclare {
 		for(int i = 0; i < RepVars->size; i++){
-			initialize_var_to_local_int(RepVars->tab[i], true, false, 0);
+			initialize_var_to_local_int(deb,RepVars->tab[i], true, false, 0);
 		}
 		freeAllVarray();
 	};
@@ -247,11 +248,11 @@ Expression:
 	  }
 	| tVar {
 
-		$<integerValue>$ = addTVarfromLVar(get_local_var_addr($<stringValue>1));
+		$<integerValue>$ = addTVarfromLVar(get_local_var_addr(deb,$<stringValue>1));
 	}
 	| tEt tVar {
 		//printf("%s\n", )
-		$<integerValue>$ = addTVarFromVal(get_local_var_addr($<stringValue>2));
+		$<integerValue>$ = addTVarFromVal(get_local_var_addr(deb,$<stringValue>2));
 	}
 	| Expression tAdd Expression {
 		$<integerValue>$ = addTVarFromOperation(add,$<integerValue>1, $<integerValue>3);

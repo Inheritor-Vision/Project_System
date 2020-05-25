@@ -21,21 +21,23 @@ typedef struct {
   int size;
   int nbvar;
 } Array;
-
 Array *var;
 
-void init();
-int set_var_to_local_int(char* a, bool cst, bool init, int depth);
-int assign_var_to_local_int(char* a);
+
+void init(void);
+Array* newArray(void);
+//int set_var_to_local_int(char* a, bool cst, bool init, int depth);
+int assign_var_to_local_int(int deb,char* a);
 //int assign_ptr_to_local_ptr(char* a);
-int get_local_var_addr(char* a);
+int get_local_var_addr(int deb,char* a);
 //int get_local_ptr_addr(char *a);
-int varname_to_address(char* a);
-int initialize_var_to_local_int(char* a, bool cst, bool init, int depth);
+int varname_to_address(int deb,char* a);
+int initialize_var_to_local_int(int deb,char* a, bool cst, bool init, int depth);
 //int initialize_var_to_local_ptr(char* a,bool cst, bool init, int depth, int addr);
-void del_var_name(char* dvar);
-void incrementeDepth(void);
-void decrementeDepth(void);
+void del_var_name(int deb,char* dvar);
+void incrementeDepth(int deb);
+void decrementeDepth(int deb);
+void dellvar(Array* var);
 void printAll(void);
 
 

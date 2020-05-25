@@ -12,7 +12,7 @@ extern void initCondJump(void);
 extern void initWrite(void);
 extern int mylineno;
 
-void init(){
+void init(void){
     var = (Array*)malloc(sizeof(Array));
     var->size = 0;
     var->nbvar = 0;
@@ -22,8 +22,14 @@ void init(){
     initFuncTable();
     //var->tab = (lvar*) malloc(sizeof(lvar));
 }
+Array* newArray(void){
+    Array *res = (Array*)malloc(sizeof(Array));
+    res->size = 0;
+    res->nbvar = 0;
+    return res;
+}
 
-int set_var_to_local_int(char* a, bool cst, bool init, int depth){
+/*int set_var_to_local_int(char* a, bool cst, bool init, int depth){
     int fin = 0;
     int index = 0;
     int res = -1;
@@ -55,11 +61,11 @@ int set_var_to_local_int(char* a, bool cst, bool init, int depth){
         fprintf(stderr,"Error: variable %s \n",a);exit(EXIT_FAILURE);
     }
     return res;
-}
+} */
 
-int assign_var_to_local_int(char* a){
+int assign_var_to_local_int(int deb,char* a){
     int fin = 0;
-    int index = 0;
+    int index = deb;
     int res = -1;
     while(!fin && index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
@@ -121,9 +127,9 @@ int assign_var_to_local_int(char* a){
 
 
 
-int get_local_var_addr(char* a){
+int get_local_var_addr(int deb,char* a){
     int fin = 0;
-    int index = 0;
+    int index = deb;
     int res = -1;
     while(!fin && index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
@@ -156,9 +162,9 @@ int get_local_var_addr(char* a){
     return res;
 }*/
 
-int varname_to_address(char* a){
+int varname_to_address(int deb,char* a){
     int fin = 0;
-    int index = 0;
+    int index = deb;
     int res = -1;
     while(!fin && index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
@@ -174,9 +180,9 @@ int varname_to_address(char* a){
     return res;
 }
 
-int initialize_var_to_local_int(char* a, bool cst, bool init, int depth){
+int initialize_var_to_local_int(int deb,char* a, bool cst, bool init, int depth){
 
-    int index = 0;
+    int index = deb;
     int res = -1;
     while(index < var->size){
         if (!strcmp(var->tab[index].varname, a)){
@@ -230,16 +236,16 @@ int initialize_var_to_local_int(char* a, bool cst, bool init, int depth){
     return res;
 }*/
 
-void del_var_name(char* dvar){
+void del_var_name(int deb,char* dvar){
     if (var->size == 0){
         printf("ERROR del_var_name1");
-    }else if (var->size == 1){
+    }else if (deb == 0 && var->size == 1){
         var->size = 0;
         free(var->tab[0].varname);
         var->tab = (lvar*)realloc(var->tab,var->size * sizeof(lvar));
     }else{
         int fin = 0;
-        int i = 0;
+        int i = deb;
         while(i < var->size && !fin){
             if(!strcmp(var->tab[i].varname,dvar)){
                 fin =true;
@@ -281,17 +287,17 @@ void del_var_name(char* dvar){
     }
 }*/
 
-void incrementeDepth(){
-    for (int a = 0; a < var->size; a++){
+void incrementeDepth(int deb){
+    for (int a = deb; a < var->size; a++){
         var->tab[a].depth++;
     }
 }
 
-void decrementeDepth(){
-    int del[var->size];
+void decrementeDepth(int deb){
+    int del[var->size - deb];
     int index = 0;
-    memset(del,-1,var->size);
-    for (int a = 0; a < var->size; a++){
+    memset(del,-1,var->size - deb);
+    for (int a = deb; a < var->size; a++){
         if(var->tab[a].depth == 0){
             del[index] = a;
             index++;
@@ -315,14 +321,24 @@ void decrementeDepth(){
     }
    
     if(dels){
-        free(var->tab[var->size - 1].varname);
+        for (int z = 0; z < dels; z++){
+            free(var->tab[var->size - 1 - z].varname);
+        }
         var->size -= dels;
         var->nbvar -= dels;
         var->tab = (lvar*)realloc(var->tab,var->size * sizeof(lvar));
     }
 }
 
-void printAll(){
+void dellvar(Array* var){
+    for (int a = 0; a < var->size; a++){
+        free(var->tab[a].varname);
+    }
+    free(var->tab);
+    free(var);
+}
+
+void printAll(void){
     printf("----------------------------------------------------------\n");
     printf("|     varname     |     address     | cst | init | depth |\n");
     for (int a = 0; a<var->size; a++){
