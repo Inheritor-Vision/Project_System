@@ -7,7 +7,7 @@ void initFuncTable(){
     haveMain = false;
 }
 
-void addFunc(char* name, int addr){
+void addFunc(char* name, int addr, int argc){
     functable->size ++;
     int pos = functable->size-1;
 
@@ -15,6 +15,7 @@ void addFunc(char* name, int addr){
     functable->tab[pos].varname = (char*)malloc(256*sizeof(char));
     strcpy(functable->tab[pos].varname, name);
     functable->tab[pos].address = addr;
+    functable->tab[pos].nbr_args = argc;
     if(!strcmp("main", name)){
         haveMain = true;
     }
