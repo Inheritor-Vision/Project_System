@@ -405,7 +405,7 @@ int yyerror(char *s){
 	exit(EXIT_FAILURE);
 }
 int main(void){
-	//printf("|>.-O_|3(7_5`/573|\\/| : /<o|\\/||>1|_47o.-");
+	printf("|>.-O_|3(7_5`/573|\\/| : /<o|\\/||>1|_47o.-");
 	printf("\nDebut de l'analyse syntaxique\n");
 
 	//init vars locals
