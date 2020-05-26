@@ -17,20 +17,23 @@ Organisation des dossiers :
 
 Fichiers importants:
 
+	compil.asm : Produit de la compilation par Compilator.exe
+
 	makefile : produit le Compilateur Compilator.exe et Comprintlator.exe
+	
+	
 	
 	syntaxique_C_Return : YACC -> assembleur
 	
-	syntaxique_C_Print : YACC -> print sur terminale (not up-to-date)
-	
 	lexical_C_Return : LEX -> YACC ASM
-	
-	lexical_C_Print : LEX -> YACC PRINT (not up-to-date)
-	
-	compil.asm : Produit de la compilation par Compilator.exe
 	
 	Compilator.exe : Compilateur (C simplifié -> ASM)
 	
-	Comprintlator : Compilateur (C simplifié -> print) (not up-to-date)
+	
+	lexical_C_Print : LEX -> YACC PRINT
+	
+	syntaxique_C_Print : YACC -> print sur terminale 
+	
+	Comprintlator : Compilateur (C simplifié -> print) 
 	
 
