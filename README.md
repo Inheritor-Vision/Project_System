@@ -19,18 +19,19 @@ Fichiers importants:
 		
 	compil.asm : Produit de la compilation par Compilator.exe
 	
+	Compilator.exe : Compilateur (C simplifié -> ASM)
+	
 	syntaxique_C_Return : YACC -> assembleur
 	
 	lexical_C_Return : LEX -> YACC ASM
 	
-	Compilator.exe : Compilateur (C simplifié -> ASM)
 	
 	
 	
-	lexical_C_Print : LEX -> YACC PRINT
+Debug : 
+
+	Comprintlator : Compilateur (C simplifié -> print)
 	
 	syntaxique_C_Print : YACC -> print sur terminale 
-	
-	Comprintlator : Compilateur (C simplifié -> print) 
-	
 
+	lexical_C_Print : LEX -> YACC PRINT
